@@ -12,5 +12,5 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 
 ## Steps to get started:
 1. Download the demo database
-2. Download [charts.js](https://www.chartjs.org/) and unzip it to the folder wehre the demo databse is located
+2. Download [charts.js](https://www.chartjs.org/) and unzip it to the folder where the demo databse is located
 3. Push the button: "Create Chart"
