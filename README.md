@@ -14,3 +14,5 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 1. Download the demo database
 2. Download [charts.js](https://www.chartjs.org/) and unzip it to the folder where the demo databse is located
 3. Push the button: "Create Chart"
+
+You find a detailed list of prerequsites in the wiki: [Prerequisites to get started](https://github.com/team-moeller/better-access-charts/wiki/Prerequisites-to-get-started).
