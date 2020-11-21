@@ -12,7 +12,7 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 
 ## Steps to get started:
 1. Download the demo database
-2. Push the button "Save Chart.js" to save chart.js to your hard disk
+2. ~~Push the button "Save Chart.js" to save chart.js to your hard disk~~
 3. Push the button: "Create Chart"
 
 You find a detailed list of prerequsites in the wiki: [Prerequisites to get started](https://github.com/team-moeller/better-access-charts/wiki/Prerequisites-to-get-started).
