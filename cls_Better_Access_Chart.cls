@@ -7,10 +7,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
-' Copyright (c) 2020 Thomas Möller
-' MIT License
-' https://github.com/team-moeller/better-access-charts/blob/main/LICENSE
-' Version 1.04.14  published: 05.12.2020
+'###########################################################################################
+'# Copyright (c) 2020 Thomas Möller                                                        #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.04.14  published: 05.12.2020                                                  #
+'###########################################################################################
 
 Option Compare Database
 Option Explicit
@@ -519,7 +520,7 @@ Private Function getScales() As String
     
 End Function
 
-Private Function getPositionString(ThisPosition As chPosition) As String
+Private Function getPositionString(ByVal ThisPosition As chPosition) As String
 
     Select Case ThisPosition
         Case chPosition.posTop
