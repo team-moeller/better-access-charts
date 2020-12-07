@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.04.14  published: 05.12.2020                                                  #
+'# Version 1.06.09  published: 07.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -35,6 +35,11 @@ Public Enum chPosition
     posLeft = 2
     posBottom = 3
     posRight = 4
+End Enum
+
+Public Enum chChartJsSource
+    CDN = 1
+    LocalFile = 2
 End Enum
 
 
@@ -62,6 +67,9 @@ Private m_ShowYAxis As Boolean
 Private m_ShowXAxis As Boolean
 Private m_YAxisLabelText As String
 Private m_XAxisLabelText As String
+Private m_ChartJsSource As chChartJsSource
+Private m_ChartJsCDN As String
+Private m_ChartJsPathFilename As String
 
 Private m_DataLabels As String
 Private m_DataSet1Label As String
@@ -192,6 +200,27 @@ Public Property Get XAxisLabelText() As String
     XAxisLabelText = m_XAxisLabelText
 End Property
 
+Public Property Let ChartJsSource(ByVal This_ChartJsSource As chChartJsSource)
+    m_ChartJsSource = This_ChartJsSource
+End Property
+Public Property Get ChartJsSource() As chChartJsSource
+    ChartJsSource = m_ChartJsSource
+End Property
+
+Public Property Let ChartJsCDN(ByVal This_ChartJsCDN As String)
+    m_ChartJsCDN = This_ChartJsCDN
+End Property
+Public Property Get ChartJsCDN() As String
+    ChartJsCDN = m_ChartJsCDN
+End Property
+
+Public Property Let ChartJsPathFilename(ByVal This_ChartJsPathFilename As String)
+    m_ChartJsPathFilename = This_ChartJsPathFilename
+End Property
+Public Property Get ChartJsPathFilename() As String
+    ChartJsPathFilename = m_ChartJsPathFilename
+End Property
+
 
 '### Instancing
 
@@ -209,6 +238,10 @@ Private Sub Class_Initialize()
     'Axis
     ShowYAxis = True
     ShowXAxis = True
+    'chart.js
+    ChartJsSource = chChartJsSource.CDN
+    ChartJsCDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    ChartJsPathFilename = CurrentProject.Path & "\Chart.min.js"
     
 End Sub
 
@@ -274,8 +307,7 @@ Private Function getHeader() As String
     strText = strText & "    <meta http-equiv=""X-UA-Compatible"" content=""IE=Edge""/>" & vbCrLf
     strText = strText & "    <title>Chart</title>" & vbCrLf
     strText = strText & "    <style>body{margin:0;padding:0;}</style>" & vbCrLf
-'    strText = strText & "    <script src=""chartjs/dist/Chart.min.js""></script>" & vbCrLf
-    strText = strText & "    <script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js""></script>" & vbCrLf
+    strText = strText & "    <script src=" & getChartJsLocation & "></script>" & vbCrLf
     strText = strText & "</head>" & vbCrLf
     strText = strText & "<body>" & vbCrLf
     strText = strText & "<div id=""container"" style=""width: 100%;"">" & vbCrLf
@@ -376,6 +408,24 @@ Private Function getFooter() As String
     
     getFooter = strText
     
+End Function
+
+Private Function getChartJsLocation() As String
+
+    'Declarations
+    Dim strText As String
+    
+    Select Case ChartJsSource
+        Case chChartJsSource.CDN
+            strText = """" & ChartJsCDN & """"
+        Case chChartJsSource.LocalFile
+            strText = """" & ChartJsPathFilename & """"
+        Case Else
+            'Do nothing
+    End Select
+            
+    getChartJsLocation = strText
+
 End Function
 
 Private Sub getData()
