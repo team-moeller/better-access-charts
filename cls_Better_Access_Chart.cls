@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.06.09  published: 07.12.2020                                                  #
+'# Version 1.07.03  published: 11.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -74,6 +74,7 @@ Private m_ChartJsPathFilename As String
 Private m_DataLabels As String
 Private m_DataSet1Label As String
 Private m_DataSet1Data As String
+Private m_DataSet1Colors As String
 
 
 '### Properties
@@ -366,7 +367,7 @@ Private Function getChartData() As String
     strText = strText & "            datasets: [{" & vbCrLf
     strText = strText & "                label: '" & m_DataSet1Label & "' ," & vbCrLf
     strText = strText & "                data: [" & m_DataSet1Data & "]," & vbCrLf
-    strText = strText & "                backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple', 'orange']," & vbCrLf
+    strText = strText & "                backgroundColor: [" & m_DataSet1Colors & "]," & vbCrLf
     strText = strText & "                borderWidth: 1" & vbCrLf
 '    strText = strText & "            },{" & vbCrLf
 '    strText = strText & "                label: '# of Votes 2'," & vbCrLf
@@ -436,6 +437,7 @@ On Error GoTo Handle_Error
     Dim rst As DAO.Recordset
     Dim strLabels As String
     Dim strData As String
+    Dim strColors As String
     
     Set db = CurrentDb()
     
@@ -453,6 +455,7 @@ On Error GoTo Handle_Error
         Do While Not rst.EOF
             strLabels = strLabels & "'" & rst(DataSourceLabelFieldName) & "',"
             strData = strData & rst(DataSourceDataFieldName) & ","
+            strColors = strColors & "'" & getRandomColor & "',"
             rst.MoveNext
         Loop
     Else
@@ -464,6 +467,7 @@ On Error GoTo Handle_Error
     m_DataLabels = Left$(strLabels, Len(strLabels) - 1)
     m_DataSet1Label = DataSourceDataFieldName
     m_DataSet1Data = Left$(strData, Len(strData) - 1)
+    m_DataSet1Colors = Left$(strColors, Len(strColors) - 1)
 
 Exit_Here:
     On Error Resume Next
@@ -480,6 +484,25 @@ Handle_Error:
     Resume Exit_Here
 
 End Sub
+
+Private Function getRandomColor()
+
+    'Declarations
+    Dim i As Integer
+    Dim strRaw() As String
+    Dim strRes As String
+    Const Vals As String = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F"
+    
+    strRaw() = Split(Vals, ",")
+    
+    strRes = "#"
+    For i = 1 To 6
+        strRes = strRes & strRaw(Int(Rnd(Now) * 16))
+    Next i
+    
+    getRandomColor = strRes
+
+End Function
 
 Private Function getTitle() As String
 
