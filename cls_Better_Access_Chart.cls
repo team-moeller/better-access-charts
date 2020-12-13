@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.07.03  published: 11.12.2020                                                  #
+'# Version 1.08.07  published: 13.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -57,7 +57,7 @@ Private m_DataSourceObjectName As String
 Private m_DataSourceSQLStatement As String
 Private m_DataSourceRecordset As DAO.Recordset
 Private m_DataSourceLabelFieldName As String
-Private m_DataSourceDataFieldName As String
+Private m_DataSourceDataFieldName As Variant
 Private m_ShowTitle As Boolean
 Private m_TitlePostition As chPosition
 Private m_TitleText As String
@@ -72,8 +72,8 @@ Private m_ChartJsCDN As String
 Private m_ChartJsPathFilename As String
 
 Private m_DataLabels As String
-Private m_DataSet1Label As String
-Private m_DataSet1Data As String
+Private m_DataSet1Label As Variant
+Private m_DataSet1Data As Variant
 Private m_DataSet1Colors As String
 
 
@@ -131,10 +131,14 @@ Public Property Get DataSourceLabelFieldName() As String
     DataSourceLabelFieldName = m_DataSourceLabelFieldName
 End Property
 
-Public Property Let DataSourceDataFieldName(ByVal This_DataSourceDataFieldName As String)
-    m_DataSourceDataFieldName = This_DataSourceDataFieldName
+Public Property Let DataSourceDataFieldName(ByRef This_DataSourceDataFieldName As Variant)
+    If IsArray(This_DataSourceDataFieldName) = True Then
+        m_DataSourceDataFieldName = This_DataSourceDataFieldName
+    Else
+        m_DataSourceDataFieldName = Array(This_DataSourceDataFieldName)
+    End If
 End Property
-Public Property Get DataSourceDataFieldName() As String
+Public Property Get DataSourceDataFieldName() As Variant
     DataSourceDataFieldName = m_DataSourceDataFieldName
 End Property
 
@@ -359,22 +363,21 @@ Private Function getChartData() As String
 
     'Declarations
     Dim strText As String
+    Dim i As Integer
 
     Call getData
 
     strText = strText & "        data: {" & vbCrLf
     strText = strText & "            labels: [" & m_DataLabels & "]," & vbCrLf
-    strText = strText & "            datasets: [{" & vbCrLf
-    strText = strText & "                label: '" & m_DataSet1Label & "' ," & vbCrLf
-    strText = strText & "                data: [" & m_DataSet1Data & "]," & vbCrLf
-    strText = strText & "                backgroundColor: [" & m_DataSet1Colors & "]," & vbCrLf
-    strText = strText & "                borderWidth: 1" & vbCrLf
-'    strText = strText & "            },{" & vbCrLf
-'    strText = strText & "                label: '# of Votes 2'," & vbCrLf
-'    strText = strText & "                data: [9, 9, 12, 5, 2, 13]," & vbCrLf
-'    strText = strText & "                backgroundColor: ['red', 'blue', 'yellow', 'green', 'purple', 'orange']," & vbCrLf
-'    strText = strText & "                borderWidth: 1" & vbCrLf
-    strText = strText & "            }]" & vbCrLf
+    strText = strText & "            datasets: [" & vbCrLf
+    For i = LBound(m_DataSet1Data) To UBound(m_DataSet1Data)
+        strText = strText & "               {label: '" & m_DataSet1Label(i) & "' ," & vbCrLf
+        strText = strText & "                data: [" & m_DataSet1Data(i) & "]," & vbCrLf
+        strText = strText & "                backgroundColor: [" & m_DataSet1Colors & "]," & vbCrLf
+        strText = strText & "                borderWidth: 1}," & vbCrLf
+    Next i
+    strText = CutTrailingComma(strText)
+    strText = strText & "             ]" & vbCrLf
     strText = strText & "        }," & vbCrLf
     
     getChartData = strText
@@ -436,8 +439,10 @@ On Error GoTo Handle_Error
     Dim db As DAO.Database
     Dim rst As DAO.Recordset
     Dim strLabels As String
-    Dim strData As String
+    Dim strData() As String
     Dim strColors As String
+    Dim Field As Variant
+    Dim i As Integer
     
     Set db = CurrentDb()
     
@@ -451,22 +456,32 @@ On Error GoTo Handle_Error
     End If
     
     'Extract data and labels
+    ReDim strData(UBound(DataSourceDataFieldName))
     If Not rst Is Nothing Then
         Do While Not rst.EOF
             strLabels = strLabels & "'" & rst(DataSourceLabelFieldName) & "',"
-            strData = strData & rst(DataSourceDataFieldName) & ","
+            i = 0
+            For Each Field In DataSourceDataFieldName
+                strData(i) = strData(i) & rst(DataSourceDataFieldName(i)) & ","
+                i = i + 1
+            Next Field
             strColors = strColors & "'" & getRandomColor & "',"
             rst.MoveNext
         Loop
     Else
         strLabels = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
-        strData = "2, 13, 7, 9, 12, 5,"
+        strData(0) = "2, 13, 7, 9, 12, 5,"
     End If
     
     'Cleanup result
     m_DataLabels = Left$(strLabels, Len(strLabels) - 1)
     m_DataSet1Label = DataSourceDataFieldName
-    m_DataSet1Data = Left$(strData, Len(strData) - 1)
+    i = 0
+    For Each Field In DataSourceDataFieldName
+        strData(i) = Left$(strData(i), Len(strData(i)) - 1)
+        i = i + 1
+    Next Field
+    m_DataSet1Data = strData
     m_DataSet1Colors = Left$(strColors, Len(strColors) - 1)
 
 Exit_Here:
@@ -482,6 +497,7 @@ Handle_Error:
             MsgBox Err.Description, vbExclamation, Err.Number
     End Select
     Resume Exit_Here
+    Resume Next
 
 End Sub
 
