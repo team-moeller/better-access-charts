@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.08.07  published: 13.12.2020                                                  #
+'# Version 1.09.02  published: 15.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -453,6 +453,8 @@ On Error GoTo Handle_Error
         Set rst = db.OpenRecordset(DataSourceSQLStatement)
     ElseIf Not DataSourceRecordset Is Nothing Then
         Set rst = DataSourceRecordset
+    Else
+        DataSourceDataFieldName = "Demo"
     End If
     
     'Extract data and labels
@@ -462,7 +464,7 @@ On Error GoTo Handle_Error
             strLabels = strLabels & "'" & rst(DataSourceLabelFieldName) & "',"
             i = 0
             For Each Field In DataSourceDataFieldName
-                strData(i) = strData(i) & rst(DataSourceDataFieldName(i)) & ","
+                strData(i) = strData(i) & Str(rst(DataSourceDataFieldName(i))) & ","
                 i = i + 1
             Next Field
             strColors = strColors & "'" & getRandomColor & "',"
@@ -471,6 +473,7 @@ On Error GoTo Handle_Error
     Else
         strLabels = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
         strData(0) = "2, 13, 7, 9, 12, 5,"
+        strColors = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
     End If
     
     'Cleanup result
