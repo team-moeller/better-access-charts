@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.09.02  published: 15.12.2020                                                  #
+'# Version 1.10.10  published: 19.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -74,7 +74,9 @@ Private m_ChartJsPathFilename As String
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
 Private m_DataSet1Data As Variant
-Private m_DataSet1Colors As String
+Private m_DataSet1Colors As Variant
+Private m_ColorPerValue As Boolean
+Private m_SingleDataset As Boolean
 
 
 '### Properties
@@ -136,6 +138,11 @@ Public Property Let DataSourceDataFieldName(ByRef This_DataSourceDataFieldName A
         m_DataSourceDataFieldName = This_DataSourceDataFieldName
     Else
         m_DataSourceDataFieldName = Array(This_DataSourceDataFieldName)
+    End If
+    If LBound(m_DataSourceDataFieldName) = UBound(m_DataSourceDataFieldName) Then
+        m_SingleDataset = True
+    Else
+        m_SingleDataset = False
     End If
 End Property
 Public Property Get DataSourceDataFieldName() As Variant
@@ -373,7 +380,7 @@ Private Function getChartData() As String
     For i = LBound(m_DataSet1Data) To UBound(m_DataSet1Data)
         strText = strText & "               {label: '" & m_DataSet1Label(i) & "' ," & vbCrLf
         strText = strText & "                data: [" & m_DataSet1Data(i) & "]," & vbCrLf
-        strText = strText & "                backgroundColor: [" & m_DataSet1Colors & "]," & vbCrLf
+        strText = strText & "                backgroundColor: " & m_DataSet1Colors(i) & "," & vbCrLf
         strText = strText & "                borderWidth: 1}," & vbCrLf
     Next i
     strText = CutTrailingComma(strText)
@@ -477,15 +484,21 @@ On Error GoTo Handle_Error
     End If
     
     'Cleanup result
-    m_DataLabels = Left$(strLabels, Len(strLabels) - 1)
-    m_DataSet1Label = DataSourceDataFieldName
+    DetermineColorMapping
+    ReDim m_DataSet1Colors(UBound(DataSourceDataFieldName))
+    m_DataLabels = CutTrailingComma(strLabels)
+    m_DataSet1Label = DataSourceDataFieldName()
     i = 0
-    For Each Field In DataSourceDataFieldName
-        strData(i) = Left$(strData(i), Len(strData(i)) - 1)
+    For Each Field In DataSourceDataFieldName()
+        If m_ColorPerValue = True Then
+            m_DataSet1Colors(i) = "[" & CutTrailingComma(strColors) & "]"
+        Else
+            m_DataSet1Colors(i) = "'" & getRandomColor & "'"
+        End If
+        strData(i) = CutTrailingComma(strData(i))
         i = i + 1
     Next Field
-    m_DataSet1Data = strData
-    m_DataSet1Colors = Left$(strColors, Len(strColors) - 1)
+    m_DataSet1Data = strData()
 
 Exit_Here:
     On Error Resume Next
@@ -502,6 +515,25 @@ Handle_Error:
     Resume Exit_Here
     Resume Next
 
+End Sub
+
+Private Sub DetermineColorMapping()
+
+    Select Case m_ChartType
+        Case chChartType.Bar
+            If m_SingleDataset = True Then
+                m_ColorPerValue = True
+            Else
+                m_ColorPerValue = False
+            End If
+        Case chChartType.Line, chChartType.Radar, chChartType.Scatter
+            m_ColorPerValue = False
+        Case chChartType.Doughnut, chChartType.Pie, chChartType.PolarArea, chChartType.Bubble
+            m_ColorPerValue = True
+        Case Else
+            'Do Nothing
+    End Select
+    
 End Sub
 
 Private Function getRandomColor()
@@ -640,3 +672,4 @@ Private Function CutTrailingComma(ByVal strText As String) As String
     End If
 
 End Function
+
