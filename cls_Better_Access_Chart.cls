@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.10.10  published: 19.12.2020                                                  #
+'# Version 1.11.06  published: 20.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -22,12 +22,13 @@ Option Explicit
 Public Enum chChartType
     Line = 1
     Bar = 2
-    Radar = 3
-    Doughnut = 4
-    Pie = 5
-    PolarArea = 6
-    Bubble = 7
-    Scatter = 8
+    HorizontalBar = 3
+    Radar = 4
+    Doughnut = 5
+    Pie = 6
+    PolarArea = 7
+    Bubble = 8
+    Scatter = 9
 End Enum
 
 Public Enum chPosition
@@ -91,7 +92,7 @@ End Property
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
     m_ChartType = This_ChartType
     Select Case This_ChartType
-        Case chChartType.Bar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
+        Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
             ShowYAxis = True
             ShowXAxis = True
         Case chChartType.Doughnut, chChartType.Pie, chChartType.PolarArea, chChartType.Radar
@@ -344,6 +345,8 @@ Private Function getChartType() As String
             strType = "line"
         Case chChartType.Bar
             strType = "bar"
+        Case chChartType.HorizontalBar
+            strType = "horizontalBar"
         Case chChartType.Radar
             strType = "radar"
         Case chChartType.Doughnut
@@ -520,7 +523,7 @@ End Sub
 Private Sub DetermineColorMapping()
 
     Select Case m_ChartType
-        Case chChartType.Bar
+        Case chChartType.Bar, chChartType.HorizontalBar
             If m_SingleDataset = True Then
                 m_ColorPerValue = True
             Else
