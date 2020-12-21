@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.11.06  published: 20.12.2020                                                  #
+'# Version 1.12.05  published: 21.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -71,6 +71,7 @@ Private m_XAxisLabelText As String
 Private m_ChartJsSource As chChartJsSource
 Private m_ChartJsCDN As String
 Private m_ChartJsPathFilename As String
+Private m_StackedChart As Boolean
 
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
@@ -234,6 +235,13 @@ Public Property Get ChartJsPathFilename() As String
     ChartJsPathFilename = m_ChartJsPathFilename
 End Property
 
+Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
+    m_StackedChart = This_StackedChart
+End Property
+Public Property Get StackedChart() As Boolean
+    StackedChart = m_StackedChart
+End Property
+
 
 '### Instancing
 
@@ -241,6 +249,7 @@ Private Sub Class_Initialize()
     
     'Set default values
     ChartType = chChartType.Bar
+    StackedChart = False
     'Title
     ShowTitle = False
     TitlePostition = posTop
@@ -474,7 +483,7 @@ On Error GoTo Handle_Error
             strLabels = strLabels & "'" & rst(DataSourceLabelFieldName) & "',"
             i = 0
             For Each Field In DataSourceDataFieldName
-                strData(i) = strData(i) & Str(rst(DataSourceDataFieldName(i))) & ","
+                strData(i) = strData(i) & Str$(rst(DataSourceDataFieldName(i))) & ","
                 i = i + 1
             Next Field
             strColors = strColors & "'" & getRandomColor & "',"
@@ -611,6 +620,14 @@ Private Function getScales() As String
     strText = strText & "            scales: {" & vbCrLf
     strText = strText & "                yAxes: [{" & vbCrLf
     strText = strText & "                    id: 'first-y-Axis'," & vbCrLf
+    If StackedChart = True Then
+        Select Case ChartType
+            Case chChartType.Line, chChartType.Bar, chChartType.HorizontalBar
+                strText = strText & "                    stacked: true," & vbCrLf
+            Case Else
+                'Do Nothing
+        End Select
+    End If
     If ShowYAxis = False Then
         strText = strText & "                    display: false" & vbCrLf
     Else
@@ -627,6 +644,14 @@ Private Function getScales() As String
     strText = strText & "                    }]," & vbCrLf
     strText = strText & "                xAxes: [{" & vbCrLf
     strText = strText & "                    id: 'first-x-Axis'," & vbCrLf
+    If StackedChart = True Then
+        Select Case ChartType
+            Case chChartType.Line, chChartType.Bar, chChartType.HorizontalBar
+                strText = strText & "                    stacked: true," & vbCrLf
+            Case Else
+                'Do Nothing
+        End Select
+    End If
     If ShowXAxis = False Then
         strText = strText & "                    display: false" & vbCrLf
     Else
