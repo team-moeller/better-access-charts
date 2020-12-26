@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.12.05  published: 21.12.2020                                                  #
+'# Version 1.13.28  published: 26.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -38,7 +38,7 @@ Public Enum chPosition
     posRight = 4
 End Enum
 
-Public Enum chChartJsSource
+Public Enum chScriptSource
     CDN = 1
     LocalFile = 2
 End Enum
@@ -68,15 +68,19 @@ Private m_ShowYAxis As Boolean
 Private m_ShowXAxis As Boolean
 Private m_YAxisLabelText As String
 Private m_XAxisLabelText As String
-Private m_ChartJsSource As chChartJsSource
+Private m_ChartJsSource As chScriptSource
 Private m_ChartJsCDN As String
 Private m_ChartJsPathFilename As String
 Private m_StackedChart As Boolean
+Private m_ColorSchemaSource As chScriptSource
+Private m_ColorSchemaCDN As String
+Private m_ColorSchemaPathFilename As String
+Private m_ColorSchema As String
 
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
 Private m_DataSet1Data As Variant
-Private m_DataSet1Colors As Variant
+''Private m_DataSet1Colors As Variant
 Private m_ColorPerValue As Boolean
 Private m_SingleDataset As Boolean
 
@@ -214,10 +218,10 @@ Public Property Get XAxisLabelText() As String
     XAxisLabelText = m_XAxisLabelText
 End Property
 
-Public Property Let ChartJsSource(ByVal This_ChartJsSource As chChartJsSource)
+Public Property Let ChartJsSource(ByVal This_ChartJsSource As chScriptSource)
     m_ChartJsSource = This_ChartJsSource
 End Property
-Public Property Get ChartJsSource() As chChartJsSource
+Public Property Get ChartJsSource() As chScriptSource
     ChartJsSource = m_ChartJsSource
 End Property
 
@@ -242,6 +246,33 @@ Public Property Get StackedChart() As Boolean
     StackedChart = m_StackedChart
 End Property
 
+Public Property Let ColorSchemaSource(ByVal This_ColorSchemaSource As chScriptSource)
+    m_ColorSchemaSource = This_ColorSchemaSource
+End Property
+Public Property Get ColorSchemaSource() As chScriptSource
+    ColorSchemaSource = m_ColorSchemaSource
+End Property
+
+Public Property Let ColorSchemaCDN(ByVal This_ColorSchemaCDN As String)
+    m_ColorSchemaCDN = This_ColorSchemaCDN
+End Property
+Public Property Get ColorSchemaCDN() As String
+    ColorSchemaCDN = m_ColorSchemaCDN
+End Property
+
+Public Property Let ColorSchemaPathFilename(ByVal This_ColorSchemaPathFilename As String)
+    m_ColorSchemaPathFilename = This_ColorSchemaPathFilename
+End Property
+Public Property Get ColorSchemaPathFilename() As String
+    ColorSchemaPathFilename = m_ColorSchemaPathFilename
+End Property
+
+Public Property Let ColorSchema(ByVal This_ColorSchema As String)
+    m_ColorSchema = This_ColorSchema
+End Property
+Public Property Get ColorSchema() As String
+    ColorSchema = m_ColorSchema
+End Property
 
 '### Instancing
 
@@ -261,9 +292,15 @@ Private Sub Class_Initialize()
     ShowYAxis = True
     ShowXAxis = True
     'chart.js
-    ChartJsSource = chChartJsSource.CDN
+    ChartJsSource = chScriptSource.CDN
     ChartJsCDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
     ChartJsPathFilename = CurrentProject.Path & "\Chart.min.js"
+    'ColorSchemes Plug-In
+    ColorSchemaSource = chScriptSource.CDN
+    ColorSchemaCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"
+    ColorSchemaPathFilename = CurrentProject.Path & "\chartjs-plugin-colorschemes.min.js"
+    'ColorSchema
+    ColorSchema = "brewer.Paired12"
     
 End Sub
 
@@ -330,6 +367,7 @@ Private Function getHeader() As String
     strText = strText & "    <title>Chart</title>" & vbCrLf
     strText = strText & "    <style>body{margin:0;padding:0;}</style>" & vbCrLf
     strText = strText & "    <script src=" & getChartJsLocation & "></script>" & vbCrLf
+    strText = strText & "    <script src=" & getColorSchemaLocation & "></script>" & vbCrLf
     strText = strText & "</head>" & vbCrLf
     strText = strText & "<body>" & vbCrLf
     strText = strText & "<div id=""container"" style=""width: 100%;"">" & vbCrLf
@@ -392,7 +430,7 @@ Private Function getChartData() As String
     For i = LBound(m_DataSet1Data) To UBound(m_DataSet1Data)
         strText = strText & "               {label: '" & m_DataSet1Label(i) & "' ," & vbCrLf
         strText = strText & "                data: [" & m_DataSet1Data(i) & "]," & vbCrLf
-        strText = strText & "                backgroundColor: " & m_DataSet1Colors(i) & "," & vbCrLf
+''        strText = strText & "                backgroundColor: " & m_DataSet1Colors(i) & "," & vbCrLf
         strText = strText & "                borderWidth: 1}," & vbCrLf
     Next i
     strText = CutTrailingComma(strText)
@@ -412,6 +450,7 @@ Private Function getChartOptions() As String
     strText = strText & getTitle
     strText = strText & getLegend
     strText = strText & getScales
+    strText = strText & getColorSchema
     strText = CutTrailingComma(strText)
     strText = strText & "        }" & vbCrLf
     
@@ -439,15 +478,33 @@ Private Function getChartJsLocation() As String
     Dim strText As String
     
     Select Case ChartJsSource
-        Case chChartJsSource.CDN
+        Case chScriptSource.CDN
             strText = """" & ChartJsCDN & """"
-        Case chChartJsSource.LocalFile
+        Case chScriptSource.LocalFile
             strText = """" & ChartJsPathFilename & """"
         Case Else
             'Do nothing
     End Select
             
     getChartJsLocation = strText
+
+End Function
+
+Private Function getColorSchemaLocation() As String
+
+    'Declarations
+    Dim strText As String
+    
+    Select Case ColorSchemaSource
+        Case chScriptSource.CDN
+            strText = """" & ColorSchemaCDN & """"
+        Case chScriptSource.LocalFile
+            strText = """" & ColorSchemaPathFilename & """"
+        Case Else
+            'Do nothing
+    End Select
+            
+    getColorSchemaLocation = strText
 
 End Function
 
@@ -459,7 +516,7 @@ On Error GoTo Handle_Error
     Dim rst As DAO.Recordset
     Dim strLabels As String
     Dim strData() As String
-    Dim strColors As String
+''    Dim strColors As String
     Dim Field As Variant
     Dim i As Integer
     
@@ -486,13 +543,13 @@ On Error GoTo Handle_Error
                 strData(i) = strData(i) & Str$(rst(DataSourceDataFieldName(i))) & ","
                 i = i + 1
             Next Field
-            strColors = strColors & "'" & getRandomColor & "',"
+''            strColors = strColors & "'" & getRandomColor & "',"
             rst.MoveNext
         Loop
     Else
         strLabels = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
         strData(0) = "2, 13, 7, 9, 12, 5,"
-        strColors = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
+''        strColors = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
     End If
     
     'Cleanup result
@@ -502,11 +559,11 @@ On Error GoTo Handle_Error
     m_DataSet1Label = DataSourceDataFieldName()
     i = 0
     For Each Field In DataSourceDataFieldName()
-        If m_ColorPerValue = True Then
-            m_DataSet1Colors(i) = "[" & CutTrailingComma(strColors) & "]"
-        Else
-            m_DataSet1Colors(i) = "'" & getRandomColor & "'"
-        End If
+''        If m_ColorPerValue = True Then
+''            m_DataSet1Colors(i) = "[" & CutTrailingComma(strColors) & "]"
+''        Else
+''            m_DataSet1Colors(i) = "'" & getRandomColor & "'"
+''        End If
         strData(i) = CutTrailingComma(strData(i))
         i = i + 1
     Next Field
@@ -548,24 +605,24 @@ Private Sub DetermineColorMapping()
     
 End Sub
 
-Private Function getRandomColor()
-
-    'Declarations
-    Dim i As Integer
-    Dim strRaw() As String
-    Dim strRes As String
-    Const Vals As String = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F"
-    
-    strRaw() = Split(Vals, ",")
-    
-    strRes = "#"
-    For i = 1 To 6
-        strRes = strRes & strRaw(Int(Rnd(Now) * 16))
-    Next i
-    
-    getRandomColor = strRes
-
-End Function
+''Private Function getRandomColor()
+''
+''    'Declarations
+''    Dim i As Integer
+''    Dim strRaw() As String
+''    Dim strRes As String
+''    Const Vals As String = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F"
+''
+''    strRaw() = Split(Vals, ",")
+''
+''    strRes = "#"
+''    For i = 1 To 6
+''        strRes = strRes & strRaw(Int(Rnd(Now) * 16))
+''    Next i
+''
+''    getRandomColor = strRes
+''
+''End Function
 
 Private Function getTitle() As String
 
@@ -666,10 +723,25 @@ Private Function getScales() As String
         End If
     End If
     strText = strText & "                    }]" & vbCrLf
-    strText = strText & "            }" & vbCrLf
+    strText = strText & "            }," & vbCrLf
     
     getScales = strText
     
+End Function
+
+Private Function getColorSchema() As String
+
+    'Declarations
+    Dim strText As String
+
+    strText = strText & "            plugins: {" & vbCrLf
+    strText = strText & "                colorschemes: {" & vbCrLf
+    strText = strText & "                    scheme: '" & ColorSchema & "'" & vbCrLf
+    strText = strText & "                    }" & vbCrLf
+    strText = strText & "                }," & vbCrLf
+    
+    getColorSchema = strText
+
 End Function
 
 Private Function getPositionString(ByVal ThisPosition As chPosition) As String
