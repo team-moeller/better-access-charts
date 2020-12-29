@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.13.28  published: 26.12.2020                                                  #
+'# Version 1.16.11  published: 28.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -80,10 +80,8 @@ Private m_ColorSchema As String
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
 Private m_DataSet1Data As Variant
-''Private m_DataSet1Colors As Variant
-Private m_ColorPerValue As Boolean
 Private m_SingleDataset As Boolean
-
+Private m_IsSingleBarChart As Boolean
 
 '### Properties
 
@@ -430,7 +428,9 @@ Private Function getChartData() As String
     For i = LBound(m_DataSet1Data) To UBound(m_DataSet1Data)
         strText = strText & "               {label: '" & m_DataSet1Label(i) & "' ," & vbCrLf
         strText = strText & "                data: [" & m_DataSet1Data(i) & "]," & vbCrLf
-''        strText = strText & "                backgroundColor: " & m_DataSet1Colors(i) & "," & vbCrLf
+        If m_IsSingleBarChart = True Then
+            strText = strText & "                backgroundColor: Chart['colorschemes']." & ColorSchema & "," & vbCrLf
+        End If
         strText = strText & "                borderWidth: 1}," & vbCrLf
     Next i
     strText = CutTrailingComma(strText)
@@ -516,7 +516,6 @@ On Error GoTo Handle_Error
     Dim rst As DAO.Recordset
     Dim strLabels As String
     Dim strData() As String
-''    Dim strColors As String
     Dim Field As Variant
     Dim i As Integer
     
@@ -543,27 +542,20 @@ On Error GoTo Handle_Error
                 strData(i) = strData(i) & Str$(rst(DataSourceDataFieldName(i))) & ","
                 i = i + 1
             Next Field
-''            strColors = strColors & "'" & getRandomColor & "',"
             rst.MoveNext
         Loop
     Else
-        strLabels = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
+        strLabels = "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
         strData(0) = "2, 13, 7, 9, 12, 5,"
-''        strColors = "'red', 'blue', 'yellow', 'green', 'purple', 'orange',"
     End If
     
     'Cleanup result
-    DetermineColorMapping
+    DetermineSingleBarChart
     ReDim m_DataSet1Colors(UBound(DataSourceDataFieldName))
     m_DataLabels = CutTrailingComma(strLabels)
     m_DataSet1Label = DataSourceDataFieldName()
     i = 0
     For Each Field In DataSourceDataFieldName()
-''        If m_ColorPerValue = True Then
-''            m_DataSet1Colors(i) = "[" & CutTrailingComma(strColors) & "]"
-''        Else
-''            m_DataSet1Colors(i) = "'" & getRandomColor & "'"
-''        End If
         strData(i) = CutTrailingComma(strData(i))
         i = i + 1
     Next Field
@@ -586,43 +578,20 @@ Handle_Error:
 
 End Sub
 
-Private Sub DetermineColorMapping()
+Private Sub DetermineSingleBarChart()
 
     Select Case m_ChartType
         Case chChartType.Bar, chChartType.HorizontalBar
             If m_SingleDataset = True Then
-                m_ColorPerValue = True
+                m_IsSingleBarChart = True
             Else
-                m_ColorPerValue = False
+                m_IsSingleBarChart = False
             End If
-        Case chChartType.Line, chChartType.Radar, chChartType.Scatter
-            m_ColorPerValue = False
-        Case chChartType.Doughnut, chChartType.Pie, chChartType.PolarArea, chChartType.Bubble
-            m_ColorPerValue = True
         Case Else
-            'Do Nothing
+            m_IsSingleBarChart = False
     End Select
-    
-End Sub
 
-''Private Function getRandomColor()
-''
-''    'Declarations
-''    Dim i As Integer
-''    Dim strRaw() As String
-''    Dim strRes As String
-''    Const Vals As String = "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F"
-''
-''    strRaw() = Split(Vals, ",")
-''
-''    strRes = "#"
-''    For i = 1 To 6
-''        strRes = strRes & strRaw(Int(Rnd(Now) * 16))
-''    Next i
-''
-''    getRandomColor = strRes
-''
-''End Function
+End Sub
 
 Private Function getTitle() As String
 
