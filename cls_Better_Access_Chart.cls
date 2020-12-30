@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.16.11  published: 28.12.2020                                                  #
+'# Version 1.17.04  published: 30.12.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -76,6 +76,7 @@ Private m_ColorSchemaSource As chScriptSource
 Private m_ColorSchemaCDN As String
 Private m_ColorSchemaPathFilename As String
 Private m_ColorSchema As String
+Private m_AreaFilled As Boolean
 
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
@@ -272,6 +273,14 @@ Public Property Get ColorSchema() As String
     ColorSchema = m_ColorSchema
 End Property
 
+Public Property Let AreaFilled(ByVal This_AreaFilled As Boolean)
+    m_AreaFilled = This_AreaFilled
+End Property
+Public Property Get AreaFilled() As Boolean
+    AreaFilled = m_AreaFilled
+End Property
+
+
 '### Instancing
 
 Private Sub Class_Initialize()
@@ -427,6 +436,14 @@ Private Function getChartData() As String
     strText = strText & "            datasets: [" & vbCrLf
     For i = LBound(m_DataSet1Data) To UBound(m_DataSet1Data)
         strText = strText & "               {label: '" & m_DataSet1Label(i) & "' ," & vbCrLf
+        Select Case ChartType
+            Case chChartType.Line, chChartType.Radar
+                If AreaFilled = False Then
+                    strText = strText & "                fill: false ," & vbCrLf
+                End If
+            Case Else
+                'Do Nothing
+        End Select
         strText = strText & "                data: [" & m_DataSet1Data(i) & "]," & vbCrLf
         If m_IsSingleBarChart = True Then
             strText = strText & "                backgroundColor: Chart['colorschemes']." & ColorSchema & "," & vbCrLf
