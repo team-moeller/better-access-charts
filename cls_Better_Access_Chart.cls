@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 Thomas Möller                                                        #
+'# Copyright (c) 2020, 2021 Thomas Möller                                                        #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.17.04  published: 30.12.2020                                                  #
+'# Version 1.18.04  published: 02.01.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -77,6 +77,7 @@ Private m_ColorSchemaCDN As String
 Private m_ColorSchemaPathFilename As String
 Private m_ColorSchema As String
 Private m_AreaFilled As Boolean
+Private m_ChartBackgroundColor As String
 
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
@@ -280,6 +281,12 @@ Public Property Get AreaFilled() As Boolean
     AreaFilled = m_AreaFilled
 End Property
 
+Public Property Let ChartBackgroundColor(ByVal This_ChartBackgroundColor As String)
+    m_ChartBackgroundColor = This_ChartBackgroundColor
+End Property
+Public Property Get ChartBackgroundColor() As String
+    ChartBackgroundColor = m_ChartBackgroundColor
+End Property
 
 '### Instancing
 
@@ -378,7 +385,11 @@ Private Function getHeader() As String
     strText = strText & "</head>" & vbCrLf
     strText = strText & "<body>" & vbCrLf
     strText = strText & "<div id=""container"" style=""width: 100%;"">" & vbCrLf
-    strText = strText & "    <canvas id=""myChart""></canvas>" & vbCrLf
+    If Len(ChartBackgroundColor) > 0 Then
+        strText = strText & "    <canvas id=""myChart"" style=""background-color: " & ChartBackgroundColor & """ ></canvas>" & vbCrLf
+    Else
+        strText = strText & "    <canvas id=""myChart""></canvas>" & vbCrLf
+    End If
     strText = strText & "</div>" & vbCrLf
     strText = strText & "<script>" & vbCrLf
     strText = strText & "    var ctx = document.getElementById('myChart').getContext('2d');" & vbCrLf
