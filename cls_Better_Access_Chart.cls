@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020, 2021 Thomas Möller                                                        #
+'# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.18.04  published: 02.01.2020                                                  #
+'# Version 1.19.10  published: 06.01.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -78,6 +78,9 @@ Private m_ColorSchemaPathFilename As String
 Private m_ColorSchema As String
 Private m_AreaFilled As Boolean
 Private m_ChartBackgroundColor As String
+Private m_DefaultFontColor As String
+Private m_DefaultFontFamily As String
+Private m_DefaultFontSize As String
 
 Private m_DataLabels As String
 Private m_DataSet1Label As Variant
@@ -288,6 +291,28 @@ Public Property Get ChartBackgroundColor() As String
     ChartBackgroundColor = m_ChartBackgroundColor
 End Property
 
+Public Property Let DefaultFontColor(ByVal This_DefaultFontColor As String)
+    m_DefaultFontColor = This_DefaultFontColor
+End Property
+Public Property Get DefaultFontColor() As String
+    DefaultFontColor = m_DefaultFontColor
+End Property
+
+Public Property Let DefaultFontFamily(ByVal This_DefaultFontFamily As String)
+    m_DefaultFontFamily = This_DefaultFontFamily
+End Property
+Public Property Get DefaultFontFamily() As String
+    DefaultFontFamily = m_DefaultFontFamily
+End Property
+
+Public Property Let DefaultFontSize(ByVal This_DefaultFontSize As String)
+    m_DefaultFontSize = This_DefaultFontSize
+End Property
+Public Property Get DefaultFontSize() As String
+    DefaultFontSize = m_DefaultFontSize
+End Property
+
+
 '### Instancing
 
 Private Sub Class_Initialize()
@@ -392,6 +417,15 @@ Private Function getHeader() As String
     End If
     strText = strText & "</div>" & vbCrLf
     strText = strText & "<script>" & vbCrLf
+    If Len(DefaultFontColor) > 0 Then
+        strText = strText & "    Chart.defaults.global.defaultFontColor = '" & DefaultFontColor & "';" & vbCrLf
+    End If
+    If Len(DefaultFontFamily) > 0 Then
+        strText = strText & "    Chart.defaults.global.defaultFontFamily = '" & DefaultFontFamily & "';" & vbCrLf
+    End If
+    If Len(DefaultFontSize) > 0 Then
+        strText = strText & "    Chart.defaults.global.defaultFontSize = '" & DefaultFontSize & "';" & vbCrLf
+    End If
     strText = strText & "    var ctx = document.getElementById('myChart').getContext('2d');" & vbCrLf
     strText = strText & "    var myChart = new Chart(ctx, {" & vbCrLf
     
