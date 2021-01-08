@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.19.10  published: 06.01.2020                                                  #
+'# Version 1.20.03  published: 07.01.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -80,12 +80,12 @@ Private m_AreaFilled As Boolean
 Private m_ChartBackgroundColor As String
 Private m_DefaultFontColor As String
 Private m_DefaultFontFamily As String
-Private m_DefaultFontSize As String
+Private m_DefaultFontSize As Integer
 
-Private m_DataLabels As String
-Private m_DataSet1Label As Variant
-Private m_DataSet1Data As Variant
-Private m_SingleDataset As Boolean
+Private m_DataLabels As Variant
+Private m_DataSetLabel As Variant
+Private m_DataSetData As Variant
+Private m_IsSingleDataset As Boolean
 Private m_IsSingleBarChart As Boolean
 
 '### Properties
@@ -149,9 +149,9 @@ Public Property Let DataSourceDataFieldName(ByRef This_DataSourceDataFieldName A
         m_DataSourceDataFieldName = Array(This_DataSourceDataFieldName)
     End If
     If LBound(m_DataSourceDataFieldName) = UBound(m_DataSourceDataFieldName) Then
-        m_SingleDataset = True
+        m_IsSingleDataset = True
     Else
-        m_SingleDataset = False
+        m_IsSingleDataset = False
     End If
 End Property
 Public Property Get DataSourceDataFieldName() As Variant
@@ -305,10 +305,10 @@ Public Property Get DefaultFontFamily() As String
     DefaultFontFamily = m_DefaultFontFamily
 End Property
 
-Public Property Let DefaultFontSize(ByVal This_DefaultFontSize As String)
+Public Property Let DefaultFontSize(ByVal This_DefaultFontSize As Integer)
     m_DefaultFontSize = This_DefaultFontSize
 End Property
-Public Property Get DefaultFontSize() As String
+Public Property Get DefaultFontSize() As Integer
     DefaultFontSize = m_DefaultFontSize
 End Property
 
@@ -423,8 +423,8 @@ Private Function getHeader() As String
     If Len(DefaultFontFamily) > 0 Then
         strText = strText & "    Chart.defaults.global.defaultFontFamily = '" & DefaultFontFamily & "';" & vbCrLf
     End If
-    If Len(DefaultFontSize) > 0 Then
-        strText = strText & "    Chart.defaults.global.defaultFontSize = '" & DefaultFontSize & "';" & vbCrLf
+    If DefaultFontSize > 0 Then
+        strText = strText & "    Chart.defaults.global.defaultFontSize = " & DefaultFontSize & ";" & vbCrLf
     End If
     strText = strText & "    var ctx = document.getElementById('myChart').getContext('2d');" & vbCrLf
     strText = strText & "    var myChart = new Chart(ctx, {" & vbCrLf
@@ -477,10 +477,16 @@ Private Function getChartData() As String
     Call getData
 
     strText = strText & "        data: {" & vbCrLf
-    strText = strText & "            labels: [" & m_DataLabels & "]," & vbCrLf
+    If ChartType <> chChartType.Bubble Then
+        strText = strText & "            labels: [" & m_DataLabels & "]," & vbCrLf
+    End If
     strText = strText & "            datasets: [" & vbCrLf
-    For i = LBound(m_DataSet1Data) To UBound(m_DataSet1Data)
-        strText = strText & "               {label: '" & m_DataSet1Label(i) & "' ," & vbCrLf
+    For i = LBound(m_DataSetData) To UBound(m_DataSetData)
+        If ChartType = chChartType.Bubble Then
+            strText = strText & "               {label: '" & m_DataLabels(i) & "' ," & vbCrLf
+        Else
+            strText = strText & "               {label: '" & m_DataSetLabel(i) & "' ," & vbCrLf
+        End If
         Select Case ChartType
             Case chChartType.Line, chChartType.Radar
                 If AreaFilled = False Then
@@ -489,7 +495,7 @@ Private Function getChartData() As String
             Case Else
                 'Do Nothing
         End Select
-        strText = strText & "                data: [" & m_DataSet1Data(i) & "]," & vbCrLf
+        strText = strText & "                data: [" & m_DataSetData(i) & "]," & vbCrLf
         If m_IsSingleBarChart = True Then
             strText = strText & "                backgroundColor: Chart['colorschemes']." & ColorSchema & "," & vbCrLf
         End If
@@ -576,7 +582,7 @@ On Error GoTo Handle_Error
     'Declarations
     Dim db As DAO.Database
     Dim rst As DAO.Recordset
-    Dim strLabels As String
+    Dim strLabels() As String
     Dim strData() As String
     Dim Field As Variant
     Dim i As Integer
@@ -595,34 +601,58 @@ On Error GoTo Handle_Error
     End If
     
     'Extract data and labels
-    ReDim strData(UBound(DataSourceDataFieldName))
-    If Not rst Is Nothing Then
-        Do While Not rst.EOF
-            strLabels = strLabels & "'" & rst(DataSourceLabelFieldName) & "',"
+    Select Case ChartType
+        Case chChartType.Bubble
+            If Not rst Is Nothing Then
+                ReDim strLabels(rst.RecordCount - 1)
+                ReDim strData(rst.RecordCount - 1)
+                Do While Not rst.EOF
+                    strLabels(i) = rst(DataSourceLabelFieldName)
+                    strData(i) = "{x:" & Str$(rst(DataSourceDataFieldName(0))) & _
+                                 ", y:" & Str$(rst(DataSourceDataFieldName(1))) & _
+                                 ", r:" & Str$(rst(DataSourceDataFieldName(2))) & "}"
+                    i = i + 1
+                    rst.MoveNext
+                Loop
+            Else
+                ReDim strLabels(0)
+                ReDim strData(0)
+                strLabels(0) = "Demo"
+                strData(0) = "{x:2,y:3,r:17}"
+            End If
+                'Cleanup result
+                m_DataLabels = strLabels()
+                m_DataSetData = strData()
+        Case Else
+            ReDim strLabels(1)
+            ReDim strData(UBound(DataSourceDataFieldName))
+            If Not rst Is Nothing Then
+                Do While Not rst.EOF
+                    strLabels(0) = strLabels(0) & "'" & rst(DataSourceLabelFieldName) & "',"
+                    i = 0
+                    For Each Field In DataSourceDataFieldName
+                        strData(i) = strData(i) & Str$(rst(DataSourceDataFieldName(i))) & ","
+                        i = i + 1
+                    Next Field
+                    rst.MoveNext
+                Loop
+            Else
+                strLabels(0) = "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
+                strData(0) = "2, 13, 7, 9, 12, 5,"
+            End If
+            'Cleanup result
+            DetermineSingleBarChart
+            ReDim m_DataSet1Colors(UBound(DataSourceDataFieldName))
+            m_DataLabels = CutTrailingComma(strLabels(0))
+            m_DataSetLabel = DataSourceDataFieldName()
             i = 0
-            For Each Field In DataSourceDataFieldName
-                strData(i) = strData(i) & Str$(rst(DataSourceDataFieldName(i))) & ","
+            For Each Field In DataSourceDataFieldName()
+                strData(i) = CutTrailingComma(strData(i))
                 i = i + 1
             Next Field
-            rst.MoveNext
-        Loop
-    Else
-        strLabels = "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
-        strData(0) = "2, 13, 7, 9, 12, 5,"
-    End If
+            m_DataSetData = strData()
+    End Select
     
-    'Cleanup result
-    DetermineSingleBarChart
-    ReDim m_DataSet1Colors(UBound(DataSourceDataFieldName))
-    m_DataLabels = CutTrailingComma(strLabels)
-    m_DataSet1Label = DataSourceDataFieldName()
-    i = 0
-    For Each Field In DataSourceDataFieldName()
-        strData(i) = CutTrailingComma(strData(i))
-        i = i + 1
-    Next Field
-    m_DataSet1Data = strData()
-
 Exit_Here:
     On Error Resume Next
     rst.Close
@@ -644,7 +674,7 @@ Private Sub DetermineSingleBarChart()
 
     Select Case m_ChartType
         Case chChartType.Bar, chChartType.HorizontalBar
-            If m_SingleDataset = True Then
+            If m_IsSingleDataset = True Then
                 m_IsSingleBarChart = True
             Else
                 m_IsSingleBarChart = False
