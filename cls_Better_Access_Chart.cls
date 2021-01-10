@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.20.03  published: 07.01.2020                                                  #
+'# Version 1.21.02  published: 10.01.2020                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -478,15 +478,18 @@ Private Function getChartData() As String
 
     strText = strText & "        data: {" & vbCrLf
     If ChartType <> chChartType.Bubble Then
-        strText = strText & "            labels: [" & m_DataLabels & "]," & vbCrLf
+        If ChartType <> chChartType.Scatter Then
+            strText = strText & "            labels: [" & m_DataLabels & "]," & vbCrLf
+        End If
     End If
     strText = strText & "            datasets: [" & vbCrLf
     For i = LBound(m_DataSetData) To UBound(m_DataSetData)
-        If ChartType = chChartType.Bubble Then
-            strText = strText & "               {label: '" & m_DataLabels(i) & "' ," & vbCrLf
-        Else
-            strText = strText & "               {label: '" & m_DataSetLabel(i) & "' ," & vbCrLf
-        End If
+        Select Case ChartType
+            Case chChartType.Bubble, chChartType.Scatter
+                strText = strText & "               {label: '" & m_DataLabels(i) & "' ," & vbCrLf
+            Case Else
+                strText = strText & "               {label: '" & m_DataSetLabel(i) & "' ," & vbCrLf
+        End Select
         Select Case ChartType
             Case chChartType.Line, chChartType.Radar
                 If AreaFilled = False Then
@@ -611,6 +614,26 @@ On Error GoTo Handle_Error
                     strData(i) = "{x:" & Str$(rst(DataSourceDataFieldName(0))) & _
                                  ", y:" & Str$(rst(DataSourceDataFieldName(1))) & _
                                  ", r:" & Str$(rst(DataSourceDataFieldName(2))) & "}"
+                    i = i + 1
+                    rst.MoveNext
+                Loop
+            Else
+                ReDim strLabels(0)
+                ReDim strData(0)
+                strLabels(0) = "Demo"
+                strData(0) = "{x:2,y:3,r:17}"
+            End If
+                'Cleanup result
+                m_DataLabels = strLabels()
+                m_DataSetData = strData()
+        Case chChartType.Scatter
+            If Not rst Is Nothing Then
+                ReDim strLabels(rst.RecordCount - 1)
+                ReDim strData(rst.RecordCount - 1)
+                Do While Not rst.EOF
+                    strLabels(i) = rst(DataSourceLabelFieldName)
+                    strData(i) = "{x:" & Str$(rst(DataSourceDataFieldName(0))) & _
+                                 ", y:" & Str$(rst(DataSourceDataFieldName(1))) & "}"
                     i = i + 1
                     rst.MoveNext
                 Loop
