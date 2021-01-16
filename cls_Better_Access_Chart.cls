@@ -81,6 +81,8 @@ Private m_ChartBackgroundColor As String
 Private m_DefaultFontColor As String
 Private m_DefaultFontFamily As String
 Private m_DefaultFontSize As Integer
+Private m_YAxisBeginAtZero As Boolean
+Private m_XAxisBeginAtZero As Boolean
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -310,6 +312,20 @@ Public Property Let DefaultFontSize(ByVal This_DefaultFontSize As Integer)
 End Property
 Public Property Get DefaultFontSize() As Integer
     DefaultFontSize = m_DefaultFontSize
+End Property
+
+Public Property Let YAxisBeginAtZero(ByVal This_YAxisBeginAtZero As Boolean)
+    m_YAxisBeginAtZero = This_YAxisBeginAtZero
+End Property
+Public Property Get YAxisBeginAtZero() As Boolean
+    YAxisBeginAtZero = m_YAxisBeginAtZero
+End Property
+
+Public Property Let XAxisBeginAtZero(ByVal This_XAxisBeginAtZero As Boolean)
+    m_XAxisBeginAtZero = This_XAxisBeginAtZero
+End Property
+Public Property Get XAxisBeginAtZero() As Boolean
+    XAxisBeginAtZero = m_XAxisBeginAtZero
 End Property
 
 
@@ -775,13 +791,17 @@ Private Function getScales() As String
         strText = strText & "                    display: true," & vbCrLf
         If Len(YAxisLabelText) > 0 Then
             strText = strText & "                    scaleLabel: {" & vbCrLf
-            strText = strText & "                    display: true," & vbCrLf
-            strText = strText & "                    labelString: '" & YAxisLabelText & "'" & vbCrLf
-            strText = strText & "                    }" & vbCrLf
-        Else
-            strText = CutTrailingComma(strText)
+            strText = strText & "                       display: true," & vbCrLf
+            strText = strText & "                       labelString: '" & YAxisLabelText & "'" & vbCrLf
+            strText = strText & "                    }," & vbCrLf
+        End If
+        If YAxisBeginAtZero = True Then
+            strText = strText & "                    ticks: {" & vbCrLf
+            strText = strText & "                       beginAtZero: true" & vbCrLf
+            strText = strText & "                    }," & vbCrLf
         End If
     End If
+    strText = CutTrailingComma(strText)
     strText = strText & "                    }]," & vbCrLf
     strText = strText & "                xAxes: [{" & vbCrLf
     strText = strText & "                    id: 'first-x-Axis'," & vbCrLf
@@ -801,12 +821,16 @@ Private Function getScales() As String
             strText = strText & "                    scaleLabel: {" & vbCrLf
             strText = strText & "                    display: true," & vbCrLf
             strText = strText & "                    labelString: '" & XAxisLabelText & "'" & vbCrLf
-            strText = strText & "                    }" & vbCrLf
-        Else
-            strText = CutTrailingComma(strText)
+            strText = strText & "                    }," & vbCrLf
+        End If
+        If XAxisBeginAtZero = True Then
+            strText = strText & "                    ticks: {" & vbCrLf
+            strText = strText & "                       beginAtZero: true" & vbCrLf
+            strText = strText & "                    }," & vbCrLf
         End If
     End If
-    strText = strText & "                    }]" & vbCrLf
+    strText = CutTrailingComma(strText)
+    strText = strText & "                    }]," & vbCrLf
     strText = strText & "            }," & vbCrLf
     
     getScales = strText
