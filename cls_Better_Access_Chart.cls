@@ -1,8 +1,3 @@
-VERSION 1.0 CLASS
-BEGIN
-  MultiUse = -1  'True
-END
-Attribute VB_Name = "cls_Better_Access_Chart"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -10,7 +5,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.22.07  published: 16.01.2020                                                  #
+'# Version 1.23.15  published: 23.01.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -83,12 +78,19 @@ Private m_DefaultFontFamily As String
 Private m_DefaultFontSize As Integer
 Private m_YAxisBeginAtZero As Boolean
 Private m_XAxisBeginAtZero As Boolean
+Private m_YAxisTicksMin As String
+Private m_YAxisTicksMax As String
+Private m_XAxisTicksMin As String
+Private m_XAxisTicksMax As String
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
 Private m_DataSetData As Variant
 Private m_IsSingleDataset As Boolean
 Private m_IsSingleBarChart As Boolean
+Private m_YAxisTicksNeeded As Boolean
+Private m_XAxisTicksNeeded As Boolean
+
 
 '### Properties
 
@@ -316,6 +318,9 @@ End Property
 
 Public Property Let YAxisBeginAtZero(ByVal This_YAxisBeginAtZero As Boolean)
     m_YAxisBeginAtZero = This_YAxisBeginAtZero
+    If This_YAxisBeginAtZero = True Then
+        m_YAxisTicksNeeded = True
+    End If
 End Property
 Public Property Get YAxisBeginAtZero() As Boolean
     YAxisBeginAtZero = m_YAxisBeginAtZero
@@ -323,9 +328,52 @@ End Property
 
 Public Property Let XAxisBeginAtZero(ByVal This_XAxisBeginAtZero As Boolean)
     m_XAxisBeginAtZero = This_XAxisBeginAtZero
+    If This_XAxisBeginAtZero = True Then
+        m_XAxisTicksNeeded = True
+    End If
 End Property
 Public Property Get XAxisBeginAtZero() As Boolean
     XAxisBeginAtZero = m_XAxisBeginAtZero
+End Property
+
+Public Property Let YAxisTicksMin(ByVal This_YAxisTicksMin As String)
+    m_YAxisTicksMin = This_YAxisTicksMin
+    If Len(Nz(This_YAxisTicksMin, vbNullString)) > 0 Then
+        m_YAxisTicksNeeded = True
+    End If
+End Property
+Public Property Get YAxisTicksMin() As String
+    YAxisTicksMin = m_YAxisTicksMin
+End Property
+
+Public Property Let YAxisTicksMax(ByVal This_YAxisTicksMax As String)
+    m_YAxisTicksMax = This_YAxisTicksMax
+    If Len(Nz(This_YAxisTicksMax, vbNullString)) > 0 Then
+        m_YAxisTicksNeeded = True
+    End If
+End Property
+Public Property Get YAxisTicksMax() As String
+    YAxisTicksMax = m_YAxisTicksMax
+End Property
+
+Public Property Let XAxisTicksMin(ByVal This_XAxisTicksMin As String)
+    m_XAxisTicksMin = This_XAxisTicksMin
+    If Len(Nz(This_XAxisTicksMin, vbNullString)) > 0 Then
+        m_XAxisTicksNeeded = True
+    End If
+End Property
+Public Property Get XAxisTicksMin() As String
+    XAxisTicksMin = m_XAxisTicksMin
+End Property
+
+Public Property Let XAxisTicksMax(ByVal This_XAxisTicksMax As String)
+    m_XAxisTicksMax = This_XAxisTicksMax
+    If Len(Nz(This_XAxisTicksMax, vbNullString)) > 0 Then
+        m_XAxisTicksNeeded = True
+    End If
+End Property
+Public Property Get XAxisTicksMax() As String
+    XAxisTicksMax = m_XAxisTicksMax
 End Property
 
 
@@ -795,9 +843,28 @@ Private Function getScales() As String
             strText = strText & "                       labelString: '" & YAxisLabelText & "'" & vbCrLf
             strText = strText & "                    }," & vbCrLf
         End If
-        If YAxisBeginAtZero = True Then
+        If m_YAxisTicksNeeded = True Then
             strText = strText & "                    ticks: {" & vbCrLf
-            strText = strText & "                       beginAtZero: true" & vbCrLf
+        End If
+        If YAxisBeginAtZero = True Then
+            strText = strText & "                       beginAtZero: true," & vbCrLf
+        End If
+        If Len(YAxisTicksMin) > 0 Then
+            If IsNumeric(YAxisTicksMin) = True Then
+                strText = strText & "                       min: " & Str(YAxisTicksMin) & " ," & vbCrLf
+            Else
+                strText = strText & "                       min: '" & YAxisTicksMin & "' ," & vbCrLf
+            End If
+        End If
+        If Len(YAxisTicksMax) > 0 Then
+            If IsNumeric(YAxisTicksMax) = True Then
+                strText = strText & "                       max: " & Str(YAxisTicksMax) & " ," & vbCrLf
+            Else
+                strText = strText & "                       max: '" & YAxisTicksMax & "' ," & vbCrLf
+            End If
+        End If
+        strText = CutTrailingComma(strText)
+        If m_YAxisTicksNeeded = True Then
             strText = strText & "                    }," & vbCrLf
         End If
     End If
@@ -819,18 +886,37 @@ Private Function getScales() As String
         strText = strText & "                    display: true," & vbCrLf
         If Len(XAxisLabelText) > 0 Then
             strText = strText & "                    scaleLabel: {" & vbCrLf
-            strText = strText & "                    display: true," & vbCrLf
-            strText = strText & "                    labelString: '" & XAxisLabelText & "'" & vbCrLf
+            strText = strText & "                        display: true," & vbCrLf
+            strText = strText & "                        labelString: '" & XAxisLabelText & "'" & vbCrLf
             strText = strText & "                    }," & vbCrLf
         End If
-        If XAxisBeginAtZero = True Then
+        If m_XAxisTicksNeeded = True Then
             strText = strText & "                    ticks: {" & vbCrLf
-            strText = strText & "                       beginAtZero: true" & vbCrLf
+        End If
+        If XAxisBeginAtZero = True Then
+            strText = strText & "                       beginAtZero: true," & vbCrLf
+        End If
+        If Len(XAxisTicksMin) > 0 Then
+            If IsNumeric(XAxisTicksMin) = True Then
+                strText = strText & "                       min: " & Str(XAxisTicksMin) & " ," & vbCrLf
+            Else
+                strText = strText & "                       min: '" & XAxisTicksMin & "' ," & vbCrLf
+            End If
+        End If
+        If Len(XAxisTicksMax) > 0 Then
+            If IsNumeric(XAxisTicksMax) = True Then
+                strText = strText & "                       max: " & Str(XAxisTicksMax) & " ," & vbCrLf
+            Else
+                strText = strText & "                       max: '" & XAxisTicksMax & "' ," & vbCrLf
+            End If
+        End If
+        strText = CutTrailingComma(strText)
+        If m_XAxisTicksNeeded = True Then
             strText = strText & "                    }," & vbCrLf
         End If
     End If
     strText = CutTrailingComma(strText)
-    strText = strText & "                    }]," & vbCrLf
+    strText = strText & "                    }]" & vbCrLf
     strText = strText & "            }," & vbCrLf
     
     getScales = strText
@@ -880,4 +966,3 @@ Private Function CutTrailingComma(ByVal strText As String) As String
     End If
 
 End Function
-
