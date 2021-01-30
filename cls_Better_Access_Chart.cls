@@ -5,7 +5,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.23.15  published: 23.01.2021                                                  #
+'# Version 1.24.05  published: 30.01.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -82,6 +82,7 @@ Private m_YAxisTicksMin As String
 Private m_YAxisTicksMax As String
 Private m_XAxisTicksMin As String
 Private m_XAxisTicksMax As String
+Private m_ShowDownloadLink As Boolean
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -376,6 +377,13 @@ Public Property Get XAxisTicksMax() As String
     XAxisTicksMax = m_XAxisTicksMax
 End Property
 
+Public Property Let ShowDownloadLink(ByVal This_ShowDownloadLink As Boolean)
+    m_ShowDownloadLink = This_ShowDownloadLink
+End Property
+Public Property Get ShowDownloadLink() As Boolean
+    ShowDownloadLink = m_ShowDownloadLink
+End Property
+
 
 '### Instancing
 
@@ -480,6 +488,9 @@ Private Function getHeader() As String
         strText = strText & "    <canvas id=""myChart""></canvas>" & vbCrLf
     End If
     strText = strText & "</div>" & vbCrLf
+    If ShowDownloadLink = True Then
+        strText = strText & "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
+    End If
     strText = strText & "<script>" & vbCrLf
     If Len(DefaultFontColor) > 0 Then
         strText = strText & "    Chart.defaults.global.defaultFontColor = '" & DefaultFontColor & "';" & vbCrLf
@@ -599,6 +610,13 @@ Private Function getFooter() As String
     Dim strText As String
     
     strText = strText & "    });" & vbCrLf
+    If ShowDownloadLink = True Then
+        strText = strText & "    function download() {" & vbCrLf
+        strText = strText & "        var myChart = document.getElementById('myChart');" & vbCrLf
+        strText = strText & "        var blob = myChart.msToBlob()" & vbCrLf
+        strText = strText & "        window.navigator.msSaveBlob(blob, 'Better-Access-Charts.png');" & vbCrLf
+        strText = strText & "    }" & vbCrLf
+    End If
     strText = strText & "</script>" & vbCrLf
     strText = strText & "</body>" & vbCrLf
     strText = strText & "</html>"
