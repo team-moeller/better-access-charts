@@ -20,3 +20,9 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 1. Import of the class module
 
 First, the class module cls_Better_Access_Chart must be imported from the demo database into your Access database.
+2. Insert web browser control on form
+
+The second step is to add a web browser control to display the chart on a form. It is best to give the control a meaningful name. This is required later in the VBA code. I like to use the name "ctlWebbrowser" for this.
+
+
+The following text is entered in the "ControlSource" property: = "about: blank". This ensures that the web browser control remains empty at the beginning.
