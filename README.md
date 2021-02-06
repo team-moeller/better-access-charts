@@ -25,7 +25,6 @@ First, the class module cls_Better_Access_Chart must be imported from the demo d
 
 The second step is to add a web browser control to display the chart on a form. It is best to give the control a meaningful name. This is required later in the VBA code. I like to use the name "ctlWebbrowser" for this.
 
-
 The following text is entered in the "ControlSource" property: = "about: blank". This ensures that the web browser control remains empty at the beginning.
 
 **3. First lines of code for the basic functionality**
@@ -45,7 +44,7 @@ myChart.DrawChart
 * The chart is created in line 4. 
 
 
-When you run this code, you will see a chart with some data. At the moment no data source assigned. In such a case, Better-Access Charts simply shows a standard data source with 6 entries. This is particularly practical for our example. We have now done a quick test and fundamentally implemented the chart.
+When you run this code, you will see a chart with some data. At the moment no data source is assigned. In such a case, Better-Access Charts simply shows a standard data source with 6 entries. This is particularly practical for our example. We have now done a quick test and fundamentally implemented the chart.
 
 **4. Add a data source and define the chart type**
 
