@@ -39,13 +39,13 @@ Set myChart.Control = Me.ctlWebbrowser
 myChart.DrawChart  
 ```
 
-In line 1 a variable of the type cls_Better_Access_Chart is declared.
+* In line 1 a variable of the type cls_Better_Access_Chart is declared.
 
-In line 2 a new instance of this class is created.
+* In line 2 a new instance of this class is created.
 
-In line 3, the web browser control is assigned to the class module.
+* In line 3, the web browser control is assigned to the class module.
 
-The chart is created in line 4. 
+* The chart is created in line 4. 
 
 
 When you run this code, you will see a chart with some data. At the moment no data source assigned. In such a case, Better-Access Charts simply shows a standard data source with 6 entries. This is particularly practical for our example. We have now done a quick test and fundamentally implemented the chart.
