@@ -71,7 +71,7 @@ myChart.ChartType = chChartType.Line
 
 **5. Set further attributes for the chart**
 
-The next step is to adapt the chart to your own needs. For example, you can define a [title](https://github.com/team-moeller/better-access-charts/wiki/showtitle), label the [axes](https://github.com/team-moeller/better-access-charts/wiki/xaxislabeltext) or adjust the [standard font size](https://github.com/team-moeller/better-access-charts/wiki/defaultfontsize).
+The next step is to adapt the chart to your own needs. For example, you can define a [title](https://github.com/team-moeller/better-access-charts/wiki/showtitle), label the [axes](https://github.com/team-moeller/better-access-charts/wiki/xaxislabeltext) or adjust the [default font size](https://github.com/team-moeller/better-access-charts/wiki/defaultfontsize).
 
 The project currently has 36 properties. You can see all of these in the [documentation](https://github.com/team-moeller/better-access-charts/wiki/documentation) on the Wiki. I have also presented the individual progress in the [blog](https://blog.team-moeller.de/search/label/Better%20Access%20Charts).
 
