@@ -16,7 +16,7 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 3. Run the database
 4. Push the button: "Create Chart"
 
-## How to integrate in your own database?
+## How to integrate into your own database?
 **1. Import of the class module**
 
 First, the class module cls_Better_Access_Chart must be imported from the demo database into your Access database.
