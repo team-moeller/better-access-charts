@@ -28,4 +28,6 @@ The second step is to add a web browser control to display the chart on a form. 
 
 The following text is entered in the "ControlSource" property: = "about: blank". This ensures that the web browser control remains empty at the beginning.
 
-<script src="https://gist.github.com/team-moeller/a2b3c220efc254acb965685128a906c5.js"></script>
+3. First lines of code for the basic functionality
+
+The best thing to do is to add another button. In the click event, paste the following code:
