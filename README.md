@@ -11,7 +11,9 @@ We create charts using the Chart.js library and display them in the web browser 
 Take a look at the demo and let yourself be inspired by the possibilities.
 
 ## You want to give it a try?
-1. Download the demo database
-2. Push the button: "Create Chart"
+1. Download the [latest release](https://github.com/team-moeller/better-access-charts/releases/latest)
+2. unpack the files to a trusted folder
+3. run the database
+4. Push the button: "Create Chart"
 
 You find a detailed list of prerequsites in the wiki: [Prerequisites to get started](https://github.com/team-moeller/better-access-charts/wiki/Prerequisites-to-get-started).
