@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.24.05  published: 30.01.2021                                                  #
+'# Version 1.25.15  published: 05.04.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -88,6 +88,10 @@ Private m_YAxisTicksMax As String
 Private m_XAxisTicksMin As String
 Private m_XAxisTicksMax As String
 Private m_ShowDownloadLink As Boolean
+Private m_DataLabelSource As chScriptSource
+Private m_DataLabelCDN As String
+Private m_DataLabelPathFilename As String
+Private m_ShowDataLabel As Boolean
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -389,6 +393,34 @@ Public Property Get ShowDownloadLink() As Boolean
     ShowDownloadLink = m_ShowDownloadLink
 End Property
 
+Public Property Let DataLabelSource(ByVal This_DataLabelSource As chScriptSource)
+    m_DataLabelSource = This_DataLabelSource
+End Property
+Public Property Get DataLabelSource() As chScriptSource
+    DataLabelSource = m_DataLabelSource
+End Property
+
+Public Property Let DataLabelCDN(ByVal This_DataLabelCDN As String)
+    m_DataLabelCDN = This_DataLabelCDN
+End Property
+Public Property Get DataLabelCDN() As String
+    DataLabelCDN = m_DataLabelCDN
+End Property
+
+Public Property Let DataLabelPathFilename(ByVal This_DataLabelPathFilename As String)
+    m_DataLabelPathFilename = This_DataLabelPathFilename
+End Property
+Public Property Get DataLabelPathFilename() As String
+    DataLabelPathFilename = m_DataLabelPathFilename
+End Property
+
+Public Property Let ShowDataLabel(ByVal This_ShowDataLabel As Boolean)
+    m_ShowDataLabel = This_ShowDataLabel
+End Property
+Public Property Get ShowDataLabel() As Boolean
+    ShowDataLabel = m_ShowDataLabel
+End Property
+
 
 '### Instancing
 
@@ -417,6 +449,10 @@ Private Sub Class_Initialize()
     ColorSchemaPathFilename = CurrentProject.Path & "\chartjs-plugin-colorschemes.min.js"
     'ColorSchema
     ColorSchema = "brewer.Paired12"
+    'DataLabel Plug-In
+    DataLabelSource = chScriptSource.CDN
+    DataLabelCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
+    DataLabelPathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
     
 End Sub
 
@@ -484,6 +520,9 @@ Private Function getHeader() As String
     strText = strText & "    <style>body{margin:0;padding:0;}</style>" & vbCrLf
     strText = strText & "    <script src=" & getChartJsLocation & "></script>" & vbCrLf
     strText = strText & "    <script src=" & getColorSchemaLocation & "></script>" & vbCrLf
+    If ShowDataLabel = True Then
+        strText = strText & "    <script src=" & getDataLabelLocation & "></script>" & vbCrLf
+    End If
     strText = strText & "</head>" & vbCrLf
     strText = strText & "<body>" & vbCrLf
     strText = strText & "<div id=""container"" style=""width: 100%;"">" & vbCrLf
@@ -663,6 +702,24 @@ Private Function getColorSchemaLocation() As String
     End Select
             
     getColorSchemaLocation = strText
+
+End Function
+
+Private Function getDataLabelLocation() As String
+
+    'Declarations
+    Dim strText As String
+    
+    Select Case DataLabelSource
+        Case chScriptSource.CDN
+            strText = """" & DataLabelCDN & """"
+        Case chScriptSource.LocalFile
+            strText = """" & DataLabelPathFilename & """"
+        Case Else
+            'Do nothing
+    End Select
+            
+    getDataLabelLocation = strText
 
 End Function
 
@@ -874,14 +931,14 @@ Private Function getScales() As String
         End If
         If Len(YAxisTicksMin) > 0 Then
             If IsNumeric(YAxisTicksMin) = True Then
-                strText = strText & "                       min: " & Str(YAxisTicksMin) & " ," & vbCrLf
+                strText = strText & "                       min: " & Str$(YAxisTicksMin) & " ," & vbCrLf
             Else
                 strText = strText & "                       min: '" & YAxisTicksMin & "' ," & vbCrLf
             End If
         End If
         If Len(YAxisTicksMax) > 0 Then
             If IsNumeric(YAxisTicksMax) = True Then
-                strText = strText & "                       max: " & Str(YAxisTicksMax) & " ," & vbCrLf
+                strText = strText & "                       max: " & Str$(YAxisTicksMax) & " ," & vbCrLf
             Else
                 strText = strText & "                       max: '" & YAxisTicksMax & "' ," & vbCrLf
             End If
@@ -921,14 +978,14 @@ Private Function getScales() As String
         End If
         If Len(XAxisTicksMin) > 0 Then
             If IsNumeric(XAxisTicksMin) = True Then
-                strText = strText & "                       min: " & Str(XAxisTicksMin) & " ," & vbCrLf
+                strText = strText & "                       min: " & Str$(XAxisTicksMin) & " ," & vbCrLf
             Else
                 strText = strText & "                       min: '" & XAxisTicksMin & "' ," & vbCrLf
             End If
         End If
         If Len(XAxisTicksMax) > 0 Then
             If IsNumeric(XAxisTicksMax) = True Then
-                strText = strText & "                       max: " & Str(XAxisTicksMax) & " ," & vbCrLf
+                strText = strText & "                       max: " & Str$(XAxisTicksMax) & " ," & vbCrLf
             Else
                 strText = strText & "                       max: '" & XAxisTicksMax & "' ," & vbCrLf
             End If
@@ -989,3 +1046,4 @@ Private Function CutTrailingComma(ByVal strText As String) As String
     End If
 
 End Function
+
