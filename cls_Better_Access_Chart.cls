@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.25.15  published: 05.04.2021                                                  #
+'# Version 1.26.12  published: 08.04.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -92,6 +92,7 @@ Private m_DataLabelSource As chScriptSource
 Private m_DataLabelCDN As String
 Private m_DataLabelPathFilename As String
 Private m_ShowDataLabel As Boolean
+Private m_DataLabelAnchor As String
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -100,6 +101,7 @@ Private m_IsSingleDataset As Boolean
 Private m_IsSingleBarChart As Boolean
 Private m_YAxisTicksNeeded As Boolean
 Private m_XAxisTicksNeeded As Boolean
+Private m_DataLabelNeeded As Boolean
 
 
 '### Properties
@@ -421,6 +423,15 @@ Public Property Get ShowDataLabel() As Boolean
     ShowDataLabel = m_ShowDataLabel
 End Property
 
+Public Property Let DataLabelAnchor(ByVal This_DataLabelAnchor As String)
+    m_DataLabelAnchor = This_DataLabelAnchor
+    If Len(Nz(This_DataLabelAnchor, vbNullString)) > 0 Then
+        m_DataLabelNeeded = True
+    End If
+End Property
+Public Property Get DataLabelAnchor() As String
+    DataLabelAnchor = m_DataLabelAnchor
+End Property
 
 '### Instancing
 
@@ -640,7 +651,7 @@ Private Function getChartOptions() As String
     strText = strText & getTitle
     strText = strText & getLegend
     strText = strText & getScales
-    strText = strText & getColorSchema
+    strText = strText & getPlugins
     strText = CutTrailingComma(strText)
     strText = strText & "        }" & vbCrLf
     
@@ -1003,20 +1014,55 @@ Private Function getScales() As String
     
 End Function
 
-Private Function getColorSchema() As String
+Private Function getPlugins() As String
 
     'Declarations
     Dim strText As String
 
     strText = strText & "            plugins: {" & vbCrLf
+    strText = strText & getColorSchema
+    strText = strText & getDataLabel
+    strText = CutTrailingComma(strText)
+
+    strText = strText & "                }," & vbCrLf
+    
+    getPlugins = strText
+
+End Function
+
+Private Function getColorSchema() As String
+
+    'Declarations
+    Dim strText As String
+
     strText = strText & "                colorschemes: {" & vbCrLf
     strText = strText & "                    scheme: '" & ColorSchema & "'" & vbCrLf
-    strText = strText & "                    }" & vbCrLf
-    strText = strText & "                }," & vbCrLf
+    strText = strText & "                    }," & vbCrLf
     
     getColorSchema = strText
 
 End Function
+
+Private Function getDataLabel() As String
+
+    'Declarations
+    Dim strText As String
+
+    If m_DataLabelNeeded = True Then
+        strText = strText & "                datalabels: {" & vbCrLf
+    End If
+    If Len(Nz(DataLabelAnchor, vbNullString)) > 0 Then
+        strText = strText & "                    anchor: '" & DataLabelAnchor & "'," & vbCrLf
+    End If
+    strText = CutTrailingComma(strText)
+    If m_DataLabelNeeded = True Then
+        strText = strText & "                    }," & vbCrLf
+    End If
+    
+    getDataLabel = strText
+
+End Function
+
 
 Private Function getPositionString(ByVal ThisPosition As chPosition) As String
 
