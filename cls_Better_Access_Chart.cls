@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.26.12  published: 08.04.2021                                                  #
+'# Version 1.27.04  published: 09.04.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -41,6 +41,12 @@ End Enum
 Public Enum chScriptSource
     CDN = 1
     LocalFile = 2
+End Enum
+
+Public Enum chDataLabelAnchor
+    anStart = 1
+    anCenter = 2
+    anEnd = 3
 End Enum
 
 
@@ -92,7 +98,7 @@ Private m_DataLabelSource As chScriptSource
 Private m_DataLabelCDN As String
 Private m_DataLabelPathFilename As String
 Private m_ShowDataLabel As Boolean
-Private m_DataLabelAnchor As String
+Private m_DataLabelAnchor As chDataLabelAnchor
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -423,13 +429,13 @@ Public Property Get ShowDataLabel() As Boolean
     ShowDataLabel = m_ShowDataLabel
 End Property
 
-Public Property Let DataLabelAnchor(ByVal This_DataLabelAnchor As String)
+Public Property Let DataLabelAnchor(ByVal This_DataLabelAnchor As chDataLabelAnchor)
     m_DataLabelAnchor = This_DataLabelAnchor
-    If Len(Nz(This_DataLabelAnchor, vbNullString)) > 0 Then
+    If This_DataLabelAnchor > 0 Then
         m_DataLabelNeeded = True
     End If
 End Property
-Public Property Get DataLabelAnchor() As String
+Public Property Get DataLabelAnchor() As chDataLabelAnchor
     DataLabelAnchor = m_DataLabelAnchor
 End Property
 
@@ -1052,7 +1058,7 @@ Private Function getDataLabel() As String
         strText = strText & "                datalabels: {" & vbCrLf
     End If
     If Len(Nz(DataLabelAnchor, vbNullString)) > 0 Then
-        strText = strText & "                    anchor: '" & DataLabelAnchor & "'," & vbCrLf
+        strText = strText & "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "'," & vbCrLf
     End If
     strText = CutTrailingComma(strText)
     If m_DataLabelNeeded = True Then
@@ -1062,7 +1068,6 @@ Private Function getDataLabel() As String
     getDataLabel = strText
 
 End Function
-
 
 Private Function getPositionString(ByVal ThisPosition As chPosition) As String
 
@@ -1079,6 +1084,21 @@ Private Function getPositionString(ByVal ThisPosition As chPosition) As String
             getPositionString = "'top'"
     End Select
 
+End Function
+
+Private Function getDataLabelAnchorString(ByVal ThisAnchor As chDataLabelAnchor)
+
+    Select Case ThisAnchor
+        Case chDataLabelAnchor.anStart
+            getDataLabelAnchorString = "start"
+        Case chDataLabelAnchor.anCenter
+            getDataLabelAnchorString = "center"
+        Case chDataLabelAnchor.anEnd
+            getDataLabelAnchorString = "end"
+        Case Else
+            getDataLabelAnchorString = "center"
+    End Select
+    
 End Function
 
 Private Function CutTrailingComma(ByVal strText As String) As String
