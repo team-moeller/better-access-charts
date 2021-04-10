@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.27.04  published: 09.04.2021                                                  #
+'# Version 1.28.04  published: 10.04.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -99,6 +99,7 @@ Private m_DataLabelCDN As String
 Private m_DataLabelPathFilename As String
 Private m_ShowDataLabel As Boolean
 Private m_DataLabelAnchor As chDataLabelAnchor
+Private m_DataLabelFontColor As String
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -438,6 +439,17 @@ End Property
 Public Property Get DataLabelAnchor() As chDataLabelAnchor
     DataLabelAnchor = m_DataLabelAnchor
 End Property
+
+Public Property Let DataLabelFontColor(ByVal This_DataLabelFontColor As String)
+    m_DataLabelFontColor = This_DataLabelFontColor
+    If Len(Nz(This_DataLabelFontColor, vbNullString)) > 0 Then
+        m_DataLabelNeeded = True
+    End If
+End Property
+Public Property Get DataLabelFontColor() As String
+    DataLabelFontColor = m_DataLabelFontColor
+End Property
+
 
 '### Instancing
 
@@ -1057,8 +1069,11 @@ Private Function getDataLabel() As String
     If m_DataLabelNeeded = True Then
         strText = strText & "                datalabels: {" & vbCrLf
     End If
-    If Len(Nz(DataLabelAnchor, vbNullString)) > 0 Then
+    If DataLabelAnchor > 0 Then
         strText = strText & "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "'," & vbCrLf
+    End If
+    If Len(Nz(DataLabelFontColor, vbNullString)) > 0 Then
+        strText = strText & "                    color: '" & DataLabelFontColor & "'," & vbCrLf
     End If
     strText = CutTrailingComma(strText)
     If m_DataLabelNeeded = True Then
@@ -1086,7 +1101,7 @@ Private Function getPositionString(ByVal ThisPosition As chPosition) As String
 
 End Function
 
-Private Function getDataLabelAnchorString(ByVal ThisAnchor As chDataLabelAnchor)
+Private Function getDataLabelAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As String
 
     Select Case ThisAnchor
         Case chDataLabelAnchor.anStart
