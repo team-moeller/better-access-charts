@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.28.04  published: 10.04.2021                                                  #
+'# Version 1.29.14  published: 24.07.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -100,6 +100,10 @@ Private m_DataLabelPathFilename As String
 Private m_ShowDataLabel As Boolean
 Private m_DataLabelAnchor As chDataLabelAnchor
 Private m_DataLabelFontColor As String
+Private m_DataLabelFontFamily As String
+Private m_DataLabelFontSize As Integer
+Private m_DataLabelFontIsItalic As Boolean
+Private m_DataLabelFontIsBold As Boolean
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -109,6 +113,7 @@ Private m_IsSingleBarChart As Boolean
 Private m_YAxisTicksNeeded As Boolean
 Private m_XAxisTicksNeeded As Boolean
 Private m_DataLabelNeeded As Boolean
+Private m_DataLabelFontNeeded As Boolean
 
 
 '### Properties
@@ -448,6 +453,50 @@ Public Property Let DataLabelFontColor(ByVal This_DataLabelFontColor As String)
 End Property
 Public Property Get DataLabelFontColor() As String
     DataLabelFontColor = m_DataLabelFontColor
+End Property
+
+Public Property Let DataLabelFontFamily(ByVal This_DataLabelFontFamily As String)
+    m_DataLabelFontFamily = This_DataLabelFontFamily
+    If Len(Nz(This_DataLabelFontFamily, vbNullString)) > 0 Then
+        m_DataLabelNeeded = True
+        m_DataLabelFontNeeded = True
+    End If
+End Property
+Public Property Get DataLabelFontFamily() As String
+    DataLabelFontFamily = m_DataLabelFontFamily
+End Property
+
+Public Property Let DataLabelFontSize(ByVal This_DataLabelFontSize As Integer)
+    m_DataLabelFontSize = This_DataLabelFontSize
+    If This_DataLabelFontSize > 0 Then
+        m_DataLabelNeeded = True
+        m_DataLabelFontNeeded = True
+    End If
+End Property
+Public Property Get DataLabelFontSize() As Integer
+    DataLabelFontSize = m_DataLabelFontSize
+End Property
+
+Public Property Let DataLabelFontIsItalic(ByVal This_DataLabelFontIsItalic As Boolean)
+    m_DataLabelFontIsItalic = This_DataLabelFontIsItalic
+    If m_DataLabelFontIsItalic = True Then
+        m_DataLabelNeeded = True
+        m_DataLabelFontNeeded = True
+    End If
+End Property
+Public Property Get DataLabelFontIsItalic() As Boolean
+    DataLabelFontIsItalic = m_DataLabelFontIsItalic
+End Property
+
+Public Property Let DataLabelFontIsBold(ByVal This_DataLabelFontIsBold As Boolean)
+    m_DataLabelFontIsBold = This_DataLabelFontIsBold
+    If m_DataLabelFontIsBold = True Then
+        m_DataLabelNeeded = True
+        m_DataLabelFontNeeded = True
+    End If
+End Property
+Public Property Get DataLabelFontIsBold() As Boolean
+    DataLabelFontIsBold = m_DataLabelFontIsBold
 End Property
 
 
@@ -1066,18 +1115,35 @@ Private Function getDataLabel() As String
     'Declarations
     Dim strText As String
 
-    If m_DataLabelNeeded = True Then
-        strText = strText & "                datalabels: {" & vbCrLf
-    End If
-    If DataLabelAnchor > 0 Then
-        strText = strText & "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "'," & vbCrLf
-    End If
-    If Len(Nz(DataLabelFontColor, vbNullString)) > 0 Then
-        strText = strText & "                    color: '" & DataLabelFontColor & "'," & vbCrLf
-    End If
-    strText = CutTrailingComma(strText)
-    If m_DataLabelNeeded = True Then
-        strText = strText & "                    }," & vbCrLf
+    If ShowDataLabel = True Then
+        If m_DataLabelNeeded = True Then
+            strText = strText & "                datalabels: {" & vbCrLf
+            If DataLabelAnchor > 0 Then
+                strText = strText & "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "'," & vbCrLf
+            End If
+            If Len(Nz(DataLabelFontColor, vbNullString)) > 0 Then
+                strText = strText & "                    color: '" & DataLabelFontColor & "'," & vbCrLf
+            End If
+            If m_DataLabelFontNeeded = True Then
+                strText = strText & "                    font: {" & vbCrLf
+                If Len(Nz(DataLabelFontFamily, vbNullString)) > 0 Then
+                    strText = strText & "                        family: '" & DataLabelFontFamily & "'," & vbCrLf
+                End If
+                If DataLabelFontSize > 0 Then
+                    strText = strText & "                        size: " & DataLabelFontSize & "," & vbCrLf
+                End If
+                If DataLabelFontIsBold = True Then
+                    strText = strText & "                        weight: 'bold'," & vbCrLf
+                End If
+                If DataLabelFontIsItalic = True Then
+                    strText = strText & "                        style: 'italic'," & vbCrLf
+                End If
+                strText = CutTrailingComma(strText)
+                strText = strText & "                        }," & vbCrLf
+            End If
+            strText = CutTrailingComma(strText)
+            strText = strText & "                    }," & vbCrLf
+        End If
     End If
     
     getDataLabel = strText
