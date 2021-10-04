@@ -833,9 +833,9 @@ On Error GoTo Handle_Error
                 ReDim strData(rst.RecordCount - 1)
                 Do While Not rst.EOF
                     strLabels(i) = rst(DataSourceLabelFieldName)
-                    strData(i) = "{x:" & Str$(rst(DataSourceDataFieldName(0))) & _
-                                 ", y:" & Str$(rst(DataSourceDataFieldName(1))) & _
-                                 ", r:" & Str$(rst(DataSourceDataFieldName(2))) & "}"
+                    strData(i) = "{x:" & Str$(Nz(rst(DataSourceDataFieldName(0)))) & _
+                                 ", y:" & Str$(Nz(rst(DataSourceDataFieldName(1)))) & _
+                                 ", r:" & Str$(Nz(rst(DataSourceDataFieldName(2)))) & "}"
                     i = i + 1
                     rst.MoveNext
                 Loop
@@ -854,8 +854,8 @@ On Error GoTo Handle_Error
                 ReDim strData(rst.RecordCount - 1)
                 Do While Not rst.EOF
                     strLabels(i) = rst(DataSourceLabelFieldName)
-                    strData(i) = "{x:" & Str$(rst(DataSourceDataFieldName(0))) & _
-                                 ", y:" & Str$(rst(DataSourceDataFieldName(1))) & "}"
+                    strData(i) = "{x:" & Str$(Nz(rst(DataSourceDataFieldName(0)))) & _
+                                 ", y:" & Str$(Nz(rst(DataSourceDataFieldName(1)))) & "}"
                     i = i + 1
                     rst.MoveNext
                 Loop
@@ -876,7 +876,7 @@ On Error GoTo Handle_Error
                     strLabels(0) = strLabels(0) & "'" & rst(DataSourceLabelFieldName) & "',"
                     i = 0
                     For Each Field In DataSourceDataFieldName
-                        strData(i) = strData(i) & Str$(rst(DataSourceDataFieldName(i))) & ","
+                        strData(i) = strData(i) & Str$(Nz(rst(DataSourceDataFieldName(i)))) & ","
                         i = i + 1
                     Next Field
                     rst.MoveNext
