@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.30.09  published: 12.10.2021                                                  #
+'# Version 1.30.09  published: 20.10.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
