@@ -1,0 +1,1706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:od="urn:schemas-microsoft-com:officedata">
+<xsd:schema>
+<xsd:element name="dataroot">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="tbl_VersionHistory" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+<xsd:attribute name="generated" type="xsd:dateTime"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="tbl_VersionHistory">
+<xsd:annotation>
+<xsd:appinfo>
+<od:index index-name="PrimaryKey" index-key="V_Number " primary="yes" unique="yes" clustered="no" order="asc"/>
+<od:tableProperty name="PublishToWeb" type="2" value="1"/>
+<od:tableProperty name="Orientation" type="2" value="0"/>
+<od:tableProperty name="OrderByOn" type="1" value="0"/>
+<od:tableProperty name="DefaultView" type="2" value="2"/>
+<od:tableProperty name="GUID" type="9" value="nXMLigmC3kefxlFU61n8Ew==
+"/>
+<od:tableProperty name="DisplayViewsOnSharePointSite" type="2" value="1"/>
+<od:tableProperty name="TotalsRow" type="1" value="0"/>
+<od:tableProperty name="FilterOnLoad" type="1" value="0"/>
+<od:tableProperty name="OrderByOnLoad" type="1" value="1"/>
+<od:tableProperty name="HideNewField" type="1" value="0"/>
+<od:tableProperty name="BackTint" type="6" value="100"/>
+<od:tableProperty name="BackShade" type="6" value="100"/>
+<od:tableProperty name="ThemeFontIndex" type="4" value="1"/>
+<od:tableProperty name="AlternateBackThemeColorIndex" type="4" value="1"/>
+<od:tableProperty name="AlternateBackTint" type="6" value="100"/>
+<od:tableProperty name="AlternateBackShade" type="6" value="95"/>
+<od:tableProperty name="ReadOnlyWhenDisconnected" type="1" value="0"/>
+<od:tableProperty name="DatasheetGridlinesThemeColorIndex" type="4" value="3"/>
+<od:tableProperty name="DatasheetForeThemeColorIndex" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="V_Date" minOccurs="1" od:jetType="datetime" od:sqlSType="datetime" od:nonNullable="yes" type="xsd:dateTime">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="ColumnWidth" type="3" value="1680"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="1"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="Required" type="1" value="1"/>
+<od:fieldProperty name="IMEMode" type="2" value="0"/>
+<od:fieldProperty name="IMESentenceMode" type="2" value="3"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ShowDatePicker" type="3" value="0"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="V_Number" minOccurs="1" od:jetType="text" od:sqlSType="nvarchar" od:nonNullable="yes">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="ColumnWidth" type="3" value="-1"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="0"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="Required" type="1" value="1"/>
+<od:fieldProperty name="AllowZeroLength" type="1" value="1"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="IMEMode" type="2" value="0"/>
+<od:fieldProperty name="IMESentenceMode" type="2" value="3"/>
+<od:fieldProperty name="UnicodeCompression" type="1" value="1"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="255"/>
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element name="V_Comment" minOccurs="0" od:jetType="text" od:sqlSType="nvarchar">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="ColumnWidth" type="3" value="16185"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="0"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="AllowZeroLength" type="1" value="1"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="IMEMode" type="2" value="0"/>
+<od:fieldProperty name="IMESentenceMode" type="2" value="3"/>
+<od:fieldProperty name="UnicodeCompression" type="1" value="1"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="255"/>
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<dataroot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" generated="2021-10-24T22:41:14">
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.90.00</V_Number>
+<V_Comment>Initial version</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.90.01</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Form added. Initial functionality.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.90.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Class module added. Initial functionality: Create a chart with fixed values.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.91.01</V_Number>
+<V_Comment>&lt;frm_Startup&gt; Form added. Shows info about the project at startup.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.91.02</V_Number>
+<V_Comment>&lt;Options&gt; &quot;frm_Startup&quot; choosen as startup form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.91.03</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Optimized some form properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.91.04</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Webbrowser control now empty at startup.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.91.05</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Added a lable with a hint for the user.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.92.01</V_Number>
+<V_Comment>&lt;frm_Startup&gt; Spelling error corrected.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-14T00:00:00</V_Date>
+<V_Number>0.92.02</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Chart is resizing when form is resized.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-15T00:00:00</V_Date>
+<V_Number>0.92.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHead&quot;: line with html-tag inserted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.92.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getVars&quot;: Added &quot;getContext&quot;</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.92.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Section &quot;borderColor&quot; removed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.92.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Section &quot;backgroundColor&quot;: replaced rgba-values with string representations.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.93.01</V_Number>
+<V_Comment>&lt;frm_Startup&gt; Added version number to form header.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.93.02</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Added a form header and a caption.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.93.03</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Added version number to form header.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-16T00:00:00</V_Date>
+<V_Number>0.93.04</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Added a form footer with a link.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-18T00:00:00</V_Date>
+<V_Number>0.93.05</V_Number>
+<V_Comment>&lt;USys_FileData&gt; Table added. Stores chart.js file.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-18T00:00:00</V_Date>
+<V_Number>0.93.06</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Module added. Provides functionality to save a file in an OLE-field and write it to disk.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.93.07</V_Number>
+<V_Comment>&lt;frm_Startup&gt; Corrected tools name in headline.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.93.08</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Corrected tools name in headline.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.93.09</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Added button to save chart.js to hdd.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.94.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHead&quot;: Inserted line with &quot;meta http-equiv=&apos;X-UA-Compatible&apos; clause.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.94.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHead&quot;: Changed script reference from &quot;chat.js&quot; to &quot;chart.min.js&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.94.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Cleaned up variable names and comments.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.94.04</V_Number>
+<V_Comment>&lt;Options&gt; Added application title.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-19T00:00:00</V_Date>
+<V_Number>0.94.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Constant for html file name inserted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHead&quot;: Chart.js will now be loaded from a CDN.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHead&quot;: Code from &quot;getVars&quot; integrated.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot;: renamed, previously &quot;getHead&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getFooter&quot;: renamed, previously &quot;getFoot&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;CreateChartFile&quot;: code cleanup.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartType&quot;: renamed, previously &quot;getType&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot;: renamed, previously &quot;getData&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-20T00:00:00</V_Date>
+<V_Number>0.95.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartOptions&quot;: renamed, previously &quot;getOptions&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Added enumeration &quot;chChartType&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Added property &quot;Charttype&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the chart type is set to &quot;barchart&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartType&quot;: the chart type is set depending on the property.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.05</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Added register control with pages for &quot;chart&quot; and &quot;properties&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.06</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Register &quot;Properties&quot;: Optionsgroup with chart types added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-21T00:00:00</V_Date>
+<V_Number>1.00.07</V_Number>
+<V_Comment>&lt;frm_Demo&gt; The Button &quot;Create Chart&quot; now uses the ChartType property.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-22T00:00:00</V_Date>
+<V_Number>1.01.01</V_Number>
+<V_Comment>&lt;tbl_DemoData&gt; Added table with some demo data.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-23T00:00:00</V_Date>
+<V_Number>1.01.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The first dataset is filled with data from a hard-coded table.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-24T00:00:00</V_Date>
+<V_Number>1.01.03</V_Number>
+<V_Comment>&lt;qry_DemoData&gt; Added query to gather some demo data.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-24T00:00:00</V_Date>
+<V_Number>1.01.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;DataSourceObjectName&quot; property has been added to specify the object containing the data for the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-24T00:00:00</V_Date>
+<V_Number>1.01.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;DataSourceSQLStatement&quot; property has been added to specify the object containing the data for the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-24T00:00:00</V_Date>
+<V_Number>1.01.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;DataSourceRecordset&quot; property has been added to specify the object containing the data for the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-25T00:00:00</V_Date>
+<V_Number>1.01.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; When no datasource is specified a some demo data is used to draw the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-25T00:00:00</V_Date>
+<V_Number>1.01.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;DataSourceLabelFieldName&quot; property has been added to specify the name of the coumn holding the data for the labels.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-25T00:00:00</V_Date>
+<V_Number>1.01.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;DataSourceDataFieldName&quot; property has been added to specify the name of the coumn holding the data for the dataset.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-26T00:00:00</V_Date>
+<V_Number>1.01.10</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Register &quot;Properties&quot;: Options group with datasource added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-26T00:00:00</V_Date>
+<V_Number>1.01.11</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the data source property is filled by the chosen option from the options group.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-28T00:00:00</V_Date>
+<V_Number>1.02.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ShowTitle&quot; property has been added to specify if a title is shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Added enumeration &quot;chPosition&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;TitlePostition&quot; property has been added to specify the title&apos;s position.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;TitleText&quot; property has been added to specify the title&apos;s text.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default values for title related properties are set.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getTitle&quot; added. Delivers string with title properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getPositionString&quot; added. Translates the position value to a string.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.08</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created, the options related to the title are taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.09</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Register &quot;Properties&quot;: Properties reletad to the title added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.10</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the properties related to the title are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-29T00:00:00</V_Date>
+<V_Number>1.02.11</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Added PtrSafe attribute to support 64-bit installations.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-30T00:00:00</V_Date>
+<V_Number>1.03.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ShowLegend&quot; property has been added to specify if the legend is shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-30T00:00:00</V_Date>
+<V_Number>1.03.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;LegendPostition&quot; property has been added to specify the legend&apos;s position.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-30T00:00:00</V_Date>
+<V_Number>1.03.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getLegend&quot; added. Delivers string with legend related properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-30T00:00:00</V_Date>
+<V_Number>1.03.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartOptions&quot; calls &quot;getLegend&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-11-30T00:00:00</V_Date>
+<V_Number>1.03.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default values for legend related properties are set.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-01T00:00:00</V_Date>
+<V_Number>1.03.06</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Register &quot;Properties&quot;: Properties reletad to the legend added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-01T00:00:00</V_Date>
+<V_Number>1.03.07</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the properties related to the legend are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; added function &quot;CutTrailingComma&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getScales&quot; added. Delivers string with axes related properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ShowYAxis&quot; property has been added to specify if the y-axis is shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ShowXAxis&quot; property has been added to specify if the y-axis is shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;Let ChartType&quot;: Depending on the charttype the properties ShowYAxis and ShowsXAxis are set to &quot;true&quot; or &quot;false&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.06</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Register &quot;Properties&quot;: Properties reletad to the axes added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;YAxisLabelText&quot; property has been added to specify if the y-axis labels text.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;XAxisLabelText&quot; property has been added to specify if the x-axis labels text.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getScales&quot;: Code to handle the axes labels added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.10</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the properties related to the axes are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.11</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;CutTrailingComma&quot; now also handles trailing commas with following vbCrLf.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.12</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getLegend&quot;: Removed dispensable commas to generate cleaner html.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.13</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getTitle&quot;: Removed dispensable commas to generate cleaner html.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-04T00:00:00</V_Date>
+<V_Number>1.04.14</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Header with copyright and licence added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.01</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Form added. Used to configure all chart properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.02</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register control added. Serves for a clear presentation of all properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.03</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; All controls that affect the properties are transferred from frm_demo.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.04</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Vba code, concerning the controls for the properties, transferred from frm_demo.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.05</V_Number>
+<V_Comment>&lt;frm_Demo&gt; The values for the properties are taken from frm_Configuration.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.06</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Vba code, concerning the controls for the properties, deleted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.07</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Controls, related to the properties, deleted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.08</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Register control deleted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.09</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created, frm_Config opens if it is not already open.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.10</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Function &quot;IsFormOpen&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.11</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Button &quot;Update Chart&quot; added. On click the chart on frm_Demo is updated.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.12</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; When the chart is to be updated, frm_Demo opens if it is not already open.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-05T00:00:00</V_Date>
+<V_Number>1.05.13</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Reformatted header with copyright and licence information.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Added enumeration &quot;chChartJsSource&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ChartJsSource&quot; property has been added to specify the source of chart.js.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ChartJsCDN&quot; property has been added to specify the address of the cdn.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ChartJsPathFilename&quot; property has been added to specify the path and filename of chart.js.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default values for chart.js related properties are set.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartJsLocation&quot; added. Returns string with location of chart.js.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot; calls &quot;getChartJsLocation&quot; to get the location of chart.js.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-06T00:00:00</V_Date>
+<V_Number>1.06.08</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Added controls to specify the source of chart.js.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-07T00:00:00</V_Date>
+<V_Number>1.06.09</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the properties related to the source of chart.js are filled with the values  from frm_Configuration.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-09T00:00:00</V_Date>
+<V_Number>1.07.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getRandomColor&quot; added. Calculates a random color code.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-09T00:00:00</V_Date>
+<V_Number>1.07.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot; calls &quot;getRandomColor&quot; for each datapoint.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-09T00:00:00</V_Date>
+<V_Number>1.07.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot; uses random generated colors.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-11T00:00:00</V_Date>
+<V_Number>1.08.01</V_Number>
+<V_Comment>&lt;tbl_DemoData&gt; Two columns with additional demo data added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-11T00:00:00</V_Date>
+<V_Number>1.08.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataSourceDataFieldName&quot; declared as variant.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-12T00:00:00</V_Date>
+<V_Number>1.08.03</V_Number>
+<V_Comment>&lt;frm_Demo&gt; An array with two values is passed to the property &quot;DataSourceDataFieldName&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-12T00:00:00</V_Date>
+<V_Number>1.08.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataSourceDataFieldName&quot;: You can pass a string with one field name or an array of field names.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-12T00:00:00</V_Date>
+<V_Number>1.08.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot; now supports multiple datasets.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-12T00:00:00</V_Date>
+<V_Number>1.08.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot; now supports multiple datasets.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-13T00:00:00</V_Date>
+<V_Number>1.08.07</V_Number>
+<V_Comment>&lt;qry_DemoData&gt; Added Columns &quot;Dataset2&quot; and &quot;Dataset3&quot; to be compatible with multiple datasets.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-14T00:00:00</V_Date>
+<V_Number>1.09.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Code added to handle dynamic colors and multiple datasets correctly when no datasource is specified.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-14T00:00:00</V_Date>
+<V_Number>1.09.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Now values with decimal places are taken into account correctly.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-16T00:00:00</V_Date>
+<V_Number>1.10.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Private variables &quot;m_ColorPerValue&quot; and &quot;m_SingleDataset&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-16T00:00:00</V_Date>
+<V_Number>1.10.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property Let DataSourceDataFieldName: variable &quot;m_SingleDataset&quot; is filled according to &quot;m_DataSourceDataFieldName&quot;</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-16T00:00:00</V_Date>
+<V_Number>1.10.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;DetermineColorCount&quot; added. Determines wether color per data series or color per value is needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-16T00:00:00</V_Date>
+<V_Number>1.10.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property Let DataSourceDataFieldName: Calls &quot;DetermineColorCount&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-16T00:00:00</V_Date>
+<V_Number>1.10.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property Let ChartType: Calls &quot;DetermineColorCount&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-17T00:00:00</V_Date>
+<V_Number>1.10.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Now gets colors according to chart type and single or multiple data series.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-18T00:00:00</V_Date>
+<V_Number>1.10.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;DetermineColorMapping&quot;: renamed from &quot;DetermineColorCount&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-18T00:00:00</V_Date>
+<V_Number>1.10.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property Let ChartType: Call of &quot;DetermineColorMapping&quot; removed. Moved to &quot;getData&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-18T00:00:00</V_Date>
+<V_Number>1.10.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property Let DataSourceDataFieldName: Call of &quot;DetermineColorMapping&quot; removed. Moved to &quot;getData&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-18T00:00:00</V_Date>
+<V_Number>1.10.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Now calls &quot;DetermineColorMapping&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-19T00:00:00</V_Date>
+<V_Number>1.11.01</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart Type&quot;: Added chart type &quot;Horizontal Bar&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-19T00:00:00</V_Date>
+<V_Number>1.11.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Chart type &quot;Horizontal Bar&quot; added to enumeration &quot;chChartType&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-19T00:00:00</V_Date>
+<V_Number>1.11.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartType&quot;: Added chart type &quot;Horizontal Bar&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-19T00:00:00</V_Date>
+<V_Number>1.11.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property Let &quot;ChartType&quot;: Added chart type &quot;Horizontal Bar&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-19T00:00:00</V_Date>
+<V_Number>1.11.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;DetermineColorMapping&quot;: Added chart type &quot;Horizontal Bar&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-19T00:00:00</V_Date>
+<V_Number>1.11.06</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Chart type &quot;Horizontal Bar&quot; is taken into account after update of chart type.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-21T00:00:00</V_Date>
+<V_Number>1.12.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;StackedChart&quot; property has been added to specify if the datasets are stacked.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-21T00:00:00</V_Date>
+<V_Number>1.12.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default value for &quot;StackedChart&quot; is set to false.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-21T00:00:00</V_Date>
+<V_Number>1.12.03</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart Type&quot;: Property &quot;Stacked Chart&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-21T00:00:00</V_Date>
+<V_Number>1.12.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getScales&quot;: Property &quot;Stacked Chart&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-21T00:00:00</V_Date>
+<V_Number>1.12.05</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the property &quot;StackedChart&quot; is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.01</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; The register &quot;Chart.js&quot; was renamed to &quot;Scripts&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.02</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: The controls for chart.js have been rearranged.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.03</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: ComboBox color schema &quot;Source&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.04</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Textfield color schema &quot;CDN&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.05</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Textfield color schema &quot;path/filename&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.06</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Button color schema &quot;save files&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.07</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Method &quot;DateiInOLEFeld&quot;: Function optimized.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.08</V_Number>
+<V_Comment>&lt;USys_FileData&gt; File &quot;chartjs-plugin-colorschemes.min.js&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.09</V_Number>
+<V_Comment>&lt;USys_FileData&gt; File &quot;colorschemes.brewer.js&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.10</V_Number>
+<V_Comment>&lt;USys_FileData&gt; File &quot;colorschemes.office.js&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.11</V_Number>
+<V_Comment>&lt;USys_FileData&gt; File &quot;colorschemes.tableau.js&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.12</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Method &quot;SaveChartjsPluginColorSchemesToDisk&quot; added. Saves files related to color schemes plug-in on hdd.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-25T00:00:00</V_Date>
+<V_Number>1.13.13</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Button color schema &quot;save files&quot; saves related files on disk.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.14</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Renamed enum &quot;chChartJsSource&quot; to &quot;chScriptSource&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.15</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Existing code adapted to the new name of the enumeration.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.16</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;ColorSchemaSource&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.17</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;ColorSchemaCDN&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.18</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;ColorSchemaPathFilename&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.19</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default values for color schema plug-in related properties are set.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.20</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the properties related to the source of the color schema plug-in are filled with the values  from frm_Configuration.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.21</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getColorSchemaLocation&quot; added. Returns string with location of the color schema plug-in.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.22</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot; calls &quot;getColorSchemaLocation&quot; to get the location of the color schema plug-in.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.23</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The &quot;ColorSchema&quot; property has been added to specify the name of the color schema.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.24</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default value for color schema is set to &quot;brewer.Paired12&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.25</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getColorSchema&quot; added. Returns string with the section for plug-in / color schema.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.26</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartOptions&quot; calls &quot;getColorSchema&quot; to add the color schema.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.27</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart type&quot;: Textfield to sepcify the color schema added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-26T00:00:00</V_Date>
+<V_Number>1.13.28</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the property &quot;ColorSchema&quot; is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.14.01</V_Number>
+<V_Comment>&lt;tbl_ColorSchemes&gt; Table added. Contains the names of all available color schemes.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.14.02</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Combo box &quot;cboColorSchema&quot; added to facilitate the selection of the color schema.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.14.03</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the property &quot;ColorSchema&quot; is filled with the value from the new combo box.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.15.01</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Function &quot;SaveFileToDisk&quot; added. Generic function to save a file from a field in a table to disk.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.15.02</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Function &quot;SaveChartjsToDisk&quot; adapted to the new function &quot;SaveFileToDisk&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.15.03</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Function &quot;SaveChartjsPluginColorSchemesToDisk&quot; adapted to the new function &quot;SaveFileToDisk&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.15.04</V_Number>
+<V_Comment>&lt;frm_Demo&gt; Code for buttons to save files on disk adapted to changed function-calls.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.15.05</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Function &quot;DateiInOLEFeld&quot; renamed to &quot;File2OLE&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-27T00:00:00</V_Date>
+<V_Number>1.15.06</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Function &quot;File2OLE&quot; refactored.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Variable &quot;m_IsSingleBarChart&quot; introduce. Is true if it is a bar chart with only one dataset.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;DetermineSingleBarChart&quot; added. Saves result in &quot;m_IsSingleBarChart&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot; calls &quot;DetermineSingleBarChart&quot; instead of &quot;DetermineColorMapping&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Color codes are no longer determined.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Code to cleanup the color codes deleted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;DetermineColorMapping&quot; has been deleted. This functionality is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getRandomColor&quot; has been deleted. This functionality is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Variable &quot;m_DataSet1Colors&quot; has been deleted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Variable &quot;m_ColorPerValue&quot; has been deleted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot;: If IsSingleBarChart is true code for backgroundcolor is inserted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-28T00:00:00</V_Date>
+<V_Number>1.16.11</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;GetData&quot;: The labels for static datasets have been changed from color names to european capitals.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-29T00:00:00</V_Date>
+<V_Number>1.17.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;AreaFilled&quot; has been added to specify if a line od a radar chart schould be filled.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-29T00:00:00</V_Date>
+<V_Number>1.17.02</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart type&quot;: Control to specify if the chart should be filled was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-29T00:00:00</V_Date>
+<V_Number>1.17.03</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the property &quot;AreaFilled&quot; is filled with the value from the new check box.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2020-12-29T00:00:00</V_Date>
+<V_Number>1.17.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot;: if chart typ is line or radar chart and AreaFilled is false &quot;fill: false&quot; is inserted to the html file.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-01T00:00:00</V_Date>
+<V_Number>1.18.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Header with copyright and licence information: Validity extended to 2021</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-02T00:00:00</V_Date>
+<V_Number>1.18.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;ChartBackgroundColor&quot; has been added to specify a background color for the chart area.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-02T00:00:00</V_Date>
+<V_Number>1.18.03</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart type&quot;: Control to specify the chart background color was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-02T00:00:00</V_Date>
+<V_Number>1.18.04</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the property &quot;ChartBackgroundColor&quot; is filled with the value from the new textfield.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-02T00:00:00</V_Date>
+<V_Number>1.18.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot;: if chart backgroundcolor is specified the canvas object receives a corresponding property with the specified color.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DefaultFontColor&quot; has been added to specify the default font color of the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DefaultFontFamily&quot; has been added to specify the default font family of the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DefaultFontSize&quot; has been added to specify the default font size of the chart.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.04</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart&quot; added. This tab provides access to all general properties.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.05</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Moved the controls for &quot;Color schema&quot; and &quot;ChartBackgroundColor&quot; to the tab &quot;Chart&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.06</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Chart&quot;: Controls added to specify the default font settings (color, family, size).</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.07</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the default font related properties are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot;: if DefaultFontColor is specified this value is used in the Chart.default.global section.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot;: if DefaultFontFamily is specified this value is used in the Chart.default.global section.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-04T00:00:00</V_Date>
+<V_Number>1.19.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot;: if DefaultFontSize is specified this value is used in the Chart.default.global section.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-07T00:00:00</V_Date>
+<V_Number>1.20.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Code added to gather and prepare the data for bubble charts.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-07T00:00:00</V_Date>
+<V_Number>1.20.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot;: Code added to integrate the data for bubble charts.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-07T00:00:00</V_Date>
+<V_Number>1.20.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Refactoring. Renamed to variables to clean up the name and make purpose more clear.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-07T00:00:00</V_Date>
+<V_Number>1.20.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The data type of the property &quot;DefaultFontSize&quot; was changed from &quot;String&quot; to &quot;Integer&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-07T00:00:00</V_Date>
+<V_Number>1.20.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The code was adapted to the new data type of the property &quot;DefaultFontSize&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-07T00:00:00</V_Date>
+<V_Number>1.20.06</V_Number>
+<V_Comment>&lt;frm_Demo&gt; The code was adapted to the new data type of the property &quot;DefaultFontSize&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-09T00:00:00</V_Date>
+<V_Number>1.21.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getData&quot;: Code added to gather and prepare the data for scatter charts.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-09T00:00:00</V_Date>
+<V_Number>1.21.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartData&quot;: Code added to integrate the data for scatter charts.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-11T00:00:00</V_Date>
+<V_Number>1.22.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;YAxisBeginAtZero&quot; has been added to specify if the y-axis should begin at zero.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-11T00:00:00</V_Date>
+<V_Number>1.22.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;XAxisBeginAtZero&quot; has been added to specify if the x-axis should begin at zero.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-11T00:00:00</V_Date>
+<V_Number>1.22.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getScales&quot;: the property &quot;YAxisBeginAtZero&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-11T00:00:00</V_Date>
+<V_Number>1.22.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getScales&quot;: the property &quot;XAxisBeginAtZero&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-12T00:00:00</V_Date>
+<V_Number>1.22.05</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Axes&quot;: Control added to specify if the y-axis begins at zero.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-12T00:00:00</V_Date>
+<V_Number>1.22.06</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Axes&quot;: Control added to specify if the x-axis begins at zero.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-12T00:00:00</V_Date>
+<V_Number>1.22.07</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the begin at zero properties are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;YAxisTicksMin&quot; has been added to specify if the minimum value of the y-axis.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;YAxisTicksMax&quot; has been added to specify if the maximum value of the y-axis.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;XAxisTicksMin&quot; has been added to specify if the minimum value of the x-axis.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;XAxisTicksMax&quot; has been added to specify if the maximum value of the x-axis.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Private variable &quot;m_YAxisTicksNeeded&quot; added. Indicates whether the ticks section for the y-axis is needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property let procedures for &quot;YAxisBeginAtZero&quot;, &quot;YAxisTicksMin&quot; and &quot;YAxisTicksMax&quot; set &quot;m_YAxisTicksNeeded&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Private variable &quot;m_XAxisTicksNeeded&quot; added. Indicates whether the ticks section for the x-axis is needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property let procedures for &quot;XAxisBeginAtZero&quot;, &quot;XAxisTicksMin&quot; and &quot;XAxisTicksMax&quot; set &quot;m_XAxisTicksNeeded&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getScales&quot;: Values of &quot;YAxisTicksMin&quot; and &quot;YAxisTicksMax&quot; are taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getScales&quot;: Values of &quot;XAxisTicksMin&quot; and &quot;XAxisTicksMax&quot; are taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-17T00:00:00</V_Date>
+<V_Number>1.23.11</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Sub &quot;PrepareAndExportClassModule&quot; added. Updates the version info and exports the class module.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-18T00:00:00</V_Date>
+<V_Number>1.23.12</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Axes&quot;: Controls added to specify if minimum and maximum of the y-axis.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-18T00:00:00</V_Date>
+<V_Number>1.23.13</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Axes&quot;: Controls added to specify if minimum and maximum of the x-axis.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-18T00:00:00</V_Date>
+<V_Number>1.23.14</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the minimum and maximum related properties  for the y-axis are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-18T00:00:00</V_Date>
+<V_Number>1.23.15</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the minimum and maximum related properties  for the x-axis are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-25T00:00:00</V_Date>
+<V_Number>1.24.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;ShowDownloadLink&quot; has been added to specify if a link to download the chart as a picture is added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-25T00:00:00</V_Date>
+<V_Number>1.24.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot;: If &quot;ShowDownloadLink&quot; is true then code with a download link is inserted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-25T00:00:00</V_Date>
+<V_Number>1.24.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getFooter&quot;: If &quot;ShowDownloadLink&quot; is true then code to download the chart is inserted.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-25T00:00:00</V_Date>
+<V_Number>1.24.04</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Chart&quot;: Control added to specify if a download link is shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-01-25T00:00:00</V_Date>
+<V_Number>1.24.05</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the show download link property is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.01</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Sub &quot;PrepareAndExportClassModule&quot;: Code for export of the class module changed. Now type and name of module are exported.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.02</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: The existing controls have been rearranged.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.03</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: ComboBox data label &quot;Source&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.04</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Textfield data label &quot;CDN&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.05</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Textfield data label &quot;path/filename&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.06</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Button data label &quot;save files&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.07</V_Number>
+<V_Comment>&lt;USys_FileData&gt; File &quot;chartjs-plugin-datalabels.min.js&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.08</V_Number>
+<V_Comment>&lt;mdl_Helpers&gt; Method &quot;SaveChartjsPluginDataLabelsToDisk&quot; added. Saves file for data label plug-in on hdd.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.09</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Scripts&quot;: Button data label &quot;save files&quot; save plug-in file on disk.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataLabelSource&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.11</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataLabelCDN&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.12</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataLabelPathFilename&quot; added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.13</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; On class initialize the default values for data label plug-in related properties are set.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.14</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the properties related to the source of the data label plug-in are filled with the values  from frm_Configuration.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.15</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;ShowDataLabel&quot; added to specify if data labels should be shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.16</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot; added. Here the options for the data labels can be edited.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.17</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot;: The &quot;ShowDataLabel&quot; property has been added to specify if data labels are shown.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-03T00:00:00</V_Date>
+<V_Number>1.25.18</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the show data label property is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-04T00:00:00</V_Date>
+<V_Number>1.25.19</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getDataLabelLocation&quot; added. Returns string with location of the data label plug-in.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-04T00:00:00</V_Date>
+<V_Number>1.25.20</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getHeader&quot; calls &quot;getDataLabelLocation&quot; to get the location of the data label plug-in.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-04T00:00:00</V_Date>
+<V_Number>1.25.21</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getScales&quot;: Some minor refactorings.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getPlugins&quot;: added. The text for the plugins section is build in this function.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getChartOptions&quot;: Now calls &quot;getPlugins&quot; instead of &quot;getColorSchema&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getPlugins&quot;: Calls &quot;getColorSchema&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getColorSchema&quot;: the keyword plugin and the related brackets have been removed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataLabelAnchor&quot; added to specify the anchor for the data labels.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Private variable &quot;m_DataLabelNeeded&quot; added. Indicates whether the plugins section for the data label is needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property let procedure for &quot;DataLabelAnchor&quot; sets &quot;m_DataLabelNeeded&quot; to true.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getDataLabel&quot; added. Builds the string for the plugins section of the data label.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getPlugins&quot; calls &quot;getDataLabel&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getDataLabel&quot; takes &quot;DataLabelAnchor&quot; into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.11</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot;: Control to specify the data label anchor was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.26.12</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the data label anchor property is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.27.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Added enumeration &quot;chDataLabelAnchor&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.27.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Property &quot;DataLabelAnchor&quot;: data type changed from &quot;String&quot; to &quot;chDataLabelAnchor&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.27.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getDataLabelAnchorString&quot; added. Translates the enumeration value to string.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-08T00:00:00</V_Date>
+<V_Number>1.27.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getDataLabel&quot;: Uses &quot;getDataLabelAnchorString&quot; to translate the value for the data label anchor to string.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.28.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DataLabelFontColor&quot; has been added to specify the color of the data label.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.28.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;getDataLabel&quot; now takes property &quot;DataLabelFontColor&quot; into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.28.03</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Tab &quot;Label&quot;: Control added to specify tre font color of the data labels.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.28.04</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the data label font color property is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.29.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Private variable &quot;m_m_DataLabelFontNeeded&quot; added. Indicates whether the font section for the data label plug in is needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.29.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DataLabelFontFamily&quot; has been added to specify the font family of the data label.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-10T00:00:00</V_Date>
+<V_Number>1.29.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DataLabelFontSize&quot; has been added to specify the font size of the data label.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-12T00:00:00</V_Date>
+<V_Number>1.29.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DataLabelFontIsItalic&quot; has been added to specify if the font of the data label is shown italic.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-12T00:00:00</V_Date>
+<V_Number>1.29.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;DataLabelFontIsBold&quot; has been added to specify if the font of the data label is shown bold.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-15T00:00:00</V_Date>
+<V_Number>1.29.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getDataLabel&quot;: the property &quot;DataLabelFontFamily&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getDataLabel&quot;: the property &quot;DataLabelFontSize&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getDataLabel&quot;: the property &quot;DataLabelFontIsBold&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getDataLabel&quot;: the property &quot;DataLabelFontIsItalic&quot; is taken into account.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.10</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot;: Control to specify the font family of the data label was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.11</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot;: Control to specify the font size of the data label was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.12</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot;: Control to specify if the font of the data label is bold was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.13</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Label&quot;: Control to specify if the font of the data label is italic was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-04-24T00:00:00</V_Date>
+<V_Number>1.29.14</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the data label font related properties are filled with the values from the form.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-10T00:00:00</V_Date>
+<V_Number>1.30.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getData&quot;: Error messages for null values are avoided.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-10T00:00:00</V_Date>
+<V_Number>1.30.02</V_Number>
+<V_Comment>&lt;tbl_DemoData&gt; One value has been deleted to have a valid test case for the treatment of null values.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Constant &quot;HtmlFileName&quot;: Added &quot;{}&quot;. This is going to be replaced with the control name.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Added api-declaration of &quot;GetTempPath&quot;. This is used to create the HTML-file in the temp directory.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getHTMLFileName&quot; added. Build individual filename.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getTempFolder&quot; added. Gets temp folder.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;TrimNull&quot; added. Helper-function.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;CreateChartFile&quot;: Adapted to function &quot;getTempFolder&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-11T00:00:00</V_Date>
+<V_Number>1.30.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;DrawChart&quot;: Adapted to function &quot;getTempFolder&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.01</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; The property &quot;SaveHtmlFileForDebugging&quot; has been added to specify if the html-file should be saved on disc for debugging.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.02</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;saveHtmlFile&quot; added. Saves content of the html-string in a file.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.03</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getHtmlString&quot; renamed. Originally Sub &quot;CreateChartFile&quot;.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.04</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getHtmlString&quot; now delivers html-string and optionally save html to file.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.05</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Method &quot;DrawChart&quot; now writes html directly to the controls objects documents property.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.06</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getHTMLFileName&quot; deleted. This function is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.07</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;getTempFolder&quot; deleted. This function is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.08</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Function &quot;TrimNull&quot; deleted. This function is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.09</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; Constant &quot;HtmlFileName&quot; deleted. This constant is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-13T00:00:00</V_Date>
+<V_Number>1.31.10</V_Number>
+<V_Comment>&lt;cls_Better_Access_Chart&gt; API declarion &quot;GetTempPath&quot; deleted. This declaration is no longer needed.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-17T00:00:00</V_Date>
+<V_Number>1.31.11</V_Number>
+<V_Comment>&lt;frm_Configuration&gt; Register &quot;Chart&quot;: Control to specify if html should be saved for debugging was added.</V_Comment>
+</tbl_VersionHistory>
+<tbl_VersionHistory>
+<V_Date>2021-10-17T00:00:00</V_Date>
+<V_Number>1.31.12</V_Number>
+<V_Comment>&lt;frm_Demo&gt; When the chart is created the property &quot;SaveHtmlFileForDebugging&quot; is filled with the value from the form.</V_Comment>
+</tbl_VersionHistory>
+</dataroot>
+</root>
