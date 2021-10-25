@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020, 2021 Thomas Möller                                                  #
+'# Copyright (c) 2020, 2021 Thomas Mï¿½ller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
 '# Version 1.31.12  published: 24.10.2021                                                  #
 '###########################################################################################
@@ -18,6 +18,14 @@ Option Explicit
 
 
 '### Enums
+
+Public Enum chDataSourceType
+    dstDemo
+    dstRecordset
+    dstTableName
+    dstQueryName
+    dstSQLStament
+End Enum
 
 Public Enum chChartType
     line = 1
@@ -55,9 +63,10 @@ End Enum
 
 '### Members
 
-Private WithEvents m_Control As WebbrowserControl
+Private WithEvents m_Control As WebBrowserControl
 Attribute m_Control.VB_VarHelpID = -1
 Private m_ChartType As chChartType
+Private m_DataSourceType As chDataSourceType
 Private m_DataSourceObjectName As String
 Private m_DataSourceSQLStatement As String
 Private m_DataSourceRecordset As DAO.Recordset
@@ -114,13 +123,34 @@ Private m_XAxisTicksNeeded As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
     
+'### Initializer
+
+Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
+                Optional ByVal ChartType As chChartType = chChartType.Bar, _
+                Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
+                Optional ByVal DataSource As Variant, _
+                Optional ByVal DataFieldName As String, _
+                Optional ByVal LabelFieldName As String)
+  
+  Set Me.Control = TheControl
+  Me.ChartType = ChartType
+  Select Case DataSourceType
+    Case dstDemo:       DataSourceObjectName = ""
+    Case dstTableName:  DataSourceObjectName = DataSource
+    Case dstQueryName:  DataSourceObjectName = DataSource
+    Case dstSQLStament: DataSourceSQLStatement = DataSource
+    Case dstRecordset:  Set DataSourceRecordset = DataSource
+  End Select
+  Me.DataSourceDataFieldName = DataFieldName
+  Me.DataSourceLabelFieldName = LabelFieldName
+End Sub
     
 '### Properties
 
-Public Property Set Control(ByVal This_Control As WebbrowserControl)
+Public Property Set Control(ByVal This_Control As WebBrowserControl)
     Set m_Control = This_Control
 End Property
-Public Property Get Control() As WebbrowserControl
+Public Property Get Control() As WebBrowserControl
     Set Control = m_Control
 End Property
 
@@ -142,6 +172,7 @@ Public Property Get ChartType() As chChartType
 End Property
 
 Public Property Let DataSourceObjectName(ByVal This_DataSourceObjectName As String)
+    m_DataSourceType = dstTableName
     m_DataSourceObjectName = This_DataSourceObjectName
 End Property
 Public Property Get DataSourceObjectName() As String
@@ -149,6 +180,7 @@ Public Property Get DataSourceObjectName() As String
 End Property
 
 Public Property Let DataSourceSQLStatement(ByVal This_DataSourceSQLStatement As String)
+    m_DataSourceType = dstSQLStament
     m_DataSourceSQLStatement = This_DataSourceSQLStatement
 End Property
 Public Property Get DataSourceSQLStatement() As String
@@ -156,6 +188,7 @@ Public Property Get DataSourceSQLStatement() As String
 End Property
 
 Public Property Set DataSourceRecordset(ByVal This_DataSourceRecordset As DAO.Recordset)
+    m_DataSourceType = dstRecordset
     Set m_DataSourceRecordset = This_DataSourceRecordset
 End Property
 Public Property Get DataSourceRecordset() As DAO.Recordset
