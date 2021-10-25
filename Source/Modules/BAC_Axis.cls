@@ -82,8 +82,8 @@ Friend Function getAxis(ByVal StackedChart As Boolean)
 
     Dim strText As String
 
-    strText = strText & "                °Axes: [{" & vbCrLf
-    strText = strText & "                    id: 'first-°-Axis'," & vbCrLf
+    strText = strText & "                ï¿½Axes: [{" & vbCrLf
+    strText = strText & "                    id: 'first-ï¿½-Axis'," & vbCrLf
     
     If StackedChart = True Then
         strText = strText & "                    stacked: true," & vbCrLf
@@ -128,9 +128,9 @@ Friend Function getAxis(ByVal StackedChart As Boolean)
     strText = strText & "                    }]," & vbCrLf
     
     If m_Axis = apXAxis Then
-        strText = Replace(strText, "°", "x")
+        strText = Replace(strText, "ï¿½", "x")
     ElseIf m_Axis = apYAxis Then
-        strText = Replace(strText, "°", "y")
+        strText = Replace(strText, "ï¿½", "y")
     End If
     getAxis = strText
 End Function
