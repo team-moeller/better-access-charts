@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.31.12  published: 24.10.2021                                                  #
+'# Version 1.32.01  published: 25.10.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -1197,17 +1197,19 @@ End Function
 Private Sub saveHtmlFile(ByVal strContent As String)
 
     'Declarations
+    Dim objFS As Object
     Dim strPath As String
     Dim strFilename As String
-    Dim f As Integer
     Const HtmlFileName As String = "BetterAccessChart_{}.html"
     
     strPath = CurrentProject.Path & "\"
     strFilename = Replace(HtmlFileName, "{}", m_Control.Name)
-    
-    f = FreeFile()
-    Open strPath & strFilename For Output As f
-    Print #f, strContent;
-    Close f
+        
+    Set objFS = CreateObject("ADODB.Stream")
+    objFS.Charset = "utf-8"
+    objFS.Open
+    objFS.WriteText strContent
+    objFS.SaveToFile strPath & strFilename, 2   '2: Create Or Update
+    objFS.Close
     
 End Sub
