@@ -709,7 +709,7 @@ Private Function getChartData() As String
         End If
         strText = strText & "                borderWidth: 1}," & vbCrLf
     Next i
-    strText = CutTrailingComma(strText)
+    strText = BAC.Helper.CutTrailingComma(strText)
     strText = strText & "             ]" & vbCrLf
     strText = strText & "        }," & vbCrLf
     
@@ -727,7 +727,7 @@ Private Function getChartOptions() As String
     strText = strText & Legend.getLegend
     strText = strText & getScales
     strText = strText & getPlugins
-    strText = CutTrailingComma(strText)
+    strText = BAC.Helper.CutTrailingComma(strText)
     strText = strText & "        }" & vbCrLf
     
     getChartOptions = strText
@@ -896,11 +896,11 @@ On Error GoTo Handle_Error
             'Cleanup result
             DetermineSingleBarChart
             ReDim m_DataSet1Colors(UBound(DataSourceDataFieldName))
-            m_DataLabels = CutTrailingComma(strLabels(0))
+            m_DataLabels = BAC.Helper.CutTrailingComma(strLabels(0))
             m_DataSetLabel = DataSourceDataFieldName()
             i = 0
             For Each Field In DataSourceDataFieldName()
-                strData(i) = CutTrailingComma(strData(i))
+                strData(i) = BAC.Helper.CutTrailingComma(strData(i))
                 i = i + 1
             Next Field
             m_DataSetData = strData()
@@ -948,7 +948,7 @@ Private Function getScales() As String
     strText = strText & "            scales: {" & vbCrLf
     strText = strText & "                yAxes: [{" & vbCrLf
     strText = strText & "                    id: 'first-y-Axis'," & vbCrLf
-    If StackedChart = True Then
+    strText = BAC.Helper.CutTrailingComma(strText)
         Select Case ChartType
             Case chChartType.line, chChartType.Bar, chChartType.HorizontalBar
                 strText = strText & "                    stacked: true," & vbCrLf
@@ -1054,7 +1054,7 @@ Private Function getPlugins() As String
     strText = strText & "            plugins: {" & vbCrLf
     strText = strText & getColorSchema
     strText = strText & getDataLabel
-    strText = CutTrailingComma(strText)
+    strText = BAC.Helper.CutTrailingComma(strText)
 
     strText = strText & "                }," & vbCrLf
     
@@ -1103,10 +1103,10 @@ Private Function getDataLabel() As String
                 If DataLabelFontIsItalic = True Then
                     strText = strText & "                        style: 'italic'," & vbCrLf
                 End If
-                strText = CutTrailingComma(strText)
+                strText = BAC.Helper.CutTrailingComma(strText)
                 strText = strText & "                        }," & vbCrLf
             End If
-            strText = CutTrailingComma(strText)
+            strText = BAC.Helper.CutTrailingComma(strText)
             strText = strText & "                    }," & vbCrLf
         End If
     End If
@@ -1134,17 +1134,6 @@ End Function
 
 '### Private Helper Methods
 
-Private Function CutTrailingComma(ByVal strText As String) As String
-
-    If Right$(strText, 1) = "," Then
-        CutTrailingComma = Left$(strText, Len(strText) - 1)
-    ElseIf Right$(strText, 3) = "," & vbCrLf Then
-        CutTrailingComma = Left$(strText, Len(strText) - 3) & vbCrLf
-    Else
-        CutTrailingComma = strText
-    End If
-
-End Function
 
 Private Sub saveHtmlFile(ByVal strContent As String)
 

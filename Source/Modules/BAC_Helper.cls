@@ -26,3 +26,15 @@ Friend Function getPositionString(ByVal ThisPosition As chPosition) As String
 
 End Function
 
+Friend Function CutTrailingComma(ByVal strText As String) As String
+
+    If Right$(strText, 1) = "," Then
+        CutTrailingComma = Left$(strText, Len(strText) - 1)
+    ElseIf Right$(strText, 3) = "," & vbCrLf Then
+        CutTrailingComma = Left$(strText, Len(strText) - 3) & vbCrLf
+    Else
+        CutTrailingComma = strText
+    End If
+
+End Function
+
