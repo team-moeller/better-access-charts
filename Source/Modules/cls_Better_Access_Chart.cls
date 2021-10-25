@@ -73,9 +73,6 @@ Private m_DataSourceSQLStatement As String
 Private m_DataSourceRecordset As DAO.Recordset
 Private m_DataSourceLabelFieldName As String
 Private m_DataSourceDataFieldName As Variant
-Private m_ShowTitle As Boolean
-Private m_TitlePostition As chPosition
-Private m_TitleText As String
 Private m_ShowYAxis As Boolean
 Private m_ShowXAxis As Boolean
 Private m_YAxisLabelText As String
@@ -122,7 +119,8 @@ Private m_XAxisTicksNeeded As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
     
-Private m_Legend As BAC_Legend
+Private m_Legend    As BAC_Legend
+Private m_Title     As BAC_Title
 
     
 '### Initializer
@@ -218,27 +216,6 @@ Public Property Let DataSourceDataFieldName(ByRef This_DataSourceDataFieldName A
 End Property
 Public Property Get DataSourceDataFieldName() As Variant
     DataSourceDataFieldName = m_DataSourceDataFieldName
-End Property
-
-Public Property Let ShowTitle(ByVal This_ShowTitle As Boolean)
-    m_ShowTitle = This_ShowTitle
-End Property
-Public Property Get ShowTitle() As Boolean
-    ShowTitle = m_ShowTitle
-End Property
-
-Public Property Let TitlePostition(ByVal This_TitlePostition As chPosition)
-    m_TitlePostition = This_TitlePostition
-End Property
-Public Property Get TitlePostition() As chPosition
-    TitlePostition = m_TitlePostition
-End Property
-
-Public Property Let TitleText(ByVal This_TitleText As String)
-    m_TitleText = This_TitleText
-End Property
-Public Property Get TitleText() As String
-    TitleText = m_TitleText
 End Property
 
 
@@ -532,6 +509,10 @@ Public Property Get Legend() As BAC_Legend
     Set Legend = m_Legend
 End Property
 
+Public Property Get Title() As BAC_Title
+    Set Title = m_Title
+End Property
+
 
 '### Instancing
 
@@ -539,14 +520,15 @@ Private Sub Class_Initialize()
     
     'create Sub Classes
     Set m_Legend = New BAC_Legend
+    Set m_Title = New BAC_Title
     
     'Set default values
     ChartType = chChartType.Bar
     StackedChart = False
     'Title
-    ShowTitle = False
-    TitlePostition = posTop
-    TitleText = "My first Better Access Chart"
+    Title.Show = False
+    Title.Position = posTop
+    Title.Text = "My first Better Access Chart"
     'Legend
     Legend.Show = False
     Legend.Position = posRight
@@ -741,7 +723,7 @@ Private Function getChartOptions() As String
     Dim strText As String
     
     strText = strText & "        options: {" & vbCrLf
-    strText = strText & getTitle
+    strText = strText & Title.getTitle
     strText = strText & Legend.getLegend
     strText = strText & getScales
     strText = strText & getPlugins
@@ -956,28 +938,6 @@ Private Sub DetermineSingleBarChart()
 
 End Sub
 
-Private Function getTitle() As String
-
-    'Declarations
-    Dim strText As String
-
-    If ShowTitle = False Then
-        strText = strText & "            title: {" & vbCrLf
-        strText = strText & "                display: false," & vbCrLf
-        strText = strText & "            }," & vbCrLf
-        getTitle = strText
-        Exit Function
-    End If
-    
-    strText = strText & "            title: {" & vbCrLf
-    strText = strText & "                display: true," & vbCrLf
-    strText = strText & "                position: " & BAC.Helper.getPositionString(TitlePostition) & "," & vbCrLf
-    strText = strText & "                text: '" & TitleText & "'" & vbCrLf
-    strText = strText & "            }," & vbCrLf
-    
-    getTitle = strText
-
-End Function
 
 
 Private Function getScales() As String

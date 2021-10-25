@@ -600,9 +600,9 @@ Public Sub cmdCreateChart_Click()
     
     ' ## Title
     'Define title
-    myChart.ShowTitle = Forms!frm_Configuration.chkShowTitle
-    myChart.TitlePostition = Forms!frm_Configuration.fraTitlePosition
-    myChart.TitleText = Forms!frm_Configuration.txtTitleText
+    myChart.Title.Show = Forms!frm_Configuration.chkShowTitle
+    myChart.Title.Position = Forms!frm_Configuration.fraTitlePosition
+    myChart.Title.Text = Forms!frm_Configuration.txtTitleText
     
     ' ## Legend
     'Define legend
