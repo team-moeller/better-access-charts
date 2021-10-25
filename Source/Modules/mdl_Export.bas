@@ -109,17 +109,25 @@ End Function
 Private Sub CleanupForm(ByVal strPath As String)
   Const ForReading = 1
   Const ForWriting = 2
+  
+  Const asDefault = -2
   Const asUnicode = -1
+  Const asASCII = 0
   
   Dim fso         As Object ' FileSystemObject
   Dim sourceFile  As Object ' TextStream
   Dim destFile    As Object ' TextStream
+  Dim destStream  As ADODB.Stream
   
   Dim line As String
   
   Set fso = CreateObject("Scripting.FileSystemObject")
   Set sourceFile = fso.OpenTextFile(strPath, ForReading, , Format:=asUnicode)
-  Set destFile = fso.OpenTextFile(strPath & "-tmp", ForWriting, Create:=True, Format:=asUnicode)
+  ' Set destFile = fso.OpenTextFile(strPath & "-tmp", ForWriting, Create:=True, Format:=False)
+  Set destStream = CreateObject("ADODB.Stream")
+  destStream.Type = 2
+  destStream.Charset = "utf-8"
+  destStream.Open
   
   While Not sourceFile.AtEndOfStream
     line = sourceFile.ReadLine
@@ -137,14 +145,18 @@ Private Sub CleanupForm(ByVal strPath As String)
       line = vbNullString
     ElseIf (line Like "*WebImagePadding*") Then
       line = vbNullString
+    ElseIf (line Like "*NoSaveCTIWhenDisabled*") Then
+      line = vbNullString
     End If
     
     If line <> vbNullString Then
-      destFile.Writeline line
+    '  destFile.Writeline line
+      destStream.WriteText line, adWriteLine
     End If
   Wend
   sourceFile.Close
-  destFile.Close
+  'destFile.Close
+  destStream.SaveToFile strPath & "-tmp", 2
   
   fso.DeleteFile strPath
   fso.MoveFile strPath & "-tmp", strPath
