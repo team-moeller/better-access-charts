@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020, 2021 Thomas Mï¿½ller                                                  #
+'# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
 '# Version 1.31.12  published: 24.10.2021                                                  #
 '###########################################################################################
@@ -453,67 +453,69 @@ End Sub
 Private Function getHtmlString() As String
 
     'Declarations
-    Dim strHtml As String
-    
-    strHtml = strHtml & getHeader
-    strHtml = strHtml & getChartType
-    strHtml = strHtml & getChartData
-    strHtml = strHtml & getChartOptions
-    strHtml = strHtml & getFooter
+    Dim strHtml As New BAC_StringBuilder
+    With strHtml
+        .Add getHeader
+        .Add getChartType
+        .Add getChartData
+        .Add getChartOptions
+        .Add getFooter
+    End With
  
     If m_SaveHtmlFileForDebugging = True Then
-        Call saveHtmlFile(strHtml)
+        Call saveHtmlFile(strHtml.ToString)
     End If
  
-    getHtmlString = strHtml
+    getHtmlString = strHtml.ToString
   
 End Function
 
 Private Function getHeader() As String
 
     'Declarations
-    Dim strText As String
-    
-    strText = strText & "<!DOCTYPE html>" & vbCrLf
-    strText = strText & "<!-- saved from url=(0014)about:internet -->" & vbCrLf
-    strText = strText & "<!-- saved from url=(0016)http://localhost -->" & vbCrLf
-    strText = strText & "<html>" & vbCrLf
-    strText = strText & "<head>" & vbCrLf
-    strText = strText & "    <meta charset=""utf-8"">" & vbCrLf
-    strText = strText & "    <meta http-equiv=""X-UA-Compatible"" content=""IE=Edge""/>" & vbCrLf
-    strText = strText & "    <title>Chart</title>" & vbCrLf
-    strText = strText & "    <style>body{margin:0;padding:0;}</style>" & vbCrLf
-    strText = strText & "    <script src=" & getChartJsLocation & "></script>" & vbCrLf
-    strText = strText & "    <script src=" & getColorSchemaLocation & "></script>" & vbCrLf
-    If ShowDataLabel = True Then
-        strText = strText & "    <script src=" & getDataLabelLocation & "></script>" & vbCrLf
-    End If
-    strText = strText & "</head>" & vbCrLf
-    strText = strText & "<body>" & vbCrLf
-    strText = strText & "<div id=""container"" style=""width: 100%;"">" & vbCrLf
-    If Len(ChartBackgroundColor) > 0 Then
-        strText = strText & "    <canvas id=""myChart"" style=""background-color: " & ChartBackgroundColor & """ ></canvas>" & vbCrLf
-    Else
-        strText = strText & "    <canvas id=""myChart""></canvas>" & vbCrLf
-    End If
-    strText = strText & "</div>" & vbCrLf
-    If ShowDownloadLink = True Then
-        strText = strText & "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
-    End If
-    strText = strText & "<script>" & vbCrLf
-    If Len(DefaultFontColor) > 0 Then
-        strText = strText & "    Chart.defaults.global.defaultFontColor = '" & DefaultFontColor & "';" & vbCrLf
-    End If
-    If Len(DefaultFontFamily) > 0 Then
-        strText = strText & "    Chart.defaults.global.defaultFontFamily = '" & DefaultFontFamily & "';" & vbCrLf
-    End If
-    If DefaultFontSize > 0 Then
-        strText = strText & "    Chart.defaults.global.defaultFontSize = " & DefaultFontSize & ";" & vbCrLf
-    End If
-    strText = strText & "    var ctx = document.getElementById('myChart').getContext('2d');" & vbCrLf
-    strText = strText & "    var myChart = new Chart(ctx, {" & vbCrLf
-    
-    getHeader = strText
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "<!DOCTYPE html>"
+        .AddLine "<!-- saved from url=(0014)about:internet -->"
+        .AddLine "<!-- saved from url=(0016)http://localhost -->"
+        .AddLine "<html>"
+        .AddLine "<head>"
+        .AddLine "    <meta charset=""utf-8"">"
+        .AddLine "    <meta http-equiv=""X-UA-Compatible"" content=""IE=Edge""/>"
+        .AddLine "    <title>Chart</title>"
+        .AddLine "    <style>body{margin:0;padding:0;}</style>"
+        .AddLine "    <script src=" & getChartJsLocation & "></script>"
+        .AddLine "    <script src=" & getColorSchemaLocation & "></script>"
+        If ShowDataLabel = True Then
+            .AddLine "    <script src=" & getDataLabelLocation & "></script>"
+        End If
+        .AddLine "</head>"
+        .AddLine "<body>"
+        .AddLine "<div id=""container"" style=""width: 100%;"">"
+        If Len(ChartBackgroundColor) > 0 Then
+            .AddLine "    <canvas id=""myChart"" style=""background-color: " & ChartBackgroundColor & """ ></canvas>"
+        Else
+            .AddLine "    <canvas id=""myChart""></canvas>"
+        End If
+        .AddLine "</div>"
+        If ShowDownloadLink = True Then
+            .AddLine "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
+        End If
+        .AddLine "<script>"
+        If Len(DefaultFontColor) > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontColor = '" & DefaultFontColor & "';"
+        End If
+        If Len(DefaultFontFamily) > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & DefaultFontFamily & "';"
+        End If
+        If DefaultFontSize > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontSize = " & DefaultFontSize & ";"
+        End If
+        .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
+        .AddLine "    var myChart = new Chart(ctx, {"
+        
+        getHeader = .ToString
+    End With
     
 End Function
 
@@ -555,86 +557,87 @@ End Function
 Private Function getChartData() As String
 
     'Declarations
-    Dim strText As String
+    Dim strText As New BAC_StringBuilder
     Dim dataSet As BAC_DataSet
     Dim i As Integer
 
     Set dataSet = Me.DataSource.getData(Me.ChartType)
-
-    strText = strText & "        data: {" & vbCrLf
-    If ChartType <> chChartType.Bubble Then
-        If ChartType <> chChartType.Scatter Then
-            strText = strText & "            labels: [" & dataSet.Label(0) & "]," & vbCrLf
+    With strText
+        .AddLine "        data: {"
+        If ChartType <> chChartType.Bubble Then
+            If ChartType <> chChartType.Scatter Then
+                .AddLine "            labels: [" & dataSet.Label(0) & "],"
+            End If
         End If
-    End If
-    
-    strText = strText & "            datasets: [" & vbCrLf
-    For i = 0 To dataSet.DataCount - 1
-        Select Case ChartType
-            Case chChartType.Bubble, chChartType.Scatter
-                strText = strText & "               {label: '" & dataSet.Label(i) & "' ," & vbCrLf
-            Case Else
-                strText = strText & "               {label: '" & dataSet.DatasetName(i) & "' ," & vbCrLf
-        End Select
-        Select Case ChartType
-            Case chChartType.line, chChartType.Radar
-                If AreaFilled = False Then
-                    strText = strText & "                fill: false ," & vbCrLf
-                End If
-            Case Else
-                'Do Nothing
-        End Select
-                
-        strText = strText & "                data: [" & dataSet.Data(i) & "]," & vbCrLf
-        If m_IsSingleBarChart = True Then
-            strText = strText & "                backgroundColor: Chart['colorschemes']." & ColorSchema & "," & vbCrLf
-        End If
-        strText = strText & "                borderWidth: 1}," & vbCrLf
-    Next i
-    strText = BAC.Helper.CutTrailingComma(strText)
-    strText = strText & "             ]" & vbCrLf
-    strText = strText & "        }," & vbCrLf
-    
-    getChartData = strText
-
+        
+        .AddLine "            datasets: ["
+        For i = 0 To dataSet.DataCount - 1
+            Select Case ChartType
+                Case chChartType.Bubble, chChartType.Scatter
+                    .AddLine "               {label: '" & dataSet.Label(i) & "' ,"
+                Case Else
+                    .AddLine "               {label: '" & dataSet.DatasetName(i) & "' ,"
+            End Select
+            Select Case ChartType
+                Case chChartType.line, chChartType.Radar
+                    If AreaFilled = False Then
+                        .AddLine "                fill: false ,"
+                    End If
+                Case Else
+                    'Do Nothing
+            End Select
+                    
+            .AddLine "                data: [" & dataSet.Data(i) & "],"
+            If m_IsSingleBarChart = True Then
+                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorSchema & ","
+            End If
+            .AddLine "                borderWidth: 1},"
+        Next i
+        .CutTrailingComma
+        .AddLine "             ]"
+        .AddLine "        },"
+        
+        getChartData = .ToString
+    End With
 End Function
-
+    
 Private Function getChartOptions() As String
-
+    
     'Declarations
-    Dim strText As String
-    
-    strText = strText & "        options: {" & vbCrLf
-    strText = strText & Title.getTitle
-    strText = strText & Legend.getLegend
-    strText = strText & getScales
-    strText = strText & getPlugins
-    strText = BAC.Helper.CutTrailingComma(strText)
-    strText = strText & "        }" & vbCrLf
-    
-    getChartOptions = strText
-
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "        options: {"
+        .Add Title.getTitle
+        .Add Legend.getLegend
+        .Add getScales
+        .Add getPlugins
+        .CutTrailingComma
+        .AddLine "        }"
+        
+        getChartOptions = .ToString
+    End With
 End Function
 
 Private Function getFooter() As String
 
     'Declarations
-    Dim strText As String
-    
-    strText = strText & "    });" & vbCrLf
-    If ShowDownloadLink = True Then
-        strText = strText & "    function download() {" & vbCrLf
-        strText = strText & "        var myChart = document.getElementById('myChart');" & vbCrLf
-        strText = strText & "        var blob = myChart.msToBlob()" & vbCrLf
-        strText = strText & "        window.navigator.msSaveBlob(blob, 'Better-Access-Charts.png');" & vbCrLf
-        strText = strText & "    }" & vbCrLf
-    End If
-    strText = strText & "</script>" & vbCrLf
-    strText = strText & "</body>" & vbCrLf
-    strText = strText & "</html>"
-    
-    getFooter = strText
-    
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "    });"  '???
+        
+        If ShowDownloadLink = True Then
+            .AddLine "    function download() {"
+            .AddLine "        var myChart = document.getElementById('myChart');"
+            .AddLine "        var blob = myChart.msToBlob()"
+            .AddLine "        window.navigator.msSaveBlob(blob, 'Better-Access-Charts.png');"
+            .AddLine "    }"
+        End If
+        .AddLine "</script>"
+        .AddLine "</body>"
+        .AddLine "</html>"
+        
+        getFooter = strText.ToString
+    End With
 End Function
 
 Private Function getChartJsLocation() As String
@@ -712,85 +715,83 @@ End Sub
 Private Function getScales() As String
 
     'Declarations
-    Dim strText As String
-
-    strText = strText & "            scales: {" & vbCrLf
-    strText = strText & Me.YAxis.getAxis(Me.StackedChart)
-    strText = strText & Me.XAxis.getAxis(Me.StackedChart)
-    strText = BAC.Helper.CutTrailingComma(strText)
-    strText = strText & "            }," & vbCrLf
-    
-    getScales = strText
-    
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "            scales: {"
+        .Add Me.YAxis.getAxis(Me.StackedChart)
+        .Add Me.XAxis.getAxis(Me.StackedChart)
+        .CutTrailingComma
+        .AddLine "            },"
+        
+        getScales = .ToString
+    End With
 End Function
 
 Private Function getPlugins() As String
 
     'Declarations
-    Dim strText As String
-
-    strText = strText & "            plugins: {" & vbCrLf
-    strText = strText & getColorSchema
-    strText = strText & getDataLabel
-    strText = BAC.Helper.CutTrailingComma(strText)
-
-    strText = strText & "                }," & vbCrLf
-    
-    getPlugins = strText
-
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "            plugins: {"
+        .Add getColorSchema
+        .Add getDataLabel
+        .CutTrailingComma
+        .AddLine "                },"
+        
+        getPlugins = .ToString
+    End With
 End Function
 
 Private Function getColorSchema() As String
 
     'Declarations
-    Dim strText As String
-
-    strText = strText & "                colorschemes: {" & vbCrLf
-    strText = strText & "                    scheme: '" & ColorSchema & "'" & vbCrLf
-    strText = strText & "                    }," & vbCrLf
-    
-    getColorSchema = strText
-
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "                colorschemes: {"
+        .AddLine "                    scheme: '" & ColorSchema & "'"
+        .AddLine "                    },"
+        
+        getColorSchema = .ToString
+    End With
 End Function
 
 Private Function getDataLabel() As String
 
     'Declarations
-    Dim strText As String
-
-    If ShowDataLabel = True Then
-        If m_DataLabelNeeded = True Then
-            strText = strText & "                datalabels: {" & vbCrLf
-            If DataLabelAnchor > 0 Then
-                strText = strText & "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "'," & vbCrLf
-            End If
-            If Len(Nz(DataLabelFontColor, vbNullString)) > 0 Then
-                strText = strText & "                    color: '" & DataLabelFontColor & "'," & vbCrLf
-            End If
-            If m_DataLabelFontNeeded = True Then
-                strText = strText & "                    font: {" & vbCrLf
-                If Len(Nz(DataLabelFontFamily, vbNullString)) > 0 Then
-                    strText = strText & "                        family: '" & DataLabelFontFamily & "'," & vbCrLf
-                End If
-                If DataLabelFontSize > 0 Then
-                    strText = strText & "                        size: " & DataLabelFontSize & "," & vbCrLf
-                End If
-                If DataLabelFontIsBold = True Then
-                    strText = strText & "                        weight: 'bold'," & vbCrLf
-                End If
-                If DataLabelFontIsItalic = True Then
-                    strText = strText & "                        style: 'italic'," & vbCrLf
-                End If
-                strText = BAC.Helper.CutTrailingComma(strText)
-                strText = strText & "                        }," & vbCrLf
-            End If
-            strText = BAC.Helper.CutTrailingComma(strText)
-            strText = strText & "                    }," & vbCrLf
-        End If
-    End If
+    Dim strText As New BAC_StringBuilder
+    If Not ShowDataLabel Then Exit Function
+    If Not m_DataLabelNeeded = True Then Exit Function
     
-    getDataLabel = strText
-
+    With strText
+        .AddLine "                datalabels: {"
+        If DataLabelAnchor > 0 Then
+            .AddLine "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "',"
+        End If
+        If Len(Nz(DataLabelFontColor, vbNullString)) > 0 Then
+            .AddLine "                    color: '" & DataLabelFontColor & "',"
+        End If
+        If m_DataLabelFontNeeded = True Then
+            .AddLine "                    font: {"
+            If Len(Nz(DataLabelFontFamily, vbNullString)) > 0 Then
+                .AddLine "                        family: '" & DataLabelFontFamily & "',"
+            End If
+            If DataLabelFontSize > 0 Then
+                .AddLine "                        size: " & DataLabelFontSize & ","
+            End If
+            If DataLabelFontIsBold = True Then
+                .AddLine "                        weight: 'bold',"
+            End If
+            If DataLabelFontIsItalic = True Then
+                .AddLine "                        style: 'italic',"
+            End If
+            .CutTrailingComma
+            .AddLine "                        },"
+        End If
+        .CutTrailingComma
+        .AddLine "                    },"
+        
+        getDataLabel = .ToString
+    End With
 End Function
 
 
