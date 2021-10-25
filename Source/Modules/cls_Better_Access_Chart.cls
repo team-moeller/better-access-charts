@@ -65,6 +65,7 @@ End Enum
 
 Private WithEvents m_Control As WebBrowserControl
 Attribute m_Control.VB_VarHelpID = -1
+
 Private m_ChartType As chChartType
 Private m_DataSourceType As chDataSourceType
 Private m_DataSourceObjectName As String
@@ -75,8 +76,6 @@ Private m_DataSourceDataFieldName As Variant
 Private m_ShowTitle As Boolean
 Private m_TitlePostition As chPosition
 Private m_TitleText As String
-Private m_ShowLegend As Boolean
-Private m_LegendPostition As chPosition
 Private m_ShowYAxis As Boolean
 Private m_ShowXAxis As Boolean
 Private m_YAxisLabelText As String
@@ -122,6 +121,9 @@ Private m_YAxisTicksNeeded As Boolean
 Private m_XAxisTicksNeeded As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
+    
+Private m_Legend As BAC_Legend
+
     
 '### Initializer
 
@@ -239,19 +241,6 @@ Public Property Get TitleText() As String
     TitleText = m_TitleText
 End Property
 
-Public Property Let ShowLegend(ByVal This_ShowLegend As Boolean)
-    m_ShowLegend = This_ShowLegend
-End Property
-Public Property Get ShowLegend() As Boolean
-    ShowLegend = m_ShowLegend
-End Property
-
-Public Property Let LegendPostition(ByVal This_LegendPostition As chPosition)
-    m_LegendPostition = This_LegendPostition
-End Property
-Public Property Get LegendPostition() As chPosition
-    LegendPostition = m_LegendPostition
-End Property
 
 Public Property Let ShowYAxis(ByVal This_ShowYAxis As Boolean)
     m_ShowYAxis = This_ShowYAxis
@@ -538,10 +527,18 @@ Public Property Get SaveHtmlFileForDebugging() As Boolean
     SaveHtmlFileForDebugging = m_SaveHtmlFileForDebugging
 End Property
 
+'### Object Properties
+Public Property Get Legend() As BAC_Legend
+    Set Legend = m_Legend
+End Property
+
 
 '### Instancing
 
 Private Sub Class_Initialize()
+    
+    'create Sub Classes
+    Set m_Legend = New BAC_Legend
     
     'Set default values
     ChartType = chChartType.Bar
@@ -551,8 +548,8 @@ Private Sub Class_Initialize()
     TitlePostition = posTop
     TitleText = "My first Better Access Chart"
     'Legend
-    ShowLegend = False
-    LegendPostition = posRight
+    Legend.Show = False
+    Legend.Position = posRight
     'Axis
     ShowYAxis = True
     ShowXAxis = True
@@ -570,7 +567,6 @@ Private Sub Class_Initialize()
     DataLabelSource = chScriptSource.CDN
     DataLabelCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
     DataLabelPathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
-    
 End Sub
 
 Private Sub Class_Terminate()
@@ -746,7 +742,7 @@ Private Function getChartOptions() As String
     
     strText = strText & "        options: {" & vbCrLf
     strText = strText & getTitle
-    strText = strText & getLegend
+    strText = strText & Legend.getLegend
     strText = strText & getScales
     strText = strText & getPlugins
     strText = CutTrailingComma(strText)
@@ -975,7 +971,7 @@ Private Function getTitle() As String
     
     strText = strText & "            title: {" & vbCrLf
     strText = strText & "                display: true," & vbCrLf
-    strText = strText & "                position: " & getPositionString(TitlePostition) & "," & vbCrLf
+    strText = strText & "                position: " & BAC.Helper.getPositionString(TitlePostition) & "," & vbCrLf
     strText = strText & "                text: '" & TitleText & "'" & vbCrLf
     strText = strText & "            }," & vbCrLf
     
@@ -983,27 +979,6 @@ Private Function getTitle() As String
 
 End Function
 
-Private Function getLegend() As String
-
-    'Declarations
-    Dim strText As String
-
-    If ShowLegend = False Then
-        strText = strText & "            legend: {" & vbCrLf
-        strText = strText & "                display: false" & vbCrLf
-        strText = strText & "            }," & vbCrLf
-        getLegend = strText
-        Exit Function
-    End If
-
-    strText = strText & "            legend: {" & vbCrLf
-    strText = strText & "                display: true," & vbCrLf
-    strText = strText & "                position: " & getPositionString(LegendPostition) & vbCrLf
-    strText = strText & "            }," & vbCrLf
-
-    getLegend = strText
-
-End Function
 
 Private Function getScales() As String
 
@@ -1180,22 +1155,6 @@ Private Function getDataLabel() As String
 
 End Function
 
-Private Function getPositionString(ByVal ThisPosition As chPosition) As String
-
-    Select Case ThisPosition
-        Case chPosition.posTop
-            getPositionString = "'top'"
-        Case chPosition.posLeft
-            getPositionString = "'left'"
-        Case chPosition.posBottom
-            getPositionString = "'bottom'"
-        Case chPosition.posRight
-            getPositionString = "'right'"
-        Case Else
-            getPositionString = "'top'"
-    End Select
-
-End Function
 
 Private Function getDataLabelAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As String
 

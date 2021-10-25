@@ -606,8 +606,8 @@ Public Sub cmdCreateChart_Click()
     
     ' ## Legend
     'Define legend
-    myChart.ShowLegend = Forms!frm_Configuration.chkShowLegend
-    myChart.LegendPostition = Forms!frm_Configuration.fraLegendPosition
+    myChart.Legend.Show = Forms!frm_Configuration.chkShowLegend
+    myChart.Legend.Position = Forms!frm_Configuration.fraLegendPosition
     
     ' ## Axes
     'Define axes
