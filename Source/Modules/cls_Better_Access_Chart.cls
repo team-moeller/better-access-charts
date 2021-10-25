@@ -65,6 +65,7 @@ End Enum
 
 Private WithEvents m_Control As WebBrowserControl
 Attribute m_Control.VB_VarHelpID = -1
+Private m_IE As Object 'InternetExplorer
 
 Private m_ChartType As chChartType
 Private m_DataSourceType As chDataSourceType
@@ -143,6 +144,15 @@ Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
   End Select
   Me.DataSourceDataFieldName = DataFieldName
   Me.DataSourceLabelFieldName = LabelFieldName
+End Sub
+    
+'### Methods
+
+Public Sub UseIE()
+    Set m_IE = CreateObject("InternetExplorer.Application")
+    m_IE.Navigate "about:"
+    m_IE.Visible = True
+    Do While m_IE.ReadyState <> 4: DoEvents: Loop
 End Sub
     
 '### Properties
@@ -559,7 +569,13 @@ End Sub
 '### Public Methods
 
 Public Sub DrawChart()
-    
+    If Not m_IE Is Nothing Then
+        With m_IE.Document
+            .Open
+            .Write getHtmlString
+            .Close
+        End With
+    End If
     With Control.Object.Document
         .Open
         .Write getHtmlString
