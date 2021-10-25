@@ -562,19 +562,19 @@ Public Sub cmdCreateChart_Click()
     'Define datasource
     Select Case Forms!frm_Configuration.fraDataSource
         Case 1  'Table
-            myChart.DataSourceObjectName = "tbl_DemoData"
+            myChart.DataSource.ObjectName = "tbl_DemoData"
         Case 2  'Query
-            myChart.DataSourceObjectName = "qry_DemoData"
+            myChart.DataSource.ObjectName = "qry_DemoData"
         Case 3  'SQL-Statement
-            myChart.DataSourceSQLStatement = "Select * from tbl_DemoData order by pkid desc"
+            myChart.DataSource.SQLStatement = "Select * from tbl_DemoData order by pkid desc"
         Case 4  'Recordset
             Set rst = CurrentDb.OpenRecordset("Select * from tbl_DemoData order by pkid desc")
-            Set myChart.DataSourceRecordset = rst
+            Set myChart.DataSource.Recordset = rst
         Case 5  'None
             'Do Nothing
     End Select
-    myChart.DataSourceLabelFieldName = "DataLabel"
-    myChart.DataSourceDataFieldName = Array("Dataset1", "Dataset2", "Dataset3")
+    myChart.DataSource.LabelFieldName = "DataLabel"
+    myChart.DataSource.DataFieldNames = Array("Dataset1", "Dataset2", "Dataset3")
     
     ' ## Chart type
     'Define type of chart

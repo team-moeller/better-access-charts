@@ -19,13 +19,6 @@ Option Explicit
 
 '### Enums
 
-Public Enum chDataSourceType
-    dstDemo
-    dstRecordset
-    dstTableName
-    dstQueryName
-    dstSQLStament
-End Enum
 
 Public Enum chChartType
     line = 1
@@ -37,6 +30,14 @@ Public Enum chChartType
     PolarArea = 7
     Bubble = 8
     Scatter = 9
+End Enum
+
+Public Enum chDataSourceType
+    dstDemo
+    dstRecordset
+    dstTableName
+    dstQueryName
+    dstSQLStament
 End Enum
 
 Public Enum chPosition
@@ -68,12 +69,6 @@ Attribute m_Control.VB_VarHelpID = -1
 Private m_IE As Object 'InternetExplorer
 
 Private m_ChartType As chChartType
-Private m_DataSourceType As chDataSourceType
-Private m_DataSourceObjectName As String
-Private m_DataSourceSQLStatement As String
-Private m_DataSourceRecordset As DAO.Recordset
-Private m_DataSourceLabelFieldName As String
-Private m_DataSourceDataFieldName As Variant
 
 Private m_ChartJsSource As chScriptSource
 Private m_ChartJsCDN As String
@@ -101,14 +96,11 @@ Private m_DataLabelFontIsItalic As Boolean
 Private m_DataLabelFontIsBold As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
 
-Private m_DataLabels As Variant
-Private m_DataSetLabel As Variant
-Private m_DataSetData As Variant
-Private m_IsSingleDataset As Boolean
 Private m_IsSingleBarChart As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
     
+Private m_DataSource As BAC_DataSource
 Private m_XAxis     As BAC_Axis
 Private m_YAxis     As BAC_Axis
 Private m_Legend    As BAC_Legend
@@ -119,22 +111,14 @@ Private m_Title     As BAC_Title
 
 Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
                 Optional ByVal ChartType As chChartType = chChartType.Bar, _
-                Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
+                Optional ByVal DataSourceType As chDataSourceType, _
                 Optional ByVal DataSource As Variant, _
-                Optional ByVal DataFieldName As String, _
+                Optional ByVal DataFieldNames As Variant, _
                 Optional ByVal LabelFieldName As String)
   
   Set Me.Control = TheControl
   Me.ChartType = ChartType
-  Select Case DataSourceType
-    Case dstDemo:       DataSourceObjectName = ""
-    Case dstTableName:  DataSourceObjectName = DataSource
-    Case dstQueryName:  DataSourceObjectName = DataSource
-    Case dstSQLStament: DataSourceSQLStatement = DataSource
-    Case dstRecordset:  Set DataSourceRecordset = DataSource
-  End Select
-  Me.DataSourceDataFieldName = DataFieldName
-  Me.DataSourceLabelFieldName = LabelFieldName
+  Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
 End Sub
     
 '### Methods
@@ -171,54 +155,6 @@ End Property
 Public Property Get ChartType() As chChartType
     ChartType = m_ChartType
 End Property
-
-Public Property Let DataSourceObjectName(ByVal This_DataSourceObjectName As String)
-    m_DataSourceType = dstTableName
-    m_DataSourceObjectName = This_DataSourceObjectName
-End Property
-Public Property Get DataSourceObjectName() As String
-    DataSourceObjectName = m_DataSourceObjectName
-End Property
-
-Public Property Let DataSourceSQLStatement(ByVal This_DataSourceSQLStatement As String)
-    m_DataSourceType = dstSQLStament
-    m_DataSourceSQLStatement = This_DataSourceSQLStatement
-End Property
-Public Property Get DataSourceSQLStatement() As String
-    DataSourceSQLStatement = m_DataSourceSQLStatement
-End Property
-
-Public Property Set DataSourceRecordset(ByVal This_DataSourceRecordset As DAO.Recordset)
-    m_DataSourceType = dstRecordset
-    Set m_DataSourceRecordset = This_DataSourceRecordset
-End Property
-Public Property Get DataSourceRecordset() As DAO.Recordset
-    Set DataSourceRecordset = m_DataSourceRecordset
-End Property
-
-Public Property Let DataSourceLabelFieldName(ByVal This_DataSourceLabelFieldName As String)
-    m_DataSourceLabelFieldName = This_DataSourceLabelFieldName
-End Property
-Public Property Get DataSourceLabelFieldName() As String
-    DataSourceLabelFieldName = m_DataSourceLabelFieldName
-End Property
-
-Public Property Let DataSourceDataFieldName(ByRef This_DataSourceDataFieldName As Variant)
-    If IsArray(This_DataSourceDataFieldName) = True Then
-        m_DataSourceDataFieldName = This_DataSourceDataFieldName
-    Else
-        m_DataSourceDataFieldName = Array(This_DataSourceDataFieldName)
-    End If
-    If LBound(m_DataSourceDataFieldName) = UBound(m_DataSourceDataFieldName) Then
-        m_IsSingleDataset = True
-    Else
-        m_IsSingleDataset = False
-    End If
-End Property
-Public Property Get DataSourceDataFieldName() As Variant
-    DataSourceDataFieldName = m_DataSourceDataFieldName
-End Property
-
 
 
 Public Property Let ChartJsSource(ByVal This_ChartJsSource As chScriptSource)
@@ -424,6 +360,11 @@ Public Property Get SaveHtmlFileForDebugging() As Boolean
 End Property
 
 '### Object Properties
+
+Public Property Get DataSource() As BAC_DataSource
+    Set DataSource = m_DataSource
+End Property
+
 Public Property Get Legend() As BAC_Legend
     Set Legend = m_Legend
 End Property
@@ -446,6 +387,7 @@ End Property
 Private Sub Class_Initialize()
     
     'create Sub Classes
+    Set m_DataSource = New BAC_DataSource
     Set m_Legend = New BAC_Legend
     Set m_Title = New BAC_Title
     Set m_XAxis = New BAC_Axis
@@ -614,23 +556,25 @@ Private Function getChartData() As String
 
     'Declarations
     Dim strText As String
+    Dim dataSet As BAC_DataSet
     Dim i As Integer
 
-    Call getData
+    Set dataSet = Me.DataSource.getData(Me.ChartType)
 
     strText = strText & "        data: {" & vbCrLf
     If ChartType <> chChartType.Bubble Then
         If ChartType <> chChartType.Scatter Then
-            strText = strText & "            labels: [" & m_DataLabels & "]," & vbCrLf
+            strText = strText & "            labels: [" & dataSet.Label(0) & "]," & vbCrLf
         End If
     End If
+    
     strText = strText & "            datasets: [" & vbCrLf
-    For i = LBound(m_DataSetData) To UBound(m_DataSetData)
+    For i = 0 To dataSet.DataCount - 1
         Select Case ChartType
             Case chChartType.Bubble, chChartType.Scatter
-                strText = strText & "               {label: '" & m_DataLabels(i) & "' ," & vbCrLf
+                strText = strText & "               {label: '" & dataSet.Label(i) & "' ," & vbCrLf
             Case Else
-                strText = strText & "               {label: '" & m_DataSetLabel(i) & "' ," & vbCrLf
+                strText = strText & "               {label: '" & dataSet.DatasetName(i) & "' ," & vbCrLf
         End Select
         Select Case ChartType
             Case chChartType.line, chChartType.Radar
@@ -640,7 +584,8 @@ Private Function getChartData() As String
             Case Else
                 'Do Nothing
         End Select
-        strText = strText & "                data: [" & m_DataSetData(i) & "]," & vbCrLf
+                
+        strText = strText & "                data: [" & dataSet.Data(i) & "]," & vbCrLf
         If m_IsSingleBarChart = True Then
             strText = strText & "                backgroundColor: Chart['colorschemes']." & ColorSchema & "," & vbCrLf
         End If
@@ -746,125 +691,12 @@ Private Function getDataLabelLocation() As String
 
 End Function
 
-Private Sub getData()
-On Error GoTo Handle_Error
-
-    'Declarations
-    Dim db As DAO.Database
-    Dim rst As DAO.Recordset
-    Dim strLabels() As String
-    Dim strData() As String
-    Dim Field As Variant
-    Dim i As Integer
-    
-    Set db = CurrentDb()
-    
-    'Detect data source
-    If Len(DataSourceObjectName) > 0 Then
-        Set rst = db.OpenRecordset(DataSourceObjectName)
-    ElseIf Len(DataSourceSQLStatement) > 0 Then
-        Set rst = db.OpenRecordset(DataSourceSQLStatement)
-    ElseIf Not DataSourceRecordset Is Nothing Then
-        Set rst = DataSourceRecordset
-    Else
-        DataSourceDataFieldName = "Demo"
-    End If
-    
-    'Extract data and labels
-    Select Case ChartType
-        Case chChartType.Bubble
-            If Not rst Is Nothing Then
-                ReDim strLabels(rst.RecordCount - 1)
-                ReDim strData(rst.RecordCount - 1)
-                Do While Not rst.EOF
-                    strLabels(i) = rst(DataSourceLabelFieldName)
-                    strData(i) = "{x:" & Str$(Nz(rst(DataSourceDataFieldName(0)))) & _
-                                 ", y:" & Str$(Nz(rst(DataSourceDataFieldName(1)))) & _
-                                 ", r:" & Str$(Nz(rst(DataSourceDataFieldName(2)))) & "}"
-                    i = i + 1
-                    rst.MoveNext
-                Loop
-            Else
-                ReDim strLabels(0)
-                ReDim strData(0)
-                strLabels(0) = "Demo"
-                strData(0) = "{x:2,y:3,r:17}"
-            End If
-                'Cleanup result
-                m_DataLabels = strLabels()
-                m_DataSetData = strData()
-        Case chChartType.Scatter
-            If Not rst Is Nothing Then
-                ReDim strLabels(rst.RecordCount - 1)
-                ReDim strData(rst.RecordCount - 1)
-                Do While Not rst.EOF
-                    strLabels(i) = rst(DataSourceLabelFieldName)
-                    strData(i) = "{x:" & Str$(Nz(rst(DataSourceDataFieldName(0)))) & _
-                                 ", y:" & Str$(Nz(rst(DataSourceDataFieldName(1)))) & "}"
-                    i = i + 1
-                    rst.MoveNext
-                Loop
-            Else
-                ReDim strLabels(0)
-                ReDim strData(0)
-                strLabels(0) = "Demo"
-                strData(0) = "{x:2,y:3,r:17}"
-            End If
-                'Cleanup result
-                m_DataLabels = strLabels()
-                m_DataSetData = strData()
-        Case Else
-            ReDim strLabels(1)
-            ReDim strData(UBound(DataSourceDataFieldName))
-            If Not rst Is Nothing Then
-                Do While Not rst.EOF
-                    strLabels(0) = strLabels(0) & "'" & rst(DataSourceLabelFieldName) & "',"
-                    i = 0
-                    For Each Field In DataSourceDataFieldName
-                        strData(i) = strData(i) & Str$(Nz(rst(DataSourceDataFieldName(i)))) & ","
-                        i = i + 1
-                    Next Field
-                    rst.MoveNext
-                Loop
-            Else
-                strLabels(0) = "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
-                strData(0) = "2, 13, 7, 9, 12, 5,"
-            End If
-            'Cleanup result
-            DetermineSingleBarChart
-            ReDim m_DataSet1Colors(UBound(DataSourceDataFieldName))
-            m_DataLabels = BAC.Helper.CutTrailingComma(strLabels(0))
-            m_DataSetLabel = DataSourceDataFieldName()
-            i = 0
-            For Each Field In DataSourceDataFieldName()
-                strData(i) = BAC.Helper.CutTrailingComma(strData(i))
-                i = i + 1
-            Next Field
-            m_DataSetData = strData()
-    End Select
-    
-Exit_Here:
-    On Error Resume Next
-    rst.Close
-    Set rst = Nothing
-    Set db = Nothing
-    Exit Sub
-
-Handle_Error:
-    Select Case Err.Number
-        Case Else
-            MsgBox Err.Description, vbExclamation, Err.Number
-    End Select
-    Resume Exit_Here
-    Resume Next
-
-End Sub
 
 Private Sub DetermineSingleBarChart()
 
     Select Case m_ChartType
         Case chChartType.Bar, chChartType.HorizontalBar
-            If m_IsSingleDataset = True Then
+            If DataSource.IsSingleDataset = True Then
                 m_IsSingleBarChart = True
             Else
                 m_IsSingleBarChart = False
