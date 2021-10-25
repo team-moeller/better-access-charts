@@ -553,10 +553,10 @@ Public Sub cmdCreateChart_Click()
     End If
     
     'Create a new instance
-    Set myChart = BAC.Chart
+    Set myChart = BAC.Chart(Me.ctlWebbrowser)
     
     'Connect the web browser control to the class module
-    Set myChart.Control = Me.ctlWebbrowser
+    'Set myChart.Control = Me.ctlWebbrowser
     
     ' ## Datasource
     'Define datasource
