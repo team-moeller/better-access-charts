@@ -74,10 +74,7 @@ Private m_DataSourceSQLStatement As String
 Private m_DataSourceRecordset As DAO.Recordset
 Private m_DataSourceLabelFieldName As String
 Private m_DataSourceDataFieldName As Variant
-Private m_ShowYAxis As Boolean
-Private m_ShowXAxis As Boolean
-Private m_YAxisLabelText As String
-Private m_XAxisLabelText As String
+
 Private m_ChartJsSource As chScriptSource
 Private m_ChartJsCDN As String
 Private m_ChartJsPathFilename As String
@@ -91,12 +88,6 @@ Private m_ChartBackgroundColor As String
 Private m_DefaultFontColor As String
 Private m_DefaultFontFamily As String
 Private m_DefaultFontSize As Integer
-Private m_YAxisBeginAtZero As Boolean
-Private m_XAxisBeginAtZero As Boolean
-Private m_YAxisTicksMin As String
-Private m_YAxisTicksMax As String
-Private m_XAxisTicksMin As String
-Private m_XAxisTicksMax As String
 Private m_ShowDownloadLink As Boolean
 Private m_DataLabelSource As chScriptSource
 Private m_DataLabelCDN As String
@@ -115,11 +106,11 @@ Private m_DataSetLabel As Variant
 Private m_DataSetData As Variant
 Private m_IsSingleDataset As Boolean
 Private m_IsSingleBarChart As Boolean
-Private m_YAxisTicksNeeded As Boolean
-Private m_XAxisTicksNeeded As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
     
+Private m_XAxis     As BAC_Axis
+Private m_YAxis     As BAC_Axis
 Private m_Legend    As BAC_Legend
 Private m_Title     As BAC_Title
 
@@ -168,11 +159,11 @@ Public Property Let ChartType(ByVal This_ChartType As chChartType)
     m_ChartType = This_ChartType
     Select Case This_ChartType
         Case chChartType.Bar, chChartType.HorizontalBar, chChartType.line, chChartType.Bubble, chChartType.Scatter
-            ShowYAxis = True
-            ShowXAxis = True
+            YAxis.Show = True
+            XAxis.Show = True
         Case chChartType.Doughnut, chChartType.Pie, chChartType.PolarArea, chChartType.Radar
-            ShowYAxis = False
-            ShowXAxis = False
+            YAxis.Show = False
+            XAxis.Show = False
         Case Else
             'Do Nothing
     End Select
@@ -229,33 +220,6 @@ Public Property Get DataSourceDataFieldName() As Variant
 End Property
 
 
-Public Property Let ShowYAxis(ByVal This_ShowYAxis As Boolean)
-    m_ShowYAxis = This_ShowYAxis
-End Property
-Public Property Get ShowYAxis() As Boolean
-    ShowYAxis = m_ShowYAxis
-End Property
-
-Public Property Let ShowXAxis(ByVal This_ShowXAxis As Boolean)
-    m_ShowXAxis = This_ShowXAxis
-End Property
-Public Property Get ShowXAxis() As Boolean
-    ShowXAxis = m_ShowXAxis
-End Property
-
-Public Property Let YAxisLabelText(ByVal This_YAxisLabelText As String)
-    m_YAxisLabelText = This_YAxisLabelText
-End Property
-Public Property Get YAxisLabelText() As String
-    YAxisLabelText = m_YAxisLabelText
-End Property
-
-Public Property Let XAxisLabelText(ByVal This_XAxisLabelText As String)
-    m_XAxisLabelText = This_XAxisLabelText
-End Property
-Public Property Get XAxisLabelText() As String
-    XAxisLabelText = m_XAxisLabelText
-End Property
 
 Public Property Let ChartJsSource(ByVal This_ChartJsSource As chScriptSource)
     m_ChartJsSource = This_ChartJsSource
@@ -282,7 +246,12 @@ Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
     m_StackedChart = This_StackedChart
 End Property
 Public Property Get StackedChart() As Boolean
-    StackedChart = m_StackedChart
+    Select Case ChartType
+        Case chChartType.line, chChartType.Bar, chChartType.HorizontalBar
+            StackedChart = m_StackedChart
+        Case Else
+            StackedChart = False
+    End Select
 End Property
 
 Public Property Let ColorSchemaSource(ByVal This_ColorSchemaSource As chScriptSource)
@@ -346,66 +315,6 @@ Public Property Let DefaultFontSize(ByVal This_DefaultFontSize As Integer)
 End Property
 Public Property Get DefaultFontSize() As Integer
     DefaultFontSize = m_DefaultFontSize
-End Property
-
-Public Property Let YAxisBeginAtZero(ByVal This_YAxisBeginAtZero As Boolean)
-    m_YAxisBeginAtZero = This_YAxisBeginAtZero
-    If This_YAxisBeginAtZero = True Then
-        m_YAxisTicksNeeded = True
-    End If
-End Property
-Public Property Get YAxisBeginAtZero() As Boolean
-    YAxisBeginAtZero = m_YAxisBeginAtZero
-End Property
-
-Public Property Let XAxisBeginAtZero(ByVal This_XAxisBeginAtZero As Boolean)
-    m_XAxisBeginAtZero = This_XAxisBeginAtZero
-    If This_XAxisBeginAtZero = True Then
-        m_XAxisTicksNeeded = True
-    End If
-End Property
-Public Property Get XAxisBeginAtZero() As Boolean
-    XAxisBeginAtZero = m_XAxisBeginAtZero
-End Property
-
-Public Property Let YAxisTicksMin(ByVal This_YAxisTicksMin As String)
-    m_YAxisTicksMin = This_YAxisTicksMin
-    If Len(Nz(This_YAxisTicksMin, vbNullString)) > 0 Then
-        m_YAxisTicksNeeded = True
-    End If
-End Property
-Public Property Get YAxisTicksMin() As String
-    YAxisTicksMin = m_YAxisTicksMin
-End Property
-
-Public Property Let YAxisTicksMax(ByVal This_YAxisTicksMax As String)
-    m_YAxisTicksMax = This_YAxisTicksMax
-    If Len(Nz(This_YAxisTicksMax, vbNullString)) > 0 Then
-        m_YAxisTicksNeeded = True
-    End If
-End Property
-Public Property Get YAxisTicksMax() As String
-    YAxisTicksMax = m_YAxisTicksMax
-End Property
-
-Public Property Let XAxisTicksMin(ByVal This_XAxisTicksMin As String)
-    m_XAxisTicksMin = This_XAxisTicksMin
-    If Len(Nz(This_XAxisTicksMin, vbNullString)) > 0 Then
-        m_XAxisTicksNeeded = True
-    End If
-End Property
-Public Property Get XAxisTicksMin() As String
-    XAxisTicksMin = m_XAxisTicksMin
-End Property
-
-Public Property Let XAxisTicksMax(ByVal This_XAxisTicksMax As String)
-    m_XAxisTicksMax = This_XAxisTicksMax
-    If Len(Nz(This_XAxisTicksMax, vbNullString)) > 0 Then
-        m_XAxisTicksNeeded = True
-    End If
-End Property
-Public Property Get XAxisTicksMax() As String
-    XAxisTicksMax = m_XAxisTicksMax
 End Property
 
 Public Property Let ShowDownloadLink(ByVal This_ShowDownloadLink As Boolean)
@@ -523,6 +432,14 @@ Public Property Get Title() As BAC_Title
     Set Title = m_Title
 End Property
 
+Public Property Get XAxis() As BAC_Axis
+    Set XAxis = m_XAxis
+End Property
+
+Public Property Get YAxis() As BAC_Axis
+    Set YAxis = m_YAxis
+End Property
+
 
 '### Instancing
 
@@ -531,6 +448,10 @@ Private Sub Class_Initialize()
     'create Sub Classes
     Set m_Legend = New BAC_Legend
     Set m_Title = New BAC_Title
+    Set m_XAxis = New BAC_Axis
+    m_XAxis.Init apXAxis
+    Set m_YAxis = New BAC_Axis
+    m_YAxis.Init apYAxis
     
     'Set default values
     ChartType = chChartType.Bar
@@ -543,8 +464,8 @@ Private Sub Class_Initialize()
     Legend.Show = False
     Legend.Position = posRight
     'Axis
-    ShowYAxis = True
-    ShowXAxis = True
+    YAxis.Show = True
+    XAxis.Show = True
     'chart.js
     ChartJsSource = chScriptSource.CDN
     ChartJsCDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
@@ -962,100 +883,9 @@ Private Function getScales() As String
     Dim strText As String
 
     strText = strText & "            scales: {" & vbCrLf
-    strText = strText & "                yAxes: [{" & vbCrLf
-    strText = strText & "                    id: 'first-y-Axis'," & vbCrLf
+    strText = strText & Me.YAxis.getAxis(Me.StackedChart)
+    strText = strText & Me.XAxis.getAxis(Me.StackedChart)
     strText = BAC.Helper.CutTrailingComma(strText)
-        Select Case ChartType
-            Case chChartType.line, chChartType.Bar, chChartType.HorizontalBar
-                strText = strText & "                    stacked: true," & vbCrLf
-            Case Else
-                'Do Nothing
-        End Select
-    End If
-    If ShowYAxis = False Then
-        strText = strText & "                    display: false" & vbCrLf
-    Else
-        strText = strText & "                    display: true," & vbCrLf
-        If Len(YAxisLabelText) > 0 Then
-            strText = strText & "                    scaleLabel: {" & vbCrLf
-            strText = strText & "                       display: true," & vbCrLf
-            strText = strText & "                       labelString: '" & YAxisLabelText & "'" & vbCrLf
-            strText = strText & "                    }," & vbCrLf
-        End If
-        If m_YAxisTicksNeeded = True Then
-            strText = strText & "                    ticks: {" & vbCrLf
-        End If
-        If YAxisBeginAtZero = True Then
-            strText = strText & "                       beginAtZero: true," & vbCrLf
-        End If
-        If Len(YAxisTicksMin) > 0 Then
-            If IsNumeric(YAxisTicksMin) = True Then
-                strText = strText & "                       min: " & Str$(YAxisTicksMin) & " ," & vbCrLf
-            Else
-                strText = strText & "                       min: '" & YAxisTicksMin & "' ," & vbCrLf
-            End If
-        End If
-        If Len(YAxisTicksMax) > 0 Then
-            If IsNumeric(YAxisTicksMax) = True Then
-                strText = strText & "                       max: " & Str$(YAxisTicksMax) & " ," & vbCrLf
-            Else
-                strText = strText & "                       max: '" & YAxisTicksMax & "' ," & vbCrLf
-            End If
-        End If
-        strText = CutTrailingComma(strText)
-        If m_YAxisTicksNeeded = True Then
-            strText = strText & "                    }," & vbCrLf
-        End If
-    End If
-    strText = CutTrailingComma(strText)
-    strText = strText & "                    }]," & vbCrLf
-    strText = strText & "                xAxes: [{" & vbCrLf
-    strText = strText & "                    id: 'first-x-Axis'," & vbCrLf
-    If StackedChart = True Then
-        Select Case ChartType
-            Case chChartType.line, chChartType.Bar, chChartType.HorizontalBar
-                strText = strText & "                    stacked: true," & vbCrLf
-            Case Else
-                'Do Nothing
-        End Select
-    End If
-    If ShowXAxis = False Then
-        strText = strText & "                    display: false" & vbCrLf
-    Else
-        strText = strText & "                    display: true," & vbCrLf
-        If Len(XAxisLabelText) > 0 Then
-            strText = strText & "                    scaleLabel: {" & vbCrLf
-            strText = strText & "                        display: true," & vbCrLf
-            strText = strText & "                        labelString: '" & XAxisLabelText & "'" & vbCrLf
-            strText = strText & "                    }," & vbCrLf
-        End If
-        If m_XAxisTicksNeeded = True Then
-            strText = strText & "                    ticks: {" & vbCrLf
-        End If
-        If XAxisBeginAtZero = True Then
-            strText = strText & "                       beginAtZero: true," & vbCrLf
-        End If
-        If Len(XAxisTicksMin) > 0 Then
-            If IsNumeric(XAxisTicksMin) = True Then
-                strText = strText & "                       min: " & Str$(XAxisTicksMin) & " ," & vbCrLf
-            Else
-                strText = strText & "                       min: '" & XAxisTicksMin & "' ," & vbCrLf
-            End If
-        End If
-        If Len(XAxisTicksMax) > 0 Then
-            If IsNumeric(XAxisTicksMax) = True Then
-                strText = strText & "                       max: " & Str$(XAxisTicksMax) & " ," & vbCrLf
-            Else
-                strText = strText & "                       max: '" & XAxisTicksMax & "' ," & vbCrLf
-            End If
-        End If
-        strText = CutTrailingComma(strText)
-        If m_XAxisTicksNeeded = True Then
-            strText = strText & "                    }," & vbCrLf
-        End If
-    End If
-    strText = CutTrailingComma(strText)
-    strText = strText & "                    }]" & vbCrLf
     strText = strText & "            }," & vbCrLf
     
     getScales = strText

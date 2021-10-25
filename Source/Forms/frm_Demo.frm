@@ -611,16 +611,16 @@ Public Sub cmdCreateChart_Click()
     
     ' ## Axes
     'Define axes
-    myChart.ShowYAxis = Forms!frm_Configuration.chkShowYAxis
-    myChart.ShowXAxis = Forms!frm_Configuration.chkShowXAxis
-    myChart.YAxisLabelText = Nz(Forms!frm_Configuration.txtLabelYAxis, vbNullString)
-    myChart.XAxisLabelText = Nz(Forms!frm_Configuration.txtLabelXAxis, vbNullString)
-    myChart.YAxisBeginAtZero = Nz(Forms!frm_Configuration.chkYAxisBeginAtZero, False)
-    myChart.XAxisBeginAtZero = Nz(Forms!frm_Configuration.chkXAxisBeginAtZero, False)
-    myChart.YAxisTicksMin = Nz(Forms!frm_Configuration.txtYAxisTicksMin, vbNullString)
-    myChart.YAxisTicksMax = Nz(Forms!frm_Configuration.txtYAxisTicksMax, vbNullString)
-    myChart.XAxisTicksMin = Nz(Forms!frm_Configuration.txtXAxisTicksMin, vbNullString)
-    myChart.XAxisTicksMax = Nz(Forms!frm_Configuration.txtXAxisTicksMax, vbNullString)
+    myChart.YAxis.Show = Forms!frm_Configuration.chkShowYAxis
+    myChart.XAxis.Show = Forms!frm_Configuration.chkShowXAxis
+    myChart.YAxis.LabelText = Nz(Forms!frm_Configuration.txtLabelYAxis, vbNullString)
+    myChart.XAxis.LabelText = Nz(Forms!frm_Configuration.txtLabelXAxis, vbNullString)
+    myChart.YAxis.BeginAtZero = Nz(Forms!frm_Configuration.chkYAxisBeginAtZero, False)
+    myChart.XAxis.BeginAtZero = Nz(Forms!frm_Configuration.chkXAxisBeginAtZero, False)
+    myChart.YAxis.TicksMin = Nz(Forms!frm_Configuration.txtYAxisTicksMin, vbNullString)
+    myChart.YAxis.TicksMax = Nz(Forms!frm_Configuration.txtYAxisTicksMax, vbNullString)
+    myChart.XAxis.TicksMin = Nz(Forms!frm_Configuration.txtXAxisTicksMin, vbNullString)
+    myChart.XAxis.TicksMax = Nz(Forms!frm_Configuration.txtXAxisTicksMax, vbNullString)
     
     ' ## Label
     'Define data labels
