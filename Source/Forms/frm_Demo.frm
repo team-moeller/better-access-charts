@@ -588,9 +588,9 @@ Public Sub cmdCreateChart_Click()
     myChart.ChartBackgroundColor = Nz(Forms!frm_Configuration.txtChartBackgroundColor, vbNullString)
     
     'Default font
-    myChart.DefaultFontColor = Nz(Forms!frm_Configuration.txtDefaultFontColor, vbNullString)
-    myChart.DefaultFontFamily = Nz(Forms!frm_Configuration.txtDefaultFontFamily, vbNullString)
-    myChart.DefaultFontSize = Nz(Forms!frm_Configuration.txtDefaultFontSize, 0)
+    myChart.Default.FontColor = Nz(Forms!frm_Configuration.txtDefaultFontColor, vbNullString)
+    myChart.Default.FontFamily = Nz(Forms!frm_Configuration.txtDefaultFontFamily, vbNullString)
+    myChart.Default.FontSize = Nz(Forms!frm_Configuration.txtDefaultFontSize, 0)
     
     'Download link
     myChart.ShowDownloadLink = Forms!frm_Configuration.chkShowDownloadLink

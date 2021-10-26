@@ -73,9 +73,6 @@ Private m_ChartType As chChartType
 Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
 Private m_ChartBackgroundColor As String
-Private m_DefaultFontColor As String
-Private m_DefaultFontFamily As String
-Private m_DefaultFontSize As Integer
 Private m_ShowDownloadLink As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
 
@@ -83,6 +80,7 @@ Private m_IsSingleBarChart As Boolean
     
 Private m_ChartJS     As BAC_ChartJS
 Private m_DataSource  As BAC_DataSource
+Private m_Defaults    As BAC_Defaults
 Private m_XAxis       As BAC_Axis
 Private m_YAxis       As BAC_Axis
 Private m_Legend      As BAC_Legend
@@ -168,27 +166,6 @@ Public Property Get ChartBackgroundColor() As String
     ChartBackgroundColor = m_ChartBackgroundColor
 End Property
 
-Public Property Let DefaultFontColor(ByVal This_DefaultFontColor As String)
-    m_DefaultFontColor = This_DefaultFontColor
-End Property
-Public Property Get DefaultFontColor() As String
-    DefaultFontColor = m_DefaultFontColor
-End Property
-
-Public Property Let DefaultFontFamily(ByVal This_DefaultFontFamily As String)
-    m_DefaultFontFamily = This_DefaultFontFamily
-End Property
-Public Property Get DefaultFontFamily() As String
-    DefaultFontFamily = m_DefaultFontFamily
-End Property
-
-Public Property Let DefaultFontSize(ByVal This_DefaultFontSize As Integer)
-    m_DefaultFontSize = This_DefaultFontSize
-End Property
-Public Property Get DefaultFontSize() As Integer
-    DefaultFontSize = m_DefaultFontSize
-End Property
-
 Public Property Let ShowDownloadLink(ByVal This_ShowDownloadLink As Boolean)
     m_ShowDownloadLink = This_ShowDownloadLink
 End Property
@@ -211,6 +188,10 @@ End Property
 
 Public Property Get DataSource() As BAC_DataSource
     Set DataSource = m_DataSource
+End Property
+
+Public Property Get Default() As BAC_Defaults
+  Set Default = m_Defaults
 End Property
 
 Public Property Get Legend() As BAC_Legend
@@ -237,6 +218,7 @@ Private Sub Class_Initialize()
     'create Sub Classes
     Set m_ChartJS = New BAC_ChartJS
     Set m_DataSource = New BAC_DataSource
+    Set m_Defaults = New BAC_Defaults
     Set m_Legend = New BAC_Legend
     Set m_Title = New BAC_Title
     Set m_XAxis = New BAC_Axis
@@ -355,14 +337,14 @@ Private Function getHeader() As String
             .AddLine "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
         End If
         .AddLine "<script>"
-        If Len(DefaultFontColor) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontColor = '" & DefaultFontColor & "';"
+        If Len(Default.FontColor) > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontColor = '" & Default.FontColor & "';"
         End If
-        If Len(DefaultFontFamily) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & DefaultFontFamily & "';"
+        If Len(Default.FontFamily) > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & Default.FontFamily & "';"
         End If
-        If DefaultFontSize > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontSize = " & DefaultFontSize & ";"
+        If Default.FontSize > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontSize = " & Default.FontSize & ";"
         End If
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"
@@ -543,8 +525,6 @@ Private Function getPlugins() As String
         getPlugins = .ToString
     End With
 End Function
-
-
 
 
 '### Private Helper Methods
