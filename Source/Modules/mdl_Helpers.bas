@@ -2,95 +2,31 @@ Attribute VB_Name = "mdl_Helpers"
 Option Compare Database
 Option Explicit
 
-#If VBA7 Then
-    Private Declare PtrSafe Function MakeSureDirectoryPathExists Lib "imagehlp.dll" (ByVal lpPath As String) As Long
-#Else
-    Private Declare Function MakeSureDirectoryPathExists Lib "imagehlp.dll" (ByVal lpPath As String) As Long
-#End If
 
 Public Function SaveChartjsToDisk() As Boolean
-    
-    If SaveFileToDisk("Chart.min.js", CurrentProject.Path) = True Then
-        SaveChartjsToDisk = True
-    Else
-        SaveChartjsToDisk = False
-    End If
-
+    SaveChartjsToDisk = BAC.Helper.SaveFileToDisk("Chart.min.js", CurrentProject.Path)
 End Function
 
 Public Function SaveChartjsPluginColorSchemesToDisk() As Boolean
-    
-    If SaveFileToDisk("chartjs-plugin-colorschemes.min.js", CurrentProject.Path) = False Then
-        SaveChartjsPluginColorSchemesToDisk = False
-    ElseIf SaveFileToDisk("colorschemes.brewer.js", CurrentProject.Path) = False Then
-        SaveChartjsPluginColorSchemesToDisk = False
-    ElseIf SaveFileToDisk("colorschemes.office.js", CurrentProject.Path) = False Then
-        SaveChartjsPluginColorSchemesToDisk = False
-    ElseIf SaveFileToDisk("colorschemes.tableau.js", CurrentProject.Path) = False Then
-        SaveChartjsPluginColorSchemesToDisk = False
-    Else
-        SaveChartjsPluginColorSchemesToDisk = True
-    End If
-
+    With BAC.Helper
+      If .SaveFileToDisk("chartjs-plugin-colorschemes.min.js", CurrentProject.Path) = False Then
+          SaveChartjsPluginColorSchemesToDisk = False
+      ElseIf .SaveFileToDisk("colorschemes.brewer.js", CurrentProject.Path) = False Then
+          SaveChartjsPluginColorSchemesToDisk = False
+      ElseIf .SaveFileToDisk("colorschemes.office.js", CurrentProject.Path) = False Then
+          SaveChartjsPluginColorSchemesToDisk = False
+      ElseIf .SaveFileToDisk("colorschemes.tableau.js", CurrentProject.Path) = False Then
+          SaveChartjsPluginColorSchemesToDisk = False
+      Else
+          SaveChartjsPluginColorSchemesToDisk = True
+      End If
+    End With
 End Function
 
 Public Function SaveChartjsPluginDataLabelsToDisk() As Boolean
-    
-    If SaveFileToDisk("chartjs-plugin-datalabels.min.js", CurrentProject.Path) = True Then
-        SaveChartjsPluginDataLabelsToDisk = True
-    Else
-        SaveChartjsPluginDataLabelsToDisk = False
-    End If
-
+    SaveChartjsPluginDataLabelsToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-datalabels.min.js", CurrentProject.Path)
 End Function
 
-Private Function SaveFileToDisk(ByVal FileName As String, ByVal Path As String) As Boolean
-On Error GoTo Handle_Error
-
-    'Declarations
-    Dim cnn As ADODB.Connection
-    Dim rst As ADODB.Recordset
-    Dim FileID As Long
-    Dim Buffer() As Byte
-    Dim FileLen As Long
-    Dim Success As Boolean
-
-    Set cnn = CurrentProject.Connection
-    Set rst = New ADODB.Recordset
-    rst.Open "Select FileData FROM USys_FileData Where FileName='" & FileName & "'", _
-        cnn, adOpenDynamic, adLockOptimistic
-
-    FileID = FreeFile
-    FileLen = Nz(LenB(rst!FileData), 0)
-
-    If FileLen > 0 Then
-        ReDim Buffer(FileLen)
-        MakeSureDirectoryPathExists (Path & "\")
-        Open Path & "\" & FileName For Binary Access Write As FileID
-        Buffer = rst!FileData.GetChunk(FileLen)
-        Put FileID, , Buffer
-        Close FileID
-    End If
-    Success = True
-
-Exit_Here:
-    On Error Resume Next
-    rst.Close
-    Set rst = Nothing
-    Set cnn = Nothing
-    SaveFileToDisk = Success
-    Exit Function
-
-Handle_Error:
-    Select Case Err.Number
-        Case 0
-            Resume
-        Case Else
-            MsgBox Err.Description, vbExclamation, Err.Number
-            Resume Exit_Here
-    End Select
-
-End Function
 
 Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As String, _
                          ByVal TargetFieldName As String, ByVal PrimaryKeyValue As Long, _
@@ -105,18 +41,18 @@ Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As Str
     Dim strSQL As String
     Dim rst As ADODB.Recordset
     Dim FileID As Long
-    Dim PathFileName As String
+    Dim PathFilename As String
     Dim Buffer() As Byte
     Dim FileSize As Long
 
     If InCurrentProjectPath = True Then
-        PathFileName = CurrentProject.Path & "\" & FileName
+        PathFilename = CurrentProject.Path & "\" & FileName
     Else
-        PathFileName = FileName
+        PathFilename = FileName
     End If
 
-    If Dir$(PathFileName) = vbNullString Then
-        MsgBox "Thge file '" & PathFileName & "' does not exist."
+    If Dir$(PathFilename) = vbNullString Then
+        MsgBox "Thge file '" & PathFilename & "' does not exist."
         Exit Function
     End If
 
@@ -129,9 +65,9 @@ Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As Str
     rst.Open strSQL, cnn, adOpenDynamic, adLockOptimistic
     FileID = FreeFile
 
-    Open PathFileName For Binary Access Read Lock Read Write As FileID
+    Open PathFilename For Binary Access Read Lock Read Write As FileID
 
-    FileSize = FileLen(PathFileName)
+    FileSize = FileLen(PathFilename)
     ReDim Buffer(FileSize)
     rst(TargetFieldName) = Null
     Get FileID, , Buffer
