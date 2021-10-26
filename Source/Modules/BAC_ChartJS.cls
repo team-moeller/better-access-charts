@@ -14,11 +14,23 @@ Private m_CDN As String
 Private m_PathFilename As String
 
 Private m_ColorSchemes As BAC_ChartJS_Plugin_ColorSchemes
+Private m_DataLabel    As BAC_ChartJS_Plugin_DataLabel
+
+' ### Initialize
+
+Private Sub Class_Initialize()
+  Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
+  Set m_DataLabel = New BAC_ChartJS_Plugin_DataLabel
+End Sub
 
 ' ### Object Properties
 
 Public Property Get Plugin_ColorSchema() As BAC_ChartJS_Plugin_ColorSchemes
   Set Plugin_ColorSchema = m_ColorSchemes
+End Property
+
+Public Property Get Plugin_DataLabel() As BAC_ChartJS_Plugin_DataLabel
+  Set Plugin_DataLabel = m_DataLabel
 End Property
 
 ' ### Properties
@@ -71,6 +83,3 @@ Friend Function getLocation() As String
 
 End Function
 
-Private Sub Class_Initialize()
-  Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
-End Sub

@@ -624,13 +624,15 @@ Public Sub cmdCreateChart_Click()
     
     ' ## Label
     'Define data labels
-    myChart.ShowDataLabel = Forms!frm_Configuration.chkShowDataLabel
-    myChart.DataLabelAnchor = Nz(Forms!frm_Configuration.cboDataLabelAnchor, 0)
-    myChart.DataLabelFontColor = Nz(Forms!frm_Configuration.txtDataLabelFontColor, vbNullString)
-    myChart.DataLabelFontFamily = Nz(Forms!frm_Configuration.txtDataLabelFontFamily, vbNullString)
-    myChart.DataLabelFontSize = Nz(Forms!frm_Configuration.txtDataLabelFontSize, 0)
-    myChart.DataLabelFontIsBold = Forms!frm_Configuration.chkDataLabelFontIsBold
-    myChart.DataLabelFontIsItalic = Forms!frm_Configuration.chkDataLabelFontIsItalic
+    With myChart.ChartJS.Plugin_DataLabel
+      .Show = Forms!frm_Configuration.chkShowDataLabel
+      .Anchor = Nz(Forms!frm_Configuration.cboDataLabelAnchor, 0)
+      .FontColor = Nz(Forms!frm_Configuration.txtDataLabelFontColor, vbNullString)
+      .FontFamily = Nz(Forms!frm_Configuration.txtDataLabelFontFamily, vbNullString)
+      .FontSize = Nz(Forms!frm_Configuration.txtDataLabelFontSize, 0)
+      .FontIsBold = Forms!frm_Configuration.chkDataLabelFontIsBold
+      .FontIsItalic = Forms!frm_Configuration.chkDataLabelFontIsItalic
+    End With
     
     ' ## Scripts
     'Define chart.js
@@ -646,9 +648,11 @@ Public Sub cmdCreateChart_Click()
     End With
     
     'Define data label plug in
-    myChart.DataLabelSource = Forms!frm_Configuration.cboDataLabelSource
-    myChart.DataLabelCDN = Forms!frm_Configuration.txtDataLabelCDN
-    myChart.DataLabelPathFilename = Forms!frm_Configuration.txtDataLabelPathFilename
+    With myChart.ChartJS.Plugin_DataLabel
+      .Source = Forms!frm_Configuration.cboDataLabelSource
+      .CDN = Forms!frm_Configuration.txtDataLabelCDN
+      .PathFilename = Forms!frm_Configuration.txtDataLabelPathFilename
+    End With
     
     'Draw chart
     myChart.DrawChart

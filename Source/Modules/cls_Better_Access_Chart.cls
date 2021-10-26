@@ -77,21 +77,9 @@ Private m_DefaultFontColor As String
 Private m_DefaultFontFamily As String
 Private m_DefaultFontSize As Integer
 Private m_ShowDownloadLink As Boolean
-Private m_DataLabelSource As chScriptSource
-Private m_DataLabelCDN As String
-Private m_DataLabelPathFilename As String
-Private m_ShowDataLabel As Boolean
-Private m_DataLabelAnchor As chDataLabelAnchor
-Private m_DataLabelFontColor As String
-Private m_DataLabelFontFamily As String
-Private m_DataLabelFontSize As Integer
-Private m_DataLabelFontIsItalic As Boolean
-Private m_DataLabelFontIsBold As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
 
 Private m_IsSingleBarChart As Boolean
-Private m_DataLabelNeeded As Boolean
-Private m_DataLabelFontNeeded As Boolean
     
 Private m_ChartJS     As BAC_ChartJS
 Private m_DataSource  As BAC_DataSource
@@ -208,98 +196,6 @@ Public Property Get ShowDownloadLink() As Boolean
     ShowDownloadLink = m_ShowDownloadLink
 End Property
 
-Public Property Let DataLabelSource(ByVal This_DataLabelSource As chScriptSource)
-    m_DataLabelSource = This_DataLabelSource
-End Property
-Public Property Get DataLabelSource() As chScriptSource
-    DataLabelSource = m_DataLabelSource
-End Property
-
-Public Property Let DataLabelCDN(ByVal This_DataLabelCDN As String)
-    m_DataLabelCDN = This_DataLabelCDN
-End Property
-Public Property Get DataLabelCDN() As String
-    DataLabelCDN = m_DataLabelCDN
-End Property
-
-Public Property Let DataLabelPathFilename(ByVal This_DataLabelPathFilename As String)
-    m_DataLabelPathFilename = This_DataLabelPathFilename
-End Property
-Public Property Get DataLabelPathFilename() As String
-    DataLabelPathFilename = m_DataLabelPathFilename
-End Property
-
-Public Property Let ShowDataLabel(ByVal This_ShowDataLabel As Boolean)
-    m_ShowDataLabel = This_ShowDataLabel
-End Property
-Public Property Get ShowDataLabel() As Boolean
-    ShowDataLabel = m_ShowDataLabel
-End Property
-
-Public Property Let DataLabelAnchor(ByVal This_DataLabelAnchor As chDataLabelAnchor)
-    m_DataLabelAnchor = This_DataLabelAnchor
-    If This_DataLabelAnchor > 0 Then
-        m_DataLabelNeeded = True
-    End If
-End Property
-Public Property Get DataLabelAnchor() As chDataLabelAnchor
-    DataLabelAnchor = m_DataLabelAnchor
-End Property
-
-Public Property Let DataLabelFontColor(ByVal This_DataLabelFontColor As String)
-    m_DataLabelFontColor = This_DataLabelFontColor
-    If Len(Nz(This_DataLabelFontColor, vbNullString)) > 0 Then
-        m_DataLabelNeeded = True
-    End If
-End Property
-Public Property Get DataLabelFontColor() As String
-    DataLabelFontColor = m_DataLabelFontColor
-End Property
-
-Public Property Let DataLabelFontFamily(ByVal This_DataLabelFontFamily As String)
-    m_DataLabelFontFamily = This_DataLabelFontFamily
-    If Len(Nz(This_DataLabelFontFamily, vbNullString)) > 0 Then
-        m_DataLabelNeeded = True
-        m_DataLabelFontNeeded = True
-    End If
-End Property
-Public Property Get DataLabelFontFamily() As String
-    DataLabelFontFamily = m_DataLabelFontFamily
-End Property
-
-Public Property Let DataLabelFontSize(ByVal This_DataLabelFontSize As Integer)
-    m_DataLabelFontSize = This_DataLabelFontSize
-    If This_DataLabelFontSize > 0 Then
-        m_DataLabelNeeded = True
-        m_DataLabelFontNeeded = True
-    End If
-End Property
-Public Property Get DataLabelFontSize() As Integer
-    DataLabelFontSize = m_DataLabelFontSize
-End Property
-
-Public Property Let DataLabelFontIsItalic(ByVal This_DataLabelFontIsItalic As Boolean)
-    m_DataLabelFontIsItalic = This_DataLabelFontIsItalic
-    If m_DataLabelFontIsItalic = True Then
-        m_DataLabelNeeded = True
-        m_DataLabelFontNeeded = True
-    End If
-End Property
-Public Property Get DataLabelFontIsItalic() As Boolean
-    DataLabelFontIsItalic = m_DataLabelFontIsItalic
-End Property
-
-Public Property Let DataLabelFontIsBold(ByVal This_DataLabelFontIsBold As Boolean)
-    m_DataLabelFontIsBold = This_DataLabelFontIsBold
-    If m_DataLabelFontIsBold = True Then
-        m_DataLabelNeeded = True
-        m_DataLabelFontNeeded = True
-    End If
-End Property
-Public Property Get DataLabelFontIsBold() As Boolean
-    DataLabelFontIsBold = m_DataLabelFontIsBold
-End Property
-
 Public Property Let SaveHtmlFileForDebugging(ByVal This_SaveHtmlFileForDebugging As Boolean)
     m_SaveHtmlFileForDebugging = This_SaveHtmlFileForDebugging
 End Property
@@ -374,9 +270,11 @@ Private Sub Class_Initialize()
       .ColorSchema = "brewer.Paired12"
     End With
     'DataLabel Plug-In
-    DataLabelSource = chScriptSource.CDN
-    DataLabelCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
-    DataLabelPathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
+    With ChartJS.Plugin_DataLabel
+      .Source = chScriptSource.CDN
+      .CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
+      .PathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
+    End With
 End Sub
 
 Private Sub Class_Terminate()
@@ -441,8 +339,8 @@ Private Function getHeader() As String
         .AddLine "    <style>body{margin:0;padding:0;}</style>"
         .AddLine "    <script src=" & ChartJS.getLocation & "></script>"
         .AddLine "    <script src=" & ChartJS.Plugin_ColorSchema.getLocation & "></script>"
-        If ShowDataLabel = True Then
-            .AddLine "    <script src=" & getDataLabelLocation & "></script>"
+        If ChartJS.Plugin_DataLabel.Show = True Then
+            .AddLine "    <script src=" & ChartJS.Plugin_DataLabel.getDataLabelLocation & "></script>"
         End If
         .AddLine "</head>"
         .AddLine "<body>"
@@ -597,23 +495,6 @@ End Function
 
 
 
-Private Function getDataLabelLocation() As String
-
-    'Declarations
-    Dim strText As String
-    
-    Select Case DataLabelSource
-        Case chScriptSource.CDN
-            strText = """" & DataLabelCDN & """"
-        Case chScriptSource.LocalFile
-            strText = """" & DataLabelPathFilename & """"
-        Case Else
-            'Do nothing
-    End Select
-            
-    getDataLabelLocation = strText
-
-End Function
 
 
 Private Sub DetermineSingleBarChart()
@@ -655,7 +536,7 @@ Private Function getPlugins() As String
     With strText
         .AddLine "            plugins: {"
         .Add ChartJS.Plugin_ColorSchema.getColorSchema
-        .Add getDataLabel
+        .Add ChartJS.Plugin_DataLabel.getDataLabel
         .CutTrailingComma
         .AddLine "                },"
         
@@ -664,60 +545,6 @@ Private Function getPlugins() As String
 End Function
 
 
-Private Function getDataLabel() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    If Not ShowDataLabel Then Exit Function
-    If Not m_DataLabelNeeded = True Then Exit Function
-    
-    With strText
-        .AddLine "                datalabels: {"
-        If DataLabelAnchor > 0 Then
-            .AddLine "                    anchor: '" & getDataLabelAnchorString(DataLabelAnchor) & "',"
-        End If
-        If Len(Nz(DataLabelFontColor, vbNullString)) > 0 Then
-            .AddLine "                    color: '" & DataLabelFontColor & "',"
-        End If
-        If m_DataLabelFontNeeded = True Then
-            .AddLine "                    font: {"
-            If Len(Nz(DataLabelFontFamily, vbNullString)) > 0 Then
-                .AddLine "                        family: '" & DataLabelFontFamily & "',"
-            End If
-            If DataLabelFontSize > 0 Then
-                .AddLine "                        size: " & DataLabelFontSize & ","
-            End If
-            If DataLabelFontIsBold = True Then
-                .AddLine "                        weight: 'bold',"
-            End If
-            If DataLabelFontIsItalic = True Then
-                .AddLine "                        style: 'italic',"
-            End If
-            .CutTrailingComma
-            .AddLine "                        },"
-        End If
-        .CutTrailingComma
-        .AddLine "                    },"
-        
-        getDataLabel = .ToString
-    End With
-End Function
-
-
-Private Function getDataLabelAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As String
-
-    Select Case ThisAnchor
-        Case chDataLabelAnchor.anStart
-            getDataLabelAnchorString = "start"
-        Case chDataLabelAnchor.anCenter
-            getDataLabelAnchorString = "center"
-        Case chDataLabelAnchor.anEnd
-            getDataLabelAnchorString = "end"
-        Case Else
-            getDataLabelAnchorString = "center"
-    End Select
-    
-End Function
 
 
 '### Private Helper Methods
