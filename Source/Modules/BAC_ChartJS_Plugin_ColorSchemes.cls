@@ -2,26 +2,26 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "BAC_ChartJS"
+Attribute VB_Name = "BAC_ChartJS_Plugin_ColorSchemes"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 Option Explicit
 
+Private m_ColorSchema As String
 Private m_Source As chScriptSource
 Private m_CDN As String
 Private m_PathFilename As String
 
-Private m_ColorSchemes As BAC_ChartJS_Plugin_ColorSchemes
-
-' ### Object Properties
-
-Public Property Get Plugin_ColorSchema() As BAC_ChartJS_Plugin_ColorSchemes
-  Set Plugin_ColorSchema = m_ColorSchemes
-End Property
-
 ' ### Properties
+
+Public Property Let ColorSchema(ByVal This_ColorSchema As String)
+    m_ColorSchema = This_ColorSchema
+End Property
+Public Property Get ColorSchema() As String
+    ColorSchema = m_ColorSchema
+End Property
 
 Public Property Let Source(ByVal This_Source As chScriptSource)
     m_Source = This_Source
@@ -46,11 +46,6 @@ End Property
 
 ' ### Public Functions
 
-Public Function SaveToDisk() As Boolean
-    SaveToDisk = BAC.Helper.SaveFileToDisk("Chart.min.js", CurrentProject.Path)
-End Function
-
-
 ' ### Generator Function
 
 Friend Function getLocation() As String
@@ -71,6 +66,16 @@ Friend Function getLocation() As String
 
 End Function
 
-Private Sub Class_Initialize()
-  Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
-End Sub
+Friend Function getColorSchema() As String
+
+    'Declarations
+    Dim strText As New BAC_StringBuilder
+    With strText
+        .AddLine "                colorschemes: {"
+        .AddLine "                    scheme: '" & ColorSchema & "'"
+        .AddLine "                    },"
+        
+        getColorSchema = .ToString
+    End With
+End Function
+

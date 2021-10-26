@@ -71,10 +71,6 @@ Private m_IE As Object 'InternetExplorer
 Private m_ChartType As chChartType
 
 Private m_StackedChart As Boolean
-Private m_ColorSchemaSource As chScriptSource
-Private m_ColorSchemaCDN As String
-Private m_ColorSchemaPathFilename As String
-Private m_ColorSchema As String
 Private m_AreaFilled As Boolean
 Private m_ChartBackgroundColor As String
 Private m_DefaultFontColor As String
@@ -168,33 +164,7 @@ Public Property Get StackedChart() As Boolean
     End Select
 End Property
 
-Public Property Let ColorSchemaSource(ByVal This_ColorSchemaSource As chScriptSource)
-    m_ColorSchemaSource = This_ColorSchemaSource
-End Property
-Public Property Get ColorSchemaSource() As chScriptSource
-    ColorSchemaSource = m_ColorSchemaSource
-End Property
 
-Public Property Let ColorSchemaCDN(ByVal This_ColorSchemaCDN As String)
-    m_ColorSchemaCDN = This_ColorSchemaCDN
-End Property
-Public Property Get ColorSchemaCDN() As String
-    ColorSchemaCDN = m_ColorSchemaCDN
-End Property
-
-Public Property Let ColorSchemaPathFilename(ByVal This_ColorSchemaPathFilename As String)
-    m_ColorSchemaPathFilename = This_ColorSchemaPathFilename
-End Property
-Public Property Get ColorSchemaPathFilename() As String
-    ColorSchemaPathFilename = m_ColorSchemaPathFilename
-End Property
-
-Public Property Let ColorSchema(ByVal This_ColorSchema As String)
-    m_ColorSchema = This_ColorSchema
-End Property
-Public Property Get ColorSchema() As String
-    ColorSchema = m_ColorSchema
-End Property
 
 Public Property Let AreaFilled(ByVal This_AreaFilled As Boolean)
     m_AreaFilled = This_AreaFilled
@@ -396,11 +366,13 @@ Private Sub Class_Initialize()
     ChartJS.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
     ChartJS.PathFilename = CurrentProject.Path & "\Chart.min.js"
     'ColorSchemes Plug-In
-    ColorSchemaSource = chScriptSource.CDN
-    ColorSchemaCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"
-    ColorSchemaPathFilename = CurrentProject.Path & "\chartjs-plugin-colorschemes.min.js"
-    'ColorSchema
-    ColorSchema = "brewer.Paired12"
+    With ChartJS.Plugin_ColorSchema
+      .Source = chScriptSource.CDN
+      .CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"
+      .PathFilename = CurrentProject.Path & "\chartjs-plugin-colorschemes.min.js"
+      'ColorSchema
+      .ColorSchema = "brewer.Paired12"
+    End With
     'DataLabel Plug-In
     DataLabelSource = chScriptSource.CDN
     DataLabelCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
@@ -468,7 +440,7 @@ Private Function getHeader() As String
         .AddLine "    <title>Chart</title>"
         .AddLine "    <style>body{margin:0;padding:0;}</style>"
         .AddLine "    <script src=" & ChartJS.getLocation & "></script>"
-        .AddLine "    <script src=" & getColorSchemaLocation & "></script>"
+        .AddLine "    <script src=" & ChartJS.Plugin_ColorSchema.getLocation & "></script>"
         If ShowDataLabel = True Then
             .AddLine "    <script src=" & getDataLabelLocation & "></script>"
         End If
@@ -572,7 +544,7 @@ Private Function getChartData() As String
                     
             .AddLine "                data: [" & dataSet.Data(i) & "],"
             If m_IsSingleBarChart = True Then
-                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorSchema & ","
+                .AddLine "                backgroundColor: Chart['colorschemes']." & ChartJS.Plugin_ColorSchema.ColorSchema & ","
             End If
             .AddLine "                borderWidth: 1},"
         Next i
@@ -624,23 +596,6 @@ Private Function getFooter() As String
 End Function
 
 
-Private Function getColorSchemaLocation() As String
-
-    'Declarations
-    Dim strText As String
-    
-    Select Case ColorSchemaSource
-        Case chScriptSource.CDN
-            strText = """" & ColorSchemaCDN & """"
-        Case chScriptSource.LocalFile
-            strText = """" & ColorSchemaPathFilename & """"
-        Case Else
-            'Do nothing
-    End Select
-            
-    getColorSchemaLocation = strText
-
-End Function
 
 Private Function getDataLabelLocation() As String
 
@@ -699,7 +654,7 @@ Private Function getPlugins() As String
     Dim strText As New BAC_StringBuilder
     With strText
         .AddLine "            plugins: {"
-        .Add getColorSchema
+        .Add ChartJS.Plugin_ColorSchema.getColorSchema
         .Add getDataLabel
         .CutTrailingComma
         .AddLine "                },"
@@ -708,18 +663,6 @@ Private Function getPlugins() As String
     End With
 End Function
 
-Private Function getColorSchema() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    With strText
-        .AddLine "                colorschemes: {"
-        .AddLine "                    scheme: '" & ColorSchema & "'"
-        .AddLine "                    },"
-        
-        getColorSchema = .ToString
-    End With
-End Function
 
 Private Function getDataLabel() As String
 

@@ -584,7 +584,7 @@ Public Sub cmdCreateChart_Click()
     
     ' ## Chart
     'Color schema
-    myChart.ColorSchema = Forms!frm_Configuration.cboChartColorSchema
+    myChart.ChartJS.Plugin_ColorSchema.ColorSchema = Forms!frm_Configuration.cboChartColorSchema
     myChart.ChartBackgroundColor = Nz(Forms!frm_Configuration.txtChartBackgroundColor, vbNullString)
     
     'Default font
@@ -639,9 +639,11 @@ Public Sub cmdCreateChart_Click()
     myChart.ChartJS.PathFilename = Forms!frm_Configuration.txtChartJsPathFilename
     
     'Define color scheme plug-in
-    myChart.ColorSchemaSource = Forms!frm_Configuration.cboColorSchemaSource
-    myChart.ColorSchemaCDN = Forms!frm_Configuration.txtColorSchemaCDN
-    myChart.ColorSchemaPathFilename = Forms!frm_Configuration.txtColorSchemaPathFilename
+    With myChart.ChartJS.Plugin_ColorSchema
+      .Source = Forms!frm_Configuration.cboColorSchemaSource
+      .CDN = Forms!frm_Configuration.txtColorSchemaCDN
+      .PathFilename = Forms!frm_Configuration.txtColorSchemaPathFilename
+    End With
     
     'Define data label plug in
     myChart.DataLabelSource = Forms!frm_Configuration.cboDataLabelSource
