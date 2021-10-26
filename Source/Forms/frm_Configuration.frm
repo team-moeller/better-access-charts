@@ -2835,7 +2835,7 @@ Private Sub cmdSaveChartJs_Click()
     End If
 End Sub
 Private Sub cmdSaveColorSchema_Click()
-    If SaveChartjsPluginColorSchemesToDisk = True Then
+    If BAC.Chart.ChartJS.Plugin_DataLabel.SavePluginToDisk = True Then
         MsgBox "Files related to color schemes plug-in " & vbCrLf & _
                "successfully saved to hdd.", vbInformation, "Better Access Charts"
     Else
@@ -2843,7 +2843,7 @@ Private Sub cmdSaveColorSchema_Click()
     End If
 End Sub
 Private Sub cmdSaveDataLabel_Click()
-    If SaveChartjsPluginDataLabelsToDisk = True Then
+    If BAC.Chart.ChartJS.Plugin_DataLabel.SavePluginToDisk = True Then
         MsgBox "Chart.js data label plug-in " & vbCrLf & _
                "successfully saved to hdd.", vbInformation, "Better Access Charts"
     Else

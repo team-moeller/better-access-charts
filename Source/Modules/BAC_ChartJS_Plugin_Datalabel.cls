@@ -23,6 +23,8 @@ Private m_FontIsBold As Boolean
 Private m_Needed As Boolean
 Private m_FontNeeded As Boolean
 
+' ### Properties
+
 Public Property Let Source(ByVal This_Source As chScriptSource)
     m_Source = This_Source
 End Property
@@ -114,6 +116,13 @@ End Property
 Public Property Get FontIsBold() As Boolean
     FontIsBold = m_FontIsBold
 End Property
+
+' ### Public Function
+
+Public Function SavePluginToDisk() As Boolean
+    SavePluginToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-datalabels.min.js", CurrentProject.Path)
+End Function
+
 
 ' ### Generator Function
 

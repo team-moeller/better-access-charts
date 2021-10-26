@@ -46,6 +46,23 @@ End Property
 
 ' ### Public Functions
 
+Public Function SavePluginToDisk() As Boolean
+    With BAC.Helper
+        If .SaveFileToDisk("chartjs-plugin-colorschemes.min.js", CurrentProject.Path) = False Then
+            SavePluginToDisk = False
+        ElseIf .SaveFileToDisk("colorschemes.brewer.js", CurrentProject.Path) = False Then
+            SavePluginToDisk = False
+        ElseIf .SaveFileToDisk("colorschemes.office.js", CurrentProject.Path) = False Then
+            SavePluginToDisk = False
+        ElseIf .SaveFileToDisk("colorschemes.tableau.js", CurrentProject.Path) = False Then
+            SavePluginToDisk = False
+        Else
+            SavePluginToDisk = True
+        End If
+    End With
+End Function
+
+
 ' ### Generator Function
 
 Friend Function getLocation() As String

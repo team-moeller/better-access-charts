@@ -2,29 +2,6 @@ Attribute VB_Name = "mdl_Helpers"
 Option Compare Database
 Option Explicit
 
-
-
-Public Function SaveChartjsPluginColorSchemesToDisk() As Boolean
-    With BAC.Helper
-      If .SaveFileToDisk("chartjs-plugin-colorschemes.min.js", CurrentProject.Path) = False Then
-          SaveChartjsPluginColorSchemesToDisk = False
-      ElseIf .SaveFileToDisk("colorschemes.brewer.js", CurrentProject.Path) = False Then
-          SaveChartjsPluginColorSchemesToDisk = False
-      ElseIf .SaveFileToDisk("colorschemes.office.js", CurrentProject.Path) = False Then
-          SaveChartjsPluginColorSchemesToDisk = False
-      ElseIf .SaveFileToDisk("colorschemes.tableau.js", CurrentProject.Path) = False Then
-          SaveChartjsPluginColorSchemesToDisk = False
-      Else
-          SaveChartjsPluginColorSchemesToDisk = True
-      End If
-    End With
-End Function
-
-Public Function SaveChartjsPluginDataLabelsToDisk() As Boolean
-    SaveChartjsPluginDataLabelsToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-datalabels.min.js", CurrentProject.Path)
-End Function
-
-
 Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As String, _
                          ByVal TargetFieldName As String, ByVal PrimaryKeyValue As Long, _
                          ByVal FileName As String, Optional ByVal InCurrentProjectPath As Boolean) As Long
