@@ -3,9 +3,6 @@ Option Compare Database
 Option Explicit
 
 
-Public Function SaveChartjsToDisk() As Boolean
-    SaveChartjsToDisk = BAC.Helper.SaveFileToDisk("Chart.min.js", CurrentProject.Path)
-End Function
 
 Public Function SaveChartjsPluginColorSchemesToDisk() As Boolean
     With BAC.Helper

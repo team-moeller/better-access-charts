@@ -36,6 +36,13 @@ Public Property Get PathFilename() As String
     PathFilename = m_PathFilename
 End Property
 
+' ### Public Functions
+
+Public Function SaveToDisk() As Boolean
+    SaveToDisk = BAC.Helper.SaveFileToDisk("Chart.min.js", CurrentProject.Path)
+End Function
+
+
 ' ### Generator Function
 
 Friend Function getLocation() As String
