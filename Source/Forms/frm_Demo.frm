@@ -634,9 +634,9 @@ Public Sub cmdCreateChart_Click()
     
     ' ## Scripts
     'Define chart.js
-    myChart.ChartJsSource = Forms!frm_Configuration.cboChartJsSource
-    myChart.ChartJsCDN = Forms!frm_Configuration.txtChartJsCDN
-    myChart.ChartJsPathFilename = Forms!frm_Configuration.txtChartJsPathFilename
+    myChart.ChartJS.Source = Forms!frm_Configuration.cboChartJsSource
+    myChart.ChartJS.CDN = Forms!frm_Configuration.txtChartJsCDN
+    myChart.ChartJS.PathFilename = Forms!frm_Configuration.txtChartJsPathFilename
     
     'Define color scheme plug-in
     myChart.ColorSchemaSource = Forms!frm_Configuration.cboColorSchemaSource

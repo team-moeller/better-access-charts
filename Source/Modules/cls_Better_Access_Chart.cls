@@ -70,9 +70,6 @@ Private m_IE As Object 'InternetExplorer
 
 Private m_ChartType As chChartType
 
-Private m_ChartJsSource As chScriptSource
-Private m_ChartJsCDN As String
-Private m_ChartJsPathFilename As String
 Private m_StackedChart As Boolean
 Private m_ColorSchemaSource As chScriptSource
 Private m_ColorSchemaCDN As String
@@ -100,11 +97,12 @@ Private m_IsSingleBarChart As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
     
-Private m_DataSource As BAC_DataSource
-Private m_XAxis     As BAC_Axis
-Private m_YAxis     As BAC_Axis
-Private m_Legend    As BAC_Legend
-Private m_Title     As BAC_Title
+Private m_ChartJS     As BAC_ChartJS
+Private m_DataSource  As BAC_DataSource
+Private m_XAxis       As BAC_Axis
+Private m_YAxis       As BAC_Axis
+Private m_Legend      As BAC_Legend
+Private m_Title       As BAC_Title
 
     
 '### Initializer
@@ -157,26 +155,6 @@ Public Property Get ChartType() As chChartType
 End Property
 
 
-Public Property Let ChartJsSource(ByVal This_ChartJsSource As chScriptSource)
-    m_ChartJsSource = This_ChartJsSource
-End Property
-Public Property Get ChartJsSource() As chScriptSource
-    ChartJsSource = m_ChartJsSource
-End Property
-
-Public Property Let ChartJsCDN(ByVal This_ChartJsCDN As String)
-    m_ChartJsCDN = This_ChartJsCDN
-End Property
-Public Property Get ChartJsCDN() As String
-    ChartJsCDN = m_ChartJsCDN
-End Property
-
-Public Property Let ChartJsPathFilename(ByVal This_ChartJsPathFilename As String)
-    m_ChartJsPathFilename = This_ChartJsPathFilename
-End Property
-Public Property Get ChartJsPathFilename() As String
-    ChartJsPathFilename = m_ChartJsPathFilename
-End Property
 
 Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
     m_StackedChart = This_StackedChart
@@ -361,6 +339,10 @@ End Property
 
 '### Object Properties
 
+Public Property Get ChartJS() As BAC_ChartJS
+  Set ChartJS = m_ChartJS
+End Property
+
 Public Property Get DataSource() As BAC_DataSource
     Set DataSource = m_DataSource
 End Property
@@ -387,6 +369,7 @@ End Property
 Private Sub Class_Initialize()
     
     'create Sub Classes
+    Set m_ChartJS = New BAC_ChartJS
     Set m_DataSource = New BAC_DataSource
     Set m_Legend = New BAC_Legend
     Set m_Title = New BAC_Title
@@ -409,9 +392,9 @@ Private Sub Class_Initialize()
     YAxis.Show = True
     XAxis.Show = True
     'chart.js
-    ChartJsSource = chScriptSource.CDN
-    ChartJsCDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
-    ChartJsPathFilename = CurrentProject.Path & "\Chart.min.js"
+    ChartJS.Source = chScriptSource.CDN
+    ChartJS.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    ChartJS.PathFilename = CurrentProject.Path & "\Chart.min.js"
     'ColorSchemes Plug-In
     ColorSchemaSource = chScriptSource.CDN
     ColorSchemaCDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"
@@ -484,7 +467,7 @@ Private Function getHeader() As String
         .AddLine "    <meta http-equiv=""X-UA-Compatible"" content=""IE=Edge""/>"
         .AddLine "    <title>Chart</title>"
         .AddLine "    <style>body{margin:0;padding:0;}</style>"
-        .AddLine "    <script src=" & getChartJsLocation & "></script>"
+        .AddLine "    <script src=" & ChartJS.getLocation & "></script>"
         .AddLine "    <script src=" & getColorSchemaLocation & "></script>"
         If ShowDataLabel = True Then
             .AddLine "    <script src=" & getDataLabelLocation & "></script>"
@@ -640,23 +623,6 @@ Private Function getFooter() As String
     End With
 End Function
 
-Private Function getChartJsLocation() As String
-
-    'Declarations
-    Dim strText As String
-    
-    Select Case ChartJsSource
-        Case chScriptSource.CDN
-            strText = """" & ChartJsCDN & """"
-        Case chScriptSource.LocalFile
-            strText = """" & ChartJsPathFilename & """"
-        Case Else
-            'Do nothing
-    End Select
-            
-    getChartJsLocation = strText
-
-End Function
 
 Private Function getColorSchemaLocation() As String
 
