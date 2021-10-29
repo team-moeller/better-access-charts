@@ -7,6 +7,13 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+'###########################################################################################
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
+'###########################################################################################
+
+Option Compare Database
 Option Explicit
 
 Public Enum chCartesianAxis
@@ -24,11 +31,13 @@ Private m_TicksMax As String
 
 Private m_TicksNeeded As Boolean
 
+
 ' ### Initializer
 
 Friend Sub Init(ByVal Axis As chCartesianAxis)
     m_Axis = Axis
 End Sub
+
 
 ' ### Properties
 
@@ -56,7 +65,6 @@ Public Property Get BeginAtZero() As Boolean
     BeginAtZero = m_BeginAtZero
 End Property
 
-
 Public Property Let TicksMin(ByVal This_TicksMin As String)
     m_TicksMin = This_TicksMin
     If Len(Nz(This_TicksMin, vbNullString)) > 0 Then
@@ -76,6 +84,7 @@ End Property
 Public Property Get TicksMax() As String
     TicksMax = m_TicksMax
 End Property
+
 
 ' ### Generator Function
 Friend Function getAxis(ByVal StackedChart As Boolean)
@@ -133,5 +142,6 @@ Friend Function getAxis(ByVal StackedChart As Boolean)
         strText = Replace(strText, "ï¿½", "y")
     End If
     getAxis = strText
+    
 End Function
 

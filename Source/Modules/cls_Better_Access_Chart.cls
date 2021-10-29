@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020, 2021 Thomas Möller                                                  #
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.31.12  published: 24.10.2021                                                  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -85,30 +85,7 @@ Private m_XAxis       As BAC_Axis
 Private m_YAxis       As BAC_Axis
 Private m_Legend      As BAC_Legend
 Private m_Title       As BAC_Title
-
     
-'### Initializer
-
-Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
-                Optional ByVal ChartType As chChartType = chChartType.Bar, _
-                Optional ByVal DataSourceType As chDataSourceType, _
-                Optional ByVal DataSource As Variant, _
-                Optional ByVal DataFieldNames As Variant, _
-                Optional ByVal LabelFieldName As String)
-  
-  Set Me.Control = TheControl
-  Me.ChartType = ChartType
-  Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
-End Sub
-    
-'### Methods
-
-Public Sub UseIE()
-    Set m_IE = CreateObject("InternetExplorer.Application")
-    m_IE.Navigate "about:"
-    m_IE.Visible = True
-    Do While m_IE.ReadyState <> 4: DoEvents: Loop
-End Sub
     
 '### Properties
 
@@ -136,8 +113,6 @@ Public Property Get ChartType() As chChartType
     ChartType = m_ChartType
 End Property
 
-
-
 Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
     m_StackedChart = This_StackedChart
 End Property
@@ -149,8 +124,6 @@ Public Property Get StackedChart() As Boolean
             StackedChart = False
     End Select
 End Property
-
-
 
 Public Property Let AreaFilled(ByVal This_AreaFilled As Boolean)
     m_AreaFilled = This_AreaFilled
@@ -179,6 +152,7 @@ End Property
 Public Property Get SaveHtmlFileForDebugging() As Boolean
     SaveHtmlFileForDebugging = m_SaveHtmlFileForDebugging
 End Property
+
 
 '### Object Properties
 
@@ -266,6 +240,15 @@ End Sub
 
 '### Public Methods
 
+Public Sub UseIE()
+
+    Set m_IE = CreateObject("InternetExplorer.Application")
+    m_IE.Navigate "about:"
+    m_IE.Visible = True
+    Do While m_IE.ReadyState <> 4: DoEvents: Loop
+    
+End Sub
+
 Public Sub DrawChart()
     If Not m_IE Is Nothing Then
         With m_IE.Document
@@ -280,6 +263,21 @@ Public Sub DrawChart()
         .Close
     End With
     
+End Sub
+
+    
+'### Initializer
+
+Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
+                Optional ByVal ChartType As chChartType = chChartType.Bar, _
+                Optional ByVal DataSourceType As chDataSourceType, _
+                Optional ByVal DataSource As Variant, _
+                Optional ByVal DataFieldNames As Variant, _
+                Optional ByVal LabelFieldName As String)
+  
+  Set Me.Control = TheControl
+  Me.ChartType = ChartType
+  Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
 End Sub
 
 
@@ -475,10 +473,6 @@ Private Function getFooter() As String
     End With
 End Function
 
-
-
-
-
 Private Sub DetermineSingleBarChart()
 
     Select Case m_ChartType
@@ -493,8 +487,6 @@ Private Sub DetermineSingleBarChart()
     End Select
 
 End Sub
-
-
 
 Private Function getScales() As String
 
@@ -528,7 +520,6 @@ End Function
 
 
 '### Private Helper Methods
-
 
 Private Sub saveHtmlFile(ByVal strContent As String)
 

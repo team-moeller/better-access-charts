@@ -7,6 +7,12 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+'###########################################################################################
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
+'###########################################################################################
+
 Option Compare Database
 Option Explicit
 

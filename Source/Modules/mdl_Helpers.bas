@@ -1,4 +1,10 @@
 Attribute VB_Name = "mdl_Helpers"
+'###########################################################################################
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
+'###########################################################################################
+
 Option Compare Database
 Option Explicit
 
@@ -79,13 +85,19 @@ Public Sub PrepareAndExportClassModule()
     'Declarations
     Dim Version As String
     Dim CodeLine As String
+    Dim vbc As Object
     
     Version = DLast("V_Number", "tbl_VersionHistory")
     CodeLine = "'# Version " & Version & "  published: " & Format$(Date, "dd.mm.yyyy") & "                                                  #"
-    Application.VBE.ActiveVBProject.VBComponents("cls_Better_Access_Chart").CodeModule.InsertLines 4, CodeLine
-    Application.VBE.ActiveVBProject.VBComponents("cls_Better_Access_Chart").CodeModule.DeleteLines 5, 1
     
-    Application.VBE.ActiveVBProject.VBComponents("cls_better_access_Chart").Export CurrentProject.Path & "\cls_Better_Access_Chart.cls"
+    For Each vbc In Application.VBE.ActiveVBProject.VBComponents
+        If vbc.Type = 1 Or vbc.Type = 2 Then
+            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.InsertLines 4, CodeLine
+            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.DeleteLines 5, 1
+    
+            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).Export CurrentProject.Path & "\" & vbc.Name & IIf(vbc.Type = 2, ".cls", ".bas")
+        End If
+    Next
     
     MsgBox "Export done", vbInformation, "Better Access Charts"
 

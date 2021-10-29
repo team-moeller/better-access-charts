@@ -7,12 +7,20 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+'###########################################################################################
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
+'###########################################################################################
+
+Option Compare Database
 Option Explicit
 
 Private m_ColorSchema As String
 Private m_Source As chScriptSource
 Private m_CDN As String
 Private m_PathFilename As String
+
 
 ' ### Properties
 
@@ -43,6 +51,7 @@ End Property
 Public Property Get PathFilename() As String
     PathFilename = m_PathFilename
 End Property
+
 
 ' ### Public Functions
 

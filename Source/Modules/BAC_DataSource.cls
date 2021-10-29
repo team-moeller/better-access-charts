@@ -7,6 +7,13 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+'###########################################################################################
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
+'###########################################################################################
+
+Option Compare Database
 Option Explicit
 
 Private m_Type As chDataSourceType
@@ -27,15 +34,17 @@ Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
                 Optional ByVal LabelFieldName As String)
   
   Select Case DataSourceType
-    Case dstDemo:       Me.ObjectName = ""
-    Case dstTableName:  Me.ObjectName = DataSource
-    Case dstQueryName:  Me.ObjectName = DataSource
-    Case dstSQLStament: Me.SQLStatement = DataSource
-    Case dstRecordset:  Set Me.Recordset = DataSource
+        Case dstDemo:       Me.ObjectName = ""
+        Case dstTableName:  Me.ObjectName = DataSource
+        Case dstQueryName:  Me.ObjectName = DataSource
+        Case dstSQLStament: Me.SQLStatement = DataSource
+        Case dstRecordset:  Set Me.Recordset = DataSource
   End Select
   Me.DataFieldNames = DataFieldNames
   Me.LabelFieldName = LabelFieldName
+  
 End Sub
+
 
 ' ### Properties
 
@@ -97,6 +106,7 @@ Public Property Get IsSingleDataset() As Boolean
     IsSingleDataset = m_IsSingleDataset
 End Property
 
+
 ' ### Generator Function
 
 Friend Function getData(ByVal ChartType As chChartType) As BAC_DataSet
@@ -110,7 +120,6 @@ On Error GoTo Handle_Error
     Dim dataSet As New BAC_DataSet
     Dim Field As Variant
     Dim i As Integer
-    
     
     Set db = CurrentDb()
     

@@ -7,6 +7,13 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+'###########################################################################################
+'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
+'# Version 1.31.12  published: 29.10.2021                                                  #
+'###########################################################################################
+
+Option Compare Database
 Option Explicit
 
 Private m_Source As chScriptSource
@@ -14,14 +21,16 @@ Private m_CDN As String
 Private m_PathFilename As String
 
 Private m_ColorSchemes As BAC_ChartJS_Plugin_ColorSchemes
-Private m_DataLabel    As BAC_ChartJS_Plugin_DataLabel
+Private m_DataLabel    As BAC_ChartJS_Plugin_Datalabel
+
 
 ' ### Initialize
 
 Private Sub Class_Initialize()
   Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
-  Set m_DataLabel = New BAC_ChartJS_Plugin_DataLabel
+  Set m_DataLabel = New BAC_ChartJS_Plugin_Datalabel
 End Sub
+
 
 ' ### Object Properties
 
@@ -29,9 +38,10 @@ Public Property Get Plugin_ColorSchema() As BAC_ChartJS_Plugin_ColorSchemes
   Set Plugin_ColorSchema = m_ColorSchemes
 End Property
 
-Public Property Get Plugin_DataLabel() As BAC_ChartJS_Plugin_DataLabel
+Public Property Get Plugin_DataLabel() As BAC_ChartJS_Plugin_Datalabel
   Set Plugin_DataLabel = m_DataLabel
 End Property
+
 
 ' ### Properties
 
@@ -55,6 +65,7 @@ End Property
 Public Property Get PathFilename() As String
     PathFilename = m_PathFilename
 End Property
+
 
 ' ### Public Functions
 
