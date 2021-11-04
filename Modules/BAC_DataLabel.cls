@@ -103,12 +103,10 @@ End Property
 
 Friend Function getDataLabel() As String
 
-    'Declarations
-    Dim strText As New BAC_StringBuilder
     If Not Me.Show Then Exit Function
     If Not m_Needed = True Then Exit Function
     
-    With strText
+    With New BAC_StringBuilder
         .AddLine "                datalabels: {"
         If Me.Anchor > 0 Then
             .AddLine "                    anchor: '" & getAnchorString(Me.Anchor) & "',"

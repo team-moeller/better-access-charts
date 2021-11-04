@@ -28,10 +28,7 @@ End Property
 ' ### Generator Function
 
 Friend Function getColorSchema() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    With strText
+    With New BAC_StringBuilder
         .AddLine "                colorschemes: {"
         .AddLine "                    scheme: '" & ColorSchema & "'"
         .AddLine "                    },"

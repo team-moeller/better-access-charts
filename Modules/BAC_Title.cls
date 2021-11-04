@@ -47,22 +47,20 @@ End Property
 
 Friend Function getTitle() As String
 
-    'Declarations
-    Dim strText As String
-
-    If Me.Show = False Then
-        strText = strText & "            title: {" & vbCrLf
-        strText = strText & "                display: false," & vbCrLf
-        strText = strText & "            }," & vbCrLf
-    Else
-        strText = strText & "            title: {" & vbCrLf
-        strText = strText & "                display: true," & vbCrLf
-        strText = strText & "                position: " & BAC.Helper.getPositionString(Me.Position) & "," & vbCrLf
-        strText = strText & "                text: '" & Me.Text & "'" & vbCrLf
-        strText = strText & "            }," & vbCrLf
-    End If
-    
-    getTitle = strText
-
+    With New BAC_StringBuilder
+        If Me.Show = False Then
+            .AddLine "            title: {"
+            .AddLine "                display: false,"
+            .AddLine "            },"
+        Else
+            .AddLine "            title: {"
+            .AddLine "                display: true,"
+            .AddLine "                position: " & BAC.Helper.getPositionString(Me.Position) & ","
+            .AddLine "                text: '" & Me.Text & "'"
+            .AddLine "            },"
+        End If
+        
+        getTitle = .ToString
+    End With
 End Function
 

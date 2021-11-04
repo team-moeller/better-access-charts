@@ -40,21 +40,19 @@ End Property
 
 Friend Function getLegend() As String
 
-    'Declarations
-    Dim strText As String
+    With New BAC_StringBuilder
+        If Me.Show = False Then
+            .AddLine "            legend: {"
+            .AddLine "                display: false"
+            .AddLine "            },"
+        Else
+            .AddLine "            legend: {"
+            .AddLine "                display: true,"
+            .AddLine "                position: " & BAC.Helper.getPositionString(Me.Position)
+            .AddLine "            },"
+        End If
 
-    If Me.Show = False Then
-        strText = strText & "            legend: {" & vbCrLf
-        strText = strText & "                display: false" & vbCrLf
-        strText = strText & "            }," & vbCrLf
-    Else
-        strText = strText & "            legend: {" & vbCrLf
-        strText = strText & "                display: true," & vbCrLf
-        strText = strText & "                position: " & BAC.Helper.getPositionString(Me.Position) & vbCrLf
-        strText = strText & "            }," & vbCrLf
-    End If
-
-    getLegend = strText
-
+        getLegend = .ToString
+    End With
 End Function
 
