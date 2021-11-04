@@ -90,58 +90,58 @@ End Property
 Friend Function getAxis(ByVal StackedChart As Boolean)
 
     Dim strText As String
-
-    strText = strText & "                �Axes: [{" & vbCrLf
-    strText = strText & "                    id: 'first-�-Axis'," & vbCrLf
+    With New BAC_StringBuilder
+        .AddLine "                #Axes: [{"
+        .AddLine "                    id: 'first-#-Axis',"
     
-    If StackedChart = True Then
-        strText = strText & "                    stacked: true," & vbCrLf
-    End If
+        If StackedChart = True Then
+            .AddLine "                    stacked: true,"
+        End If
     
-    If Me.Show = False Then
-        strText = strText & "                    display: false" & vbCrLf
-    Else
-        strText = strText & "                    display: true," & vbCrLf
-        If Len(Me.LabelText) > 0 Then
-            strText = strText & "                    scaleLabel: {" & vbCrLf
-            strText = strText & "                       display: true," & vbCrLf
-            strText = strText & "                       labelString: '" & Me.LabelText & "'" & vbCrLf
-            strText = strText & "                    }," & vbCrLf
-        End If
-        If m_TicksNeeded = True Then
-            strText = strText & "                    ticks: {" & vbCrLf
-        End If
-        If Me.BeginAtZero = True Then
-            strText = strText & "                       beginAtZero: true," & vbCrLf
-        End If
-        If Len(Me.TicksMin) > 0 Then
-            If IsNumeric(Me.TicksMin) = True Then
-                strText = strText & "                       min: " & Str$(Me.TicksMin) & " ," & vbCrLf
-            Else
-                strText = strText & "                       min: '" & Me.TicksMin & "' ," & vbCrLf
+        If Me.Show = False Then
+            .AddLine "                    display: false"
+        Else
+            .AddLine "                    display: true,"
+            If Len(Me.LabelText) > 0 Then
+                .AddLine "                    scaleLabel: {"
+                .AddLine "                       display: true,"
+                .AddLine "                       labelString: '" & Me.LabelText & "'"
+                .AddLine "                    },"
+            End If
+            If m_TicksNeeded = True Then
+                .AddLine "                    ticks: {"
+            End If
+            If Me.BeginAtZero = True Then
+                .AddLine "                       beginAtZero: true,"
+            End If
+            If Len(Me.TicksMin) > 0 Then
+                If IsNumeric(Me.TicksMin) = True Then
+                    .AddLine "                       min: " & Str$(Me.TicksMin) & " ,"
+                Else
+                    .AddLine "                       min: '" & Me.TicksMin & "' ,"
+                End If
+            End If
+            If Len(Me.TicksMax) > 0 Then
+                If IsNumeric(Me.TicksMax) = True Then
+                    .AddLine "                       max: " & Str$(Me.TicksMax) & " ,"
+                Else
+                    .AddLine "                       max: '" & Me.TicksMax & "' ,"
+                End If
+            End If
+            .CutTrailingComma
+            If m_TicksNeeded = True Then
+                .AddLine "                    },"
             End If
         End If
-        If Len(Me.TicksMax) > 0 Then
-            If IsNumeric(Me.TicksMax) = True Then
-                strText = strText & "                       max: " & Str$(Me.TicksMax) & " ," & vbCrLf
-            Else
-                strText = strText & "                       max: '" & Me.TicksMax & "' ," & vbCrLf
-            End If
-        End If
-        strText = BAC.Helper.CutTrailingComma(strText)
-        If m_TicksNeeded = True Then
-            strText = strText & "                    }," & vbCrLf
-        End If
-    End If
-    strText = BAC.Helper.CutTrailingComma(strText)
-    strText = strText & "                    }]," & vbCrLf
+        .CutTrailingComma
+        .AddLine "                    }],"
     
-    If m_Axis = apXAxis Then
-        strText = Replace(strText, "�", "x")
-    ElseIf m_Axis = apYAxis Then
-        strText = Replace(strText, "�", "y")
-    End If
-    getAxis = strText
+        If m_Axis = apXAxis Then
+            getAxis = Replace(.ToString, "#", "x")
+        ElseIf m_Axis = apYAxis Then
+            getAxis = Replace(.ToString, "#", "y")
+        End If
     
+    End With
 End Function
 
