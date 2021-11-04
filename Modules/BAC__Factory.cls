@@ -24,9 +24,9 @@ Public Function Chart(Optional ByVal TheControl As WebBrowserControl, _
                 Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
                 Optional ByVal DataSource As Variant, _
                 Optional ByVal DataFieldNames As Variant, _
-                Optional ByVal LabelFieldName As String) As cls_Better_Access_Chart
+                Optional ByVal LabelFieldName As String) As BAC_Chart
   
-  Set Chart = New cls_Better_Access_Chart
+  Set Chart = New BAC_Chart
   Chart.Init TheControl, ChartType, DataSourceType, DataSource, DataFieldNames, LabelFieldName
 End Function
 
