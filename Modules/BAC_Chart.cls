@@ -326,14 +326,14 @@ Private Function getHeader() As String
             .AddLine "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
         End If
         .AddLine "<script>"
-        If Len(Default.FontColor) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontColor = '" & Default.FontColor & "';"
+        If Len(Default.Font.Color) > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontColor = '" & Default.Font.Color & "';"
         End If
-        If Len(Default.FontFamily) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & Default.FontFamily & "';"
+        If Len(Default.Font.Family) > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & Default.Font.Family & "';"
         End If
-        If Default.FontSize > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontSize = " & Default.FontSize & ";"
+        If Default.Font.Size > 0 Then
+            .AddLine "    Chart.defaults.global.defaultFontSize = " & Default.Font.Size & ";"
         End If
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"

@@ -15,30 +15,12 @@ Attribute VB_Exposed = True
 
 Option Explicit
 
-Private m_FontColor As String
-Private m_FontFamily As String
-Private m_FontSize As Integer
+Private m_Font As BAC_Font
 
+Private Sub Class_Initialize()
+    Set m_Font = New BAC_Font
+End Sub
 
-Public Property Let FontColor(ByVal This_FontColor As String)
-    m_FontColor = This_FontColor
+Public Property Get Font() As BAC_Font
+    Set Font = m_Font
 End Property
-Public Property Get FontColor() As String
-    FontColor = m_FontColor
-End Property
-
-Public Property Let FontFamily(ByVal This_FontFamily As String)
-    m_FontFamily = This_FontFamily
-End Property
-Public Property Get FontFamily() As String
-    FontFamily = m_FontFamily
-End Property
-
-Public Property Let FontSize(ByVal This_FontSize As Integer)
-    m_FontSize = This_FontSize
-End Property
-Public Property Get FontSize() As Integer
-    FontSize = m_FontSize
-End Property
-
-

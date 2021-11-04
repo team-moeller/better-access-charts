@@ -17,14 +17,16 @@ Option Explicit
 
 Private m_Show As Boolean
 Private m_Anchor As chDataLabelAnchor
-Private m_FontColor As String
-Private m_FontFamily As String
-Private m_FontSize As Integer
-Private m_FontIsItalic As Boolean
-Private m_FontIsBold As Boolean
+Private m_Font As BAC_Font
 
 Private m_Needed As Boolean
 Private m_FontNeeded As Boolean
+
+' ### Initialize
+
+Private Sub Class_Initialize()
+    Set m_Font = New BAC_Font
+End Sub
 
 ' ### Properties
 
@@ -45,59 +47,10 @@ Public Property Get Anchor() As chDataLabelAnchor
     Anchor = m_Anchor
 End Property
 
-Public Property Let FontColor(ByVal This_FontColor As String)
-    m_FontColor = This_FontColor
-    If Len(Nz(This_FontColor, vbNullString)) > 0 Then
-        m_Needed = True
-    End If
-End Property
-Public Property Get FontColor() As String
-    FontColor = m_FontColor
+Public Property Get Font() As BAC_Font
+    Set Font = m_Font
 End Property
 
-Public Property Let FontFamily(ByVal This_FontFamily As String)
-    m_FontFamily = This_FontFamily
-    If Len(Nz(This_FontFamily, vbNullString)) > 0 Then
-        m_Needed = True
-        m_FontNeeded = True
-    End If
-End Property
-Public Property Get FontFamily() As String
-    FontFamily = m_FontFamily
-End Property
-
-Public Property Let FontSize(ByVal This_FontSize As Integer)
-    m_FontSize = This_FontSize
-    If This_FontSize > 0 Then
-        m_Needed = True
-        m_FontNeeded = True
-    End If
-End Property
-Public Property Get FontSize() As Integer
-    FontSize = m_FontSize
-End Property
-
-Public Property Let FontIsItalic(ByVal This_FontIsItalic As Boolean)
-    m_FontIsItalic = This_FontIsItalic
-    If m_FontIsItalic = True Then
-        m_Needed = True
-        m_FontNeeded = True
-    End If
-End Property
-Public Property Get FontIsItalic() As Boolean
-    FontIsItalic = m_FontIsItalic
-End Property
-
-Public Property Let FontIsBold(ByVal This_FontIsBold As Boolean)
-    m_FontIsBold = This_FontIsBold
-    If m_FontIsBold = True Then
-        m_Needed = True
-        m_FontNeeded = True
-    End If
-End Property
-Public Property Get FontIsBold() As Boolean
-    FontIsBold = m_FontIsBold
-End Property
 
 ' ### Generator Function
 
@@ -111,21 +64,21 @@ Friend Function getDataLabel() As String
         If Me.Anchor > 0 Then
             .AddLine "                    anchor: '" & getAnchorString(Me.Anchor) & "',"
         End If
-        If Me.FontColor <> vbNullString Then
-            .AddLine "                    color: '" & Me.FontColor & "',"
+        If Me.Font.Color <> vbNullString Then
+            .AddLine "                    color: '" & Me.Font.Color & "',"
         End If
-        If m_FontNeeded = True Then
+        If Me.Font.IsUsed Then
             .AddLine "                    font: {"
-            If Me.FontFamily <> vbNullString Then
-                .AddLine "                        family: '" & Me.FontFamily & "',"
+            If Me.Font.Family <> vbNullString Then
+                .AddLine "                        family: '" & Me.Font.Family & "',"
             End If
-            If Me.FontSize > 0 Then
-                .AddLine "                        size: " & Me.FontSize & ","
+            If Me.Font.Size > 0 Then
+                .AddLine "                        size: " & Me.Font.Size & ","
             End If
-            If Me.FontIsBold = True Then
+            If Me.Font.IsBold = True Then
                 .AddLine "                        weight: 'bold',"
             End If
-            If Me.FontIsItalic = True Then
+            If Me.Font.IsItalic = True Then
                 .AddLine "                        style: 'italic',"
             End If
             .CutTrailingComma
@@ -152,3 +105,4 @@ Private Function getAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As Strin
     End Select
     
 End Function
+
