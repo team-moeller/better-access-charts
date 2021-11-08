@@ -10,10 +10,12 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version xxxxx  published: 04.11.2021                                                  #
+'# Version BAC3_BAC3  published: 08.11.2021                                                  #
 '###########################################################################################
 
+Option Compare Database
 Option Explicit
+
 
 Private m_Show As Boolean
 Private m_Position As chPosition
@@ -62,5 +64,6 @@ Friend Function getTitle() As String
         
         getTitle = .ToString
     End With
+    
 End Function
 

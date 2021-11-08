@@ -10,9 +10,12 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version xxxxx  published: 04.11.2021                                                  #
+'# Version BAC3_BAC3  published: 08.11.2021                                                  #
 '###########################################################################################
+
+Option Compare Database
 Option Explicit
+
 
 Private m_Color As String
 Private m_Family As String
@@ -55,8 +58,9 @@ Public Property Get IsBold() As Boolean
     IsBold = m_IsBold
 End Property
 
+
 ' ###
 
-Friend Property Get IsUsed() As Boolean
-   IsUsed = (Family <> vbNullString) Or (Color <> vbNullString) Or (Size > 0)
+Friend Property Get SectionIsNeeded() As Boolean
+   SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsItalic = True) Or (IsBold = True)
 End Property

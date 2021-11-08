@@ -10,17 +10,18 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version xxxxx  published: 04.11.2021                                                  #
+'# Version BAC3_BAC3  published: 08.11.2021                                                  #
 '###########################################################################################
 
+Option Compare Database
 Option Explicit
+
 
 Private m_Show As Boolean
 Private m_Anchor As chDataLabelAnchor
 Private m_Font As BAC_Font
 
-Private m_Needed As Boolean
-Private m_FontNeeded As Boolean
+Private m_SectionIsNeeded As Boolean
 
 ' ### Initialize
 
@@ -40,7 +41,7 @@ End Property
 Public Property Let Anchor(ByVal This_Anchor As chDataLabelAnchor)
     m_Anchor = This_Anchor
     If This_Anchor > 0 Then
-        m_Needed = True
+        m_SectionIsNeeded = True
     End If
 End Property
 Public Property Get Anchor() As chDataLabelAnchor
@@ -57,7 +58,7 @@ End Property
 Friend Function getDataLabel() As String
 
     If Not Me.Show Then Exit Function
-    If Not m_Needed = True Then Exit Function
+    If Not m_SectionIsNeeded = True And Not Me.Font.SectionIsNeeded = True Then Exit Function
     
     With New BAC_StringBuilder
         .AddLine "                datalabels: {"
@@ -67,7 +68,7 @@ Friend Function getDataLabel() As String
         If Me.Font.Color <> vbNullString Then
             .AddLine "                    color: '" & Me.Font.Color & "',"
         End If
-        If Me.Font.IsUsed Then
+        If Me.Font.SectionIsNeeded Then
             .AddLine "                    font: {"
             If Me.Font.Family <> vbNullString Then
                 .AddLine "                        family: '" & Me.Font.Family & "',"
@@ -89,6 +90,7 @@ Friend Function getDataLabel() As String
         
         getDataLabel = .ToString
     End With
+    
 End Function
 
 Private Function getAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As String
