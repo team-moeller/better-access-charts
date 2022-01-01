@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller                                                  #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.32.05  published: 31.10.2021                                                  #
+'# Version 1.33.13  published: 01.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -51,6 +51,8 @@ End Enum
 
 
 '### Constants
+
+Private Const HtmlFileName As String = "BetterAccessChart_{}.html"
 
 
 '### Members
@@ -102,7 +104,6 @@ Private m_DataLabelFontFamily As String
 Private m_DataLabelFontSize As Integer
 Private m_DataLabelFontIsItalic As Boolean
 Private m_DataLabelFontIsBold As Boolean
-Private m_SaveHtmlFileForDebugging As Boolean
 
 Private m_DataLabels As Variant
 Private m_DataSetLabel As Variant
@@ -113,10 +114,14 @@ Private m_YAxisTicksNeeded As Boolean
 Private m_XAxisTicksNeeded As Boolean
 Private m_DataLabelNeeded As Boolean
 Private m_DataLabelFontNeeded As Boolean
+
+
+'### Windows API Declarations
+Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" _
+    (ByVal nBufferLength As Long, ByVal lpBuffer As String) As Long
     
     
 '### Properties
-
 Public Property Set Control(ByVal This_Control As WebbrowserControl)
     Set m_Control = This_Control
 End Property
@@ -498,13 +503,6 @@ Public Property Get DataLabelFontIsBold() As Boolean
     DataLabelFontIsBold = m_DataLabelFontIsBold
 End Property
 
-Public Property Let SaveHtmlFileForDebugging(ByVal This_SaveHtmlFileForDebugging As Boolean)
-    m_SaveHtmlFileForDebugging = This_SaveHtmlFileForDebugging
-End Property
-Public Property Get SaveHtmlFileForDebugging() As Boolean
-    SaveHtmlFileForDebugging = m_SaveHtmlFileForDebugging
-End Property
-
 
 '### Instancing
 
@@ -549,35 +547,35 @@ End Sub
 
 Public Sub DrawChart()
     
-    With Control.Object.Document
-        .Open
-        .Write getHtmlString
-        .Close
-    End With
+    CreateChartFile
+    
+    Control.Object.Navigate getHTMLFileName
     
 End Sub
 
 
 '### Private Methods
 
-Private Function getHtmlString() As String
+Private Sub CreateChartFile()
 
     'Declarations
-    Dim strHtml As String
+    Dim objFS As Object
+    Dim strContent As String
     
-    strHtml = strHtml & getHeader
-    strHtml = strHtml & getChartType
-    strHtml = strHtml & getChartData
-    strHtml = strHtml & getChartOptions
-    strHtml = strHtml & getFooter
- 
-    If m_SaveHtmlFileForDebugging = True Then
-        Call saveHtmlFile(strHtml)
-    End If
- 
-    getHtmlString = strHtml
+    strContent = strContent & getHeader
+    strContent = strContent & getChartType
+    strContent = strContent & getChartData
+    strContent = strContent & getChartOptions
+    strContent = strContent & getFooter
+        
+    Set objFS = CreateObject("ADODB.Stream")
+    objFS.Charset = "utf-8"
+    objFS.Open
+    objFS.WriteText strContent
+    objFS.SaveToFile getHTMLFileName, 2   '2: Create Or Update
+    objFS.Close
   
-End Function
+End Sub
 
 Private Function getHeader() As String
 
@@ -1194,22 +1192,45 @@ Private Function CutTrailingComma(ByVal strText As String) As String
 
 End Function
 
-Private Sub saveHtmlFile(ByVal strContent As String)
-
+Private Function getTempFolder() As String
+    
     'Declarations
-    Dim objFS As Object
+    Dim strTempPath As String
+    Dim lngTempPath As Long
+    
+    strTempPath = String(144, vbNullChar)
+    lngTempPath = Len(strTempPath)
+    If (GetTempPath(lngTempPath, strTempPath) > 0) Then
+        getTempFolder = TrimNull(strTempPath)
+    Else
+        getTempFolder = vbNullString
+    End If
+    
+End Function
+
+Private Function TrimNull(ByVal strString As String) As String
+    
+    'Declarations
+    Dim intPos As Integer
+
+    intPos = VBA.InStr(strString, vbNullChar)
+    If intPos > 0 Then
+        TrimNull = VBA.Left$(strString, intPos - 1)
+    Else
+        TrimNull = strString
+    End If
+  
+End Function
+
+Private Function getHTMLFileName() As String
+    
+    'Declarations
     Dim strPath As String
     Dim strFilename As String
-    Const HtmlFileName As String = "BetterAccessChart_{}.html"
     
-    strPath = CurrentProject.Path & "\"
+    strPath = getTempFolder
     strFilename = Replace(HtmlFileName, "{}", m_Control.Name)
-        
-    Set objFS = CreateObject("ADODB.Stream")
-    objFS.Charset = "utf-8"
-    objFS.Open
-    objFS.WriteText strContent
-    objFS.SaveToFile strPath & strFilename, 2   '2: Create Or Update
-    objFS.Close
+
+    getHTMLFileName = strPath & strFilename
     
-End Sub
+End Function
