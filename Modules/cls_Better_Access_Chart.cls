@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020, 2021 Thomas Möller                                                  #
+'# Copyright (c) 2020 to 2022 Thomas Möller                                                #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 1.33.13  published: 01.01.2022                                                  #
+'# Version 1.34.09  published: 02.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -66,10 +66,10 @@ Private m_DataSourceRecordset As DAO.Recordset
 Private m_DataSourceLabelFieldName As String
 Private m_DataSourceDataFieldName As Variant
 Private m_ShowTitle As Boolean
-Private m_TitlePostition As chPosition
+Private m_TitlePosition As chPosition
 Private m_TitleText As String
 Private m_ShowLegend As Boolean
-Private m_LegendPostition As chPosition
+Private m_LegendPosition As chPosition
 Private m_ShowYAxis As Boolean
 Private m_ShowXAxis As Boolean
 Private m_YAxisLabelText As String
@@ -197,11 +197,11 @@ Public Property Get ShowTitle() As Boolean
     ShowTitle = m_ShowTitle
 End Property
 
-Public Property Let TitlePostition(ByVal This_TitlePostition As chPosition)
-    m_TitlePostition = This_TitlePostition
+Public Property Let TitlePosition(ByVal This_TitlePosition As chPosition)
+    m_TitlePosition = This_TitlePosition
 End Property
-Public Property Get TitlePostition() As chPosition
-    TitlePostition = m_TitlePostition
+Public Property Get TitlePosition() As chPosition
+    TitlePosition = m_TitlePosition
 End Property
 
 Public Property Let TitleText(ByVal This_TitleText As String)
@@ -218,11 +218,11 @@ Public Property Get ShowLegend() As Boolean
     ShowLegend = m_ShowLegend
 End Property
 
-Public Property Let LegendPostition(ByVal This_LegendPostition As chPosition)
-    m_LegendPostition = This_LegendPostition
+Public Property Let LegendPosition(ByVal This_LegendPosition As chPosition)
+    m_LegendPosition = This_LegendPosition
 End Property
-Public Property Get LegendPostition() As chPosition
-    LegendPostition = m_LegendPostition
+Public Property Get LegendPosition() As chPosition
+    LegendPosition = m_LegendPosition
 End Property
 
 Public Property Let ShowYAxis(ByVal This_ShowYAxis As Boolean)
@@ -513,11 +513,11 @@ Private Sub Class_Initialize()
     StackedChart = False
     'Title
     ShowTitle = False
-    TitlePostition = posTop
+    TitlePosition = posTop
     TitleText = "My first Better Access Chart"
     'Legend
     ShowLegend = False
-    LegendPostition = posRight
+    LegendPosition = posRight
     'Axis
     ShowYAxis = True
     ShowXAxis = True
@@ -940,7 +940,7 @@ Private Function getTitle() As String
     
     strText = strText & "            title: {" & vbCrLf
     strText = strText & "                display: true," & vbCrLf
-    strText = strText & "                position: " & getPositionString(TitlePostition) & "," & vbCrLf
+    strText = strText & "                position: " & getPositionString(TitlePosition) & "," & vbCrLf
     strText = strText & "                text: '" & TitleText & "'" & vbCrLf
     strText = strText & "            }," & vbCrLf
     
@@ -963,7 +963,7 @@ Private Function getLegend() As String
 
     strText = strText & "            legend: {" & vbCrLf
     strText = strText & "                display: true," & vbCrLf
-    strText = strText & "                position: " & getPositionString(LegendPostition) & vbCrLf
+    strText = strText & "                position: " & getPositionString(LegendPosition) & vbCrLf
     strText = strText & "            }," & vbCrLf
 
     getLegend = strText
