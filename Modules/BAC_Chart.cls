@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 to 2022 Thomas Möller                                                #
+'# Copyright (c) 2020 to 2022 Thomas MÃ¶ller                                                #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
 '# Version 1.34.09  published: 02.01.2022                                                  #
 '###########################################################################################
