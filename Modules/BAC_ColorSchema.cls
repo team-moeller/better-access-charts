@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "BAC_Scripts"
+Attribute VB_Name = "BAC_ColorSchema"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -17,24 +17,26 @@ Option Compare Database
 Option Explicit
 
 
-Private m_ChartJS       As BAC_ChartJS
-Private m_ColorSchemes  As BAC_ChartJS_Plugin_ColorSchemes
-Private m_DataLabels    As BAC_ChartJS_Plugin_Datalabels
+Private m_ColorSchema As String
 
-Public Property Get ChartJS() As BAC_ChartJS
-  Set ChartJS = m_ChartJS
+' ### Properties
+
+Public Property Let ColorSchema(ByVal This_ColorSchema As String)
+    m_ColorSchema = This_ColorSchema
+End Property
+Public Property Get ColorSchema() As String
+    ColorSchema = m_ColorSchema
 End Property
 
-Public Property Get Plugin_ColorSchemes() As BAC_ChartJS_Plugin_ColorSchemes
-  Set Plugin_ColorSchemes = m_ColorSchemes
-End Property
+' ### Generator Function
 
-Public Property Get Plugin_DataLabels() As BAC_ChartJS_Plugin_Datalabels
-  Set Plugin_DataLabels = m_DataLabels
-End Property
+Friend Function getColorSchema() As String
+    With New BAC_StringBuilder
+        .AddLine "                colorschemes: {"
+        .AddLine "                    scheme: '" & ColorSchema & "'"
+        .AddLine "                    },"
+        
+        getColorSchema = .ToString
+    End With
+End Function
 
-Private Sub Class_Initialize()
-    Set m_ChartJS = New BAC_ChartJS
-    Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
-    Set m_DataLabels = New BAC_ChartJS_Plugin_Datalabels
-End Sub

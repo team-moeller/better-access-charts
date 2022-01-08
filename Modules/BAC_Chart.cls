@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version BAC3_BAC3  published: 08.11.2021                                                  #
+'# Version 1.31.12  published: 08.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -18,7 +18,6 @@ Option Explicit
 
 
 '### Enums
-
 
 Public Enum chChartType
     line = 1
@@ -61,12 +60,13 @@ End Enum
 
 '### Constants
 
+Private Const HtmlFileName As String = "BetterAccessChart_{}.html"
+
 
 '### Members
 
 Private WithEvents m_Control As WebBrowserControl
 Attribute m_Control.VB_VarHelpID = -1
-Private m_IE As Object 'InternetExplorer
 
 Private m_ChartType As chChartType
 
@@ -78,14 +78,19 @@ Private m_SaveHtmlFileForDebugging As Boolean
 
 Private m_IsSingleBarChart As Boolean
     
-Private m_ColorScheme As BAC_ColorScheme
+Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
-Private m_DataLabel   As BAC_DataLabel
+Private m_DataLabels  As BAC_DataLabels
 Private m_Defaults    As BAC_Defaults
 Private m_XAxis       As BAC_Axis
 Private m_YAxis       As BAC_Axis
 Private m_Legend      As BAC_Legend
 Private m_Title       As BAC_Title
+
+
+'### Windows API Declarations
+Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" _
+    (ByVal nBufferLength As Long, ByVal lpBuffer As String) As Long
     
     
 '### Properties
@@ -157,8 +162,8 @@ End Property
 
 '### Object Properties
 
-Public Property Get ColorScheme() As BAC_ColorScheme
-    Set ColorScheme = m_ColorScheme
+Public Property Get ColorSchema() As BAC_ColorSchema
+    Set ColorSchema = m_ColorSchema
 End Property
 
 Public Property Get DataSource() As BAC_DataSource
@@ -185,8 +190,8 @@ Public Property Get YAxis() As BAC_Axis
     Set YAxis = m_YAxis
 End Property
 
-Public Property Get DataLabel() As BAC_DataLabel
-    Set DataLabel = m_DataLabel
+Public Property Get DataLabels() As BAC_DataLabels
+    Set DataLabels = m_DataLabels
 End Property
 
 '### Instancing
@@ -194,9 +199,9 @@ End Property
 Private Sub Class_Initialize()
     
     'create Sub Classes
-    Set m_ColorScheme = New BAC_ColorScheme
+    Set m_ColorSchema = New BAC_ColorSchema
     Set m_DataSource = New BAC_DataSource
-    Set m_DataLabel = New BAC_DataLabel
+    Set m_DataLabels = New BAC_DataLabels
     Set m_Defaults = New BAC_Defaults
     Set m_Legend = New BAC_Legend
     Set m_Title = New BAC_Title
@@ -219,8 +224,8 @@ Private Sub Class_Initialize()
     YAxis.Show = True
     XAxis.Show = True
         
-      'ColorSchema
-    ColorScheme.ColorSchema = "brewer.Paired12"
+    'ColorSchema
+    ColorSchema.ColorSchema = "brewer.Paired12"
 
 End Sub
 
@@ -231,28 +236,11 @@ End Sub
 
 '### Public Methods
 
-Public Sub UseIE()
-
-    Set m_IE = CreateObject("InternetExplorer.Application")
-    m_IE.Navigate "about:"
-    m_IE.Visible = True
-    Do While m_IE.ReadyState <> 4: DoEvents: Loop
-    
-End Sub
-
 Public Sub DrawChart()
-    If Not m_IE Is Nothing Then
-        With m_IE.Document
-            .Open
-            .Write getHtmlString
-            .Close
-        End With
-    End If
-    With Control.Object.Document
-        .Open
-        .Write getHtmlString
-        .Close
-    End With
+    
+    CreateChartFile
+    
+    Control.Object.Navigate getHTMLFileName
     
 End Sub
 
@@ -266,17 +254,19 @@ Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
                 Optional ByVal DataFieldNames As Variant, _
                 Optional ByVal LabelFieldName As String)
   
-  Set Me.Control = TheControl
-  Me.ChartType = ChartType
-  Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
+    Set Me.Control = TheControl
+    Me.ChartType = ChartType
+    Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
+    
 End Sub
 
 
 '### Private Methods
 
-Private Function getHtmlString() As String
+Private Sub CreateChartFile()
 
     'Declarations
+    Dim objFS As Object
     Dim strHtml As New BAC_StringBuilder
     With strHtml
         .Add getHeader
@@ -285,14 +275,15 @@ Private Function getHtmlString() As String
         .Add getChartOptions
         .Add getFooter
     End With
- 
-    If m_SaveHtmlFileForDebugging = True Then
-        Call saveHtmlFile(strHtml.ToString)
-    End If
- 
-    getHtmlString = strHtml.ToString
-  
-End Function
+       
+    Set objFS = CreateObject("ADODB.Stream")
+    objFS.Charset = "utf-8"
+    objFS.Open
+    objFS.WriteText strHtml.ToString
+    objFS.SaveToFile getHTMLFileName, 2   '2: Create Or Update
+    objFS.Close
+    
+End Sub
 
 Private Function getHeader() As String
 
@@ -310,7 +301,7 @@ Private Function getHeader() As String
         .AddLine "    <style>body{margin:0;padding:0;}</style>"
         .AddLine "    <script src=" & BAC.Scripts.ChartJS.getLocation & "></script>"
         .AddLine "    <script src=" & BAC.Scripts.Plugin_ColorSchemes.getLocation & "></script>"
-        If DataLabel.Show = True Then
+        If DataLabels.Show = True Then
             .AddLine "    <script src=" & BAC.Scripts.Plugin_DataLabels.getDataLabelLocation & "></script>"
         End If
         .AddLine "</head>"
@@ -413,7 +404,7 @@ Private Function getChartData() As String
                     
             .AddLine "                data: [" & dataSet.Data(i) & "],"
             If m_IsSingleBarChart = True Then
-                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorScheme.ColorSchema & ","
+                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorSchema.ColorSchema & ","
             End If
             .AddLine "                borderWidth: 1},"
         Next i
@@ -500,8 +491,8 @@ Private Function getPlugins() As String
     Dim strText As New BAC_StringBuilder
     With strText
         .AddLine "            plugins: {"
-        .Add ColorScheme.getColorSchema
-        .Add DataLabel.getDataLabel
+        .Add ColorSchema.getColorSchema
+        .Add DataLabels.getDataLabel
         .CutTrailingComma
         .AddLine "                },"
         
@@ -512,21 +503,45 @@ End Function
 
 '### Private Helper Methods
 
-Private Sub saveHtmlFile(ByVal strContent As String)
+Private Function getTempFolder() As String
+    
+    'Declarations
+    Dim strTempPath As String
+    Dim lngTempPath As Long
+    
+    strTempPath = String(144, vbNullChar)
+    lngTempPath = Len(strTempPath)
+    If (GetTempPath(lngTempPath, strTempPath) > 0) Then
+        getTempFolder = TrimNull(strTempPath)
+    Else
+        getTempFolder = vbNullString
+    End If
+    
+End Function
 
+Private Function TrimNull(ByVal strString As String) As String
+    
+    'Declarations
+    Dim intPos As Integer
+
+    intPos = VBA.InStr(strString, vbNullChar)
+    If intPos > 0 Then
+        TrimNull = VBA.Left$(strString, intPos - 1)
+    Else
+        TrimNull = strString
+    End If
+  
+End Function
+
+Private Function getHTMLFileName() As String
+    
     'Declarations
     Dim strPath As String
-    Dim strFileName As String
-    Dim f As Integer
-    Const HtmlFileName As String = "BetterAccessChart_{}.html"
+    Dim strFilename As String
     
-    strPath = CurrentProject.Path & "\"
-    strFileName = Replace(HtmlFileName, "{}", m_Control.Name)
-    
-    f = FreeFile()
-    Open strPath & strFileName For Output As f
-    Print #f, strContent;
-    Close f
-    
-End Sub
+    strPath = getTempFolder
+    strFilename = Replace(HtmlFileName, "{}", m_Control.Name)
 
+    getHTMLFileName = strPath & strFilename
+    
+End Function

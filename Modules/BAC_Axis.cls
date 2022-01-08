@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version BAC3_BAC3  published: 08.11.2021                                                  #
+'# Version 1.31.12  published: 08.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -87,9 +87,9 @@ End Property
 
 
 ' ### Generator Function
+
 Friend Function getAxis(ByVal StackedChart As Boolean)
 
-    Dim strText As String
     With New BAC_StringBuilder
         .AddLine "                #Axes: [{"
         .AddLine "                    id: 'first-#-Axis',"
@@ -143,5 +143,6 @@ Friend Function getAxis(ByVal StackedChart As Boolean)
         End If
     
     End With
+    
 End Function
 
