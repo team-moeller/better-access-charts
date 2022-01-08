@@ -37,10 +37,9 @@ Set myChart = BAC.Chart(Me.ctlWebbrowser)
 myChart.DrawChart  
 ```
 
-* In line 1 a variable of the type cls_Better_Access_Chart is declared.
-* In line 2 a new instance of this class is created.
-* In line 3, the web browser control is assigned to the class module.
-* The chart is created in line 4. 
+* In line 1 a variable of the type BAC_Chart is declared.
+* In line 2 a new instance of this class is created and the web browser control is assigned to the class module.
+* The chart is created in line 3. 
 
 
 When you run this code, you will see a chart with some data. At the moment no data source is assigned. In such a case, Better-Access Charts simply shows a standard data source with 6 entries. This is particularly practical for our example. We have now done a quick test and fundamentally implemented the chart.
@@ -56,9 +55,9 @@ Finally, use the [ChartType](https://github.com/team-moeller/better-access-chart
 The necessary VBA code could look like this, for example:
 
 ```vba
-myChart.DataSourceObjectName = "tbl_DemoData"
-myChart.DataSourceDataFieldName = Array("Dataset1", "Dataset2", "Dataset3")
-myChart.DataSourceLabelFieldName = "DataLabel"
+myChart.DataSource.ObjectName = "tbl_DemoData"
+myChart.DataSource.DataFieldNames = Array("Dataset1", "Dataset2", "Dataset3")
+myChart.DataSource.LabelFieldName = "DataLabel"
 myChart.ChartType = chChartType.Line
 ```
 
