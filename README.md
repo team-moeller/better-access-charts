@@ -32,9 +32,8 @@ The following text is entered in the "ControlSource" property: = "about: blank".
 The best thing to do is to add another button. In the click event, paste the following code:
 
 ```vba
-Dim myChart As cls_Better_Access_Chart  
-Set myChart = New cls_Better_Access_Chart  
-Set myChart.Control = Me.ctlWebbrowser  
+Dim myChart As BAC_Chart  
+Set myChart = BAC.Chart(Me.ctlWebbrowser)  
 myChart.DrawChart  
 ```
 
