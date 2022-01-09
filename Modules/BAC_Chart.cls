@@ -74,9 +74,6 @@ Private m_AreaFilled As Boolean
 Private m_BackgroundColor As String
 Private m_ShowDownloadLink As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
-Private m_AspectRatio As Double
-
-Private m_IsSingleBarChart As Boolean
     
 Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
