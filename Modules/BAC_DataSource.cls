@@ -65,11 +65,11 @@ Public Property Get SQLStatement() As String
     SQLStatement = m_SQLStatement
 End Property
 
-Public Property Set Recordset(ByVal This_Recordset As DAO.Recordset)
+Public Property Set Recordset(ByVal This_Recordset As Object)  ' ADODB/DAO.Recordset
     m_Type = dstRecordset
     Set m_Recordset = This_Recordset
 End Property
-Public Property Get Recordset() As DAO.Recordset
+Public Property Get Recordset() As Object   ' ADODB/DAO.Recordset
     Set Recordset = m_Recordset
 End Property
 
@@ -115,9 +115,7 @@ On Error GoTo Handle_Error
 
     'Declarations
     Dim db As DAO.Database
-    Dim rst As DAO.Recordset
-'    'Dim strLabels() As String
-'    'Dim strData() As String
+    Dim rst As Object ' DAO.Recordset
     Dim dataSet As New BAC_DataSet
     Dim Field As Variant
     Dim i As Integer
@@ -213,14 +211,6 @@ On Error GoTo Handle_Error
             
             ReDim m_DataSet1Colors(UBound(DataFieldNames))
             
-'            m_DataLabels = BAC.Helper.CutTrailingComma(strLabels(0))
-'            m_DataSetLabel = DataFieldNames()
-'            i = 0
-'            For Each Field In DataFieldNames()
-'                strData(i) = BAC.Helper.CutTrailingComma(strData(i))
-'                i = i + 1
-'            Next Field
-'            m_DataSetData = strData()
     End Select
     
 Exit_Here:
