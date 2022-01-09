@@ -37,6 +37,7 @@ Public Enum chDataSourceType
     dstTableName
     dstQueryName
     dstSQLStament
+    dstDataset
 End Enum
 
 Public Enum chPosition
