@@ -86,6 +86,21 @@ Private m_YAxis       As BAC_Axis
 Private m_Legend      As BAC_Legend
 Private m_Title       As BAC_Title
     
+'### Initializer
+
+Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
+                Optional ByVal ChartType As chChartType = chChartType.Bar, _
+                Optional ByVal DataSourceType As chDataSourceType, _
+                Optional ByVal DataSource As Variant, _
+                Optional ByVal DataFieldNames As Variant, _
+                Optional ByVal LabelFieldName As String)
+  
+    Set Me.Control = TheControl
+    Me.ChartType = ChartType
+    Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
+    
+End Sub
+
     
 '### Properties
 
@@ -253,21 +268,6 @@ Public Sub DrawChart()
 End Sub
 
     
-'### Initializer
-
-Public Sub Init(Optional ByVal TheControl As WebBrowserControl, _
-                Optional ByVal ChartType As chChartType = chChartType.Bar, _
-                Optional ByVal DataSourceType As chDataSourceType, _
-                Optional ByVal DataSource As Variant, _
-                Optional ByVal DataFieldNames As Variant, _
-                Optional ByVal LabelFieldName As String)
-  
-    Set Me.Control = TheControl
-    Me.ChartType = ChartType
-    Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
-    
-End Sub
-
 
 '### Private Methods
 
@@ -287,6 +287,15 @@ Friend Function IsSingleBarChart()
 
 End Function
 
+Friend Function IsBubbleOrScatterChart() As Boolean
+    If m_ChartType = Bubble Then
+        IsBubbleOrScatterChart = True
+    ElseIf m_ChartType = Scatter Then
+        IsBubbleOrScatterChart = True
+    Else
+        IsBubbleOrScatterChart = False
+    End If
+End Function
 
 
 '### Private Helper Methods
