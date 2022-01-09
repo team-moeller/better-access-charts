@@ -78,6 +78,8 @@ Private m_SaveHtmlFileForDebugging As Boolean
 
 Private m_IsSingleBarChart As Boolean
     
+Private m_AspectRatio      As Double
+    
 Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
 Private m_DataLabels  As BAC_DataLabels
@@ -131,6 +133,14 @@ Public Property Let AreaFilled(ByVal This_AreaFilled As Boolean)
 End Property
 Public Property Get AreaFilled() As Boolean
     AreaFilled = m_AreaFilled
+End Property
+
+' Proportion of Width / Height
+Public Property Let AspectRatio(ByVal This_Ratio As Double)
+    m_AspectRatio = This_Ratio
+End Property
+Public Property Get AspectRatio() As Double
+    AspectRatio = m_AspectRatio
 End Property
 
 Public Property Let ChartBackgroundColor(ByVal This_ChartBackgroundColor As String)
@@ -208,6 +218,7 @@ Private Sub Class_Initialize()
     'Set default values
     ChartType = chChartType.Bar
     StackedChart = False
+    AspectRatio = 2
     'Title
     Title.Show = False
     Title.Position = posTop
@@ -417,6 +428,9 @@ Private Function getChartOptions() As String
     Dim strText As New BAC_StringBuilder
     With strText
         .AddLine "        options: {"
+        If Me.AspectRatio <> 2# Then
+            .AddLine " aspectRatio: " & Str(AspectRatio) & ","
+        End If
         .Add Title.getTitle
         .Add Legend.getLegend
         .Add getScales
