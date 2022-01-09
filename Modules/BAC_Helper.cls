@@ -8,20 +8,30 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '###########################################################################################
-'# Copyright (c) 2020, 2021 Thomas Möller, supported by K.D.Gundermann                     #
+'# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.00.21  published: 08.01.2022                                                  #
+'# Version 2.01.09  published: 09.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
+'### Windows API Declarations
+#If VBA7 Then
+    Private Declare PtrSafe Function GetTempPath Lib "kernel32" Alias "GetTempPathA" _
+        (ByVal nBufferLength As LongPtr, ByVal lpbuffer As String) As Long
+#Else
+    Private Declare Function GetTempPath Lib "kernel32" Alias "GetTempPathA" _
+        (ByVal nBufferLength As Long, ByVal lpbuffer As String) As Long
+#End If
+
 #If VBA7 Then
     Private Declare PtrSafe Function MakeSureDirectoryPathExists Lib "imagehlp.dll" (ByVal lpPath As String) As Long
 #Else
     Private Declare Function MakeSureDirectoryPathExists Lib "imagehlp.dll" (ByVal lpPath As String) As Long
 #End If
+
 
 Friend Function getPositionString(ByVal ThisPosition As chPosition) As String
 
@@ -98,5 +108,35 @@ Handle_Error:
             Resume Exit_Here
     End Select
 
+End Function
+
+Friend Function getTempFolder() As String
+    
+    'Declarations
+    Dim strTempPath As String
+    Dim lngTempPath As Long
+    
+    strTempPath = String(144, vbNullChar)
+    lngTempPath = Len(strTempPath)
+    If (GetTempPath(lngTempPath, strTempPath) > 0) Then
+        getTempFolder = TrimNull(strTempPath)
+    Else
+        getTempFolder = vbNullString
+    End If
+    
+End Function
+
+Private Function TrimNull(ByVal strString As String) As String
+    
+    'Declarations
+    Dim intPos As Integer
+
+    intPos = VBA.InStr(strString, vbNullChar)
+    If intPos > 0 Then
+        TrimNull = VBA.Left$(strString, intPos - 1)
+    Else
+        TrimNull = strString
+    End If
+  
 End Function
 
