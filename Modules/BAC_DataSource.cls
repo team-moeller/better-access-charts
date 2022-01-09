@@ -91,8 +91,9 @@ Public Property Let DataFieldNames(ByRef This_DataFieldNames As Variant)
             m_DataFieldNames(i) = This_DataFieldNames(i)
         Next
     Else
-        m_DataFieldNames = Array(This_DataFieldNames)
+        m_DataFieldNames = Split(This_DataFieldNames, ",")
     End If
+    
     If LBound(m_DataFieldNames) = UBound(m_DataFieldNames) Then
         m_IsSingleDataset = True
     Else
@@ -115,7 +116,7 @@ On Error GoTo Handle_Error
 
     'Declarations
     Dim db As DAO.Database
-    Dim rst As Object ' DAO.Recordset
+    Dim rst As DAO.Recordset
     Dim dataSet As New BAC_DataSet
     Dim Field As Variant
     Dim i As Integer
@@ -138,11 +139,13 @@ On Error GoTo Handle_Error
         Case chChartType.Bubble
             If Not rst Is Nothing Then
                 With dataSet
-                    .LabelCount = rst.RecordCount
-                    .DataCount = rst.RecordCount
+                    '.LabelCount = rst.RecordCount
+                    '.DataCount = rst.RecordCount
                     Do While Not rst.EOF
-                        .Label(i) = rst(LabelFieldName)
-                        .Data(i) = "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
+                        '.Label(i) = rst(LabelFieldName)
+                        .AddLabel rst(LabelFieldName)
+                        .AddDatasetName "Record" & Str(i)
+                        .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
                                      ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & _
                                      ", r:" & Str$(Nz(rst(DataFieldNames(2)))) & "}"
                         i = i + 1
@@ -151,21 +154,25 @@ On Error GoTo Handle_Error
                 End With
             Else
                 With dataSet
-                    .DataCount = 1
-                    .LabelCount = 1
-                    .Label(0) = "Demo"
-                    .Data(0) = "{x:2,y:3,r:17}"
+                    '.DataCount = 1
+                    '.LabelCount = 1
+                    '.Label(0) = "Demo"
+                    .AddLabel "Demo"
+                    .AddDatasetName "Data"
+                    .AddData "Data", "{x:2,y:3,r:17}"
                 End With
             End If
                 
         Case chChartType.Scatter
             If Not rst Is Nothing Then
                 With dataSet
-                    .LabelCount = rst.RecordCount
-                    .DataCount = rst.RecordCount
+                    '.LabelCount = rst.RecordCount
+                    '.DataCount = rst.RecordCount
                     Do While Not rst.EOF
-                        .Label(i) = rst(LabelFieldName)
-                        .Data(i) = "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
+                        '.Label(i) = rst(LabelFieldName)
+                        .AddLabel rst(LabelFieldName)
+                        .AddDatasetName "Record" & Str(i)
+                        .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
                                      ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & "}"
                         i = i + 1
                         rst.MoveNext
@@ -173,36 +180,41 @@ On Error GoTo Handle_Error
                 End With
             Else
                 With dataSet
-                    .DataCount = 1
-                    .LabelCount = 1
-                    .Label(0) = "Demo"
-                    .Data(0) = "{x:2,y:3,r:17}"
+                    '.DataCount = 1
+                    '.LabelCount = 1
+                    '.Label(0) = "Demo"
+                    .AddLabel "Demo"
+                    .AddDatasetName "Data"
+                    .AddData "Data", "{x:2,y:3}"
                 End With
             End If
                 
         Case Else
             With dataSet
-                .LabelCount = 1
-                .DataCount = UBound(DataFieldNames) + 1
-                i = 0
+                '.LabelCount = 1
+                '.DataCount = UBound(DataFieldNames) + 1
+                'i = 0
                 For Each Field In DataFieldNames
-                    .DatasetName(i) = Field
-                    i = i + 1
+                    .AddDatasetName Field
+                    '.DatasetName(i) = Field
+                    'i = i + 1
                 Next
 
                 If Not rst Is Nothing Then
                     Do While Not rst.EOF
-                        .Label(0) = .Label(0) & "'" & rst(LabelFieldName) & "',"
-                        i = 0
+                        '.Label(0) = .Label(0) & "'" & rst(LabelFieldName) & "',"
+                        .AddLabel rst(LabelFieldName)
+                        'i = 0
                         For Each Field In DataFieldNames
-                            .Data(i) = .Data(i) & Str$(Nz(rst(DataFieldNames(i)))) & ","
-                            i = i + 1
+                            .AddData Field, Nz(rst(Field))
+                            '.Data(i) = .Data(i) & Str$(Nz(rst(DataFieldNames(i)))) & ","
+                            'i = i + 1
                         Next Field
                         rst.MoveNext
                     Loop
                 Else
-                    .Label(0) = "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
-                    .Data(0) = "2, 13, 7, 9, 12, 5,"
+                    .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
+                    .AddData "Demo", "2, 13, 7, 9, 12, 5,"
                 End If
             End With
             

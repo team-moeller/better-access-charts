@@ -49,7 +49,6 @@ End Property
 
 '### Private Methods / Functions
 Private Function getHeader() As String
-    Dim Font As BAC_Font
     
     'Declarations
     Dim strText As New BAC_StringBuilder
@@ -84,7 +83,21 @@ Private Function getHeader() As String
         End If
         
         .AddLine "<script>"
+        .Add getDefaultFont
+        .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
+        .AddLine "    var myChart = new Chart(ctx, {"
         
+        getHeader = .ToString
+    End With
+    
+End Function
+
+Private Function getDefaultFont() As String
+    'Declarations
+    Dim strText As New BAC_StringBuilder
+    Dim Font As BAC_Font
+    
+    With strText
         Set Font = Options.Default.Font
         If Len(Font.Color) > 0 Then
             .AddLine "    Chart.defaults.global.defaultFontColor = '" & Font.Color & "';"
@@ -95,13 +108,7 @@ Private Function getHeader() As String
         If Font.Size > 0 Then
             .AddLine "    Chart.defaults.global.defaultFontSize = " & Font.Size & ";"
         End If
-        
-        .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
-        .AddLine "    var myChart = new Chart(ctx, {"
-        
-        getHeader = .ToString
     End With
-    
 End Function
 
 Private Function getChartType() As String
@@ -144,21 +151,18 @@ Private Function getChartData() As String
 
     With strText
         .AddLine "        data: {"
-        If Options.ChartType <> chChartType.Bubble Then
-            If Options.ChartType <> chChartType.Scatter Then
-                .AddLine "            labels: [" & Data.Label(0) & "],"
-            End If
+        If Not Options.IsBubbleOrScatterChart Then
+            .AddLine "            labels: [" & Data.Labels & "],"
         End If
         
         .AddLine "            datasets: ["
         For i = 0 To Data.DataCount - 1
         
-            Select Case Options.ChartType
-                Case chChartType.Bubble, chChartType.Scatter
-                    .AddLine "               {label: '" & Data.Label(i) & "' ,"
-                Case Else
-                    .AddLine "               {label: '" & Data.DatasetName(i) & "' ,"
-            End Select
+            If Options.IsBubbleOrScatterChart Then
+                .AddLine "               {label: '" & Data.Label(i) & "' ,"
+            Else
+                .AddLine "               {label: '" & Data.DatasetName(i) & "' ,"
+            End If
             
             Select Case Options.ChartType
                 Case chChartType.Line, chChartType.Radar
