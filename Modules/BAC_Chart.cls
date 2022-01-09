@@ -20,7 +20,7 @@ Option Explicit
 '### Enums
 
 Public Enum chChartType
-    line = 1
+    Line = 1
     Bar = 2
     HorizontalBar = 3
     Radar = 4
@@ -99,7 +99,7 @@ End Property
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
     m_ChartType = This_ChartType
     Select Case This_ChartType
-        Case chChartType.Bar, chChartType.HorizontalBar, chChartType.line, chChartType.Bubble, chChartType.Scatter
+        Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
             YAxis.Show = True
             XAxis.Show = True
         Case chChartType.Doughnut, chChartType.Pie, chChartType.PolarArea, chChartType.Radar
@@ -118,7 +118,7 @@ Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
 End Property
 Public Property Get StackedChart() As Boolean
     Select Case ChartType
-        Case chChartType.line, chChartType.Bar, chChartType.HorizontalBar
+        Case chChartType.Line, chChartType.Bar, chChartType.HorizontalBar
             StackedChart = m_StackedChart
         Case Else
             StackedChart = False
@@ -240,10 +240,15 @@ End Sub
 '### Public Methods
 
 Public Sub DrawChart()
+
+    Dim strHTML As String
+    With BAC.Generator(Me, Me.DataSource.getData(Me.ChartType))
+        strHTML = .GenerateHTML
+    End With
     
-    CreateChartFile
-    
-    Control.Object.Navigate getHTMLFileName
+    If CreateChartFile(getHTMLFileName, strHTML) Then
+        Control.Object.Navigate getHTMLFileName
+    End If
     
 End Sub
 
@@ -274,258 +279,22 @@ End Sub
 
 '### Private Methods
 
-Private Sub CreateChartFile()
-
-    'Declarations
-    Dim objFS As Object
-    Dim strHtml As New BAC_StringBuilder
-    With strHtml
-        .Add getHeader
-        .Add getChartType
-        .Add getChartData
-        .Add getChartOptions
-        .Add getFooter
-    End With
  
-    If Me.SaveHtmlFileForDebugging = True Then
-        Call saveHtmlFile(strHtml.ToString)
-    End If
-        
-    Set objFS = CreateObject("ADODB.Stream")
-    objFS.Charset = "utf-8"
-    objFS.Open
-    objFS.WriteText strHtml.ToString
-    objFS.SaveToFile getHTMLFileName, 2   '2: Create Or Update
-    objFS.Close
-    
-End Sub
-
-Private Function getHeader() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    With strText
-        .AddLine "<!DOCTYPE html>"
-        .AddLine "<!-- saved from url=(0014)about:internet -->"
-        .AddLine "<!-- saved from url=(0016)http://localhost -->"
-        .AddLine "<html>"
-        .AddLine "<head>"
-        .AddLine "    <meta charset=""utf-8"">"
-        .AddLine "    <meta http-equiv=""X-UA-Compatible"" content=""IE=Edge""/>"
-        .AddLine "    <title>Chart</title>"
-        .AddLine "    <style>body{margin:0;padding:0;}</style>"
-        .AddLine "    <script src=" & BAC.Scripts.ChartJS.getLocation & "></script>"
-        .AddLine "    <script src=" & BAC.Scripts.Plugin_ColorSchemes.getLocation & "></script>"
-        If DataLabels.Show = True Then
-            .AddLine "    <script src=" & BAC.Scripts.Plugin_DataLabels.getDataLabelLocation & "></script>"
-        End If
-        .AddLine "</head>"
-        .AddLine "<body>"
-        .AddLine "<div id=""container"" style=""width: 100%;"">"
-        If Len(BackgroundColor) > 0 Then
-            .AddLine "    <canvas id=""myChart"" style=""background-color: " & BackgroundColor & """ ></canvas>"
-        Else
-            .AddLine "    <canvas id=""myChart""></canvas>"
-        End If
-        .AddLine "</div>"
-        If ShowDownloadLink = True Then
-            .AddLine "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
-        End If
-        .AddLine "<script>"
-        If Len(Default.Font.Color) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontColor = '" & Default.Font.Color & "';"
-        End If
-        If Len(Default.Font.Family) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & Default.Font.Family & "';"
-        End If
-        If Default.Font.Size > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontSize = " & Default.Font.Size & ";"
-        End If
-        If Default.Font.IsItalic = True Then
-            .AddLine "    Chart.defaults.global.defaultFontStyle = 'italic';"
-        End If
-        .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
-        .AddLine "    var myChart = new Chart(ctx, {"
-        
-        getHeader = .ToString
-    End With
-    
-End Function
-
-Private Function getChartType() As String
-
-    'Declarations
-    Dim strText As String
-    Dim strType As String
-    
-    Select Case ChartType
-        Case chChartType.line
-            strType = "line"
-        Case chChartType.Bar
-            strType = "bar"
-        Case chChartType.HorizontalBar
-            strType = "horizontalBar"
-        Case chChartType.Radar
-            strType = "radar"
-        Case chChartType.Doughnut
-            strType = "doughnut"
-        Case chChartType.Pie
-            strType = "pie"
-        Case chChartType.PolarArea
-            strType = "polarArea"
-        Case chChartType.Bubble
-            strType = "bubble"
-        Case chChartType.Scatter
-            strType = "scatter"
-        Case Else
-            'Do Nothing
-    End Select
-    
-    strText = strText & "        type: '" & strType & "'," & vbCrLf
-    
-    getChartType = strText
-
-End Function
-
-Private Function getChartData() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    Dim dataSet As BAC_DataSet
-    Dim i As Integer
-
-    Set dataSet = Me.DataSource.getData(Me.ChartType)
-    With strText
-        .AddLine "        data: {"
-        If ChartType <> chChartType.Bubble Then
-            If ChartType <> chChartType.Scatter Then
-                .AddLine "            labels: [" & dataSet.Label(0) & "],"
-            End If
-        End If
-        
-        .AddLine "            datasets: ["
-        For i = 0 To dataSet.DataCount - 1
-            Select Case ChartType
-                Case chChartType.Bubble, chChartType.Scatter
-                    .AddLine "               {label: '" & dataSet.Label(i) & "' ,"
-                Case Else
-                    .AddLine "               {label: '" & dataSet.DatasetName(i) & "' ,"
-            End Select
-            Select Case ChartType
-                Case chChartType.line, chChartType.Radar
-                    If AreaFilled = False Then
-                        .AddLine "                fill: false ,"
-                    End If
-                Case Else
-                    'Do Nothing
-            End Select
-                    
-            .AddLine "                data: [" & dataSet.Data(i) & "],"
-            If m_IsSingleBarChart = True Then
-                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorSchema.Name & ","
-            End If
-            .AddLine "                borderWidth: 1},"
-        Next i
-        .CutTrailingComma
-        .AddLine "             ]"
-        .AddLine "        },"
-        
-        getChartData = .ToString
-    End With
-    
-End Function
-    
-Private Function getChartOptions() As String
-    
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    With strText
-        .AddLine "        options: {"
-        If Me.AspectRatio <> 2# Then
-            .AddLine " aspectRatio: " & Str(AspectRatio) & ","
-        End If
-        .Add Title.getTitle
-        .Add Legend.getLegend
-        .Add getScales
-        .Add getPlugins
-        .CutTrailingComma
-        .AddLine "        }"
-        
-        getChartOptions = .ToString
-    End With
-    
-End Function
-
-Private Function getFooter() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    With strText
-        .AddLine "    });"  '???
-        
-        If ShowDownloadLink = True Then
-            .AddLine "    function download() {"
-            .AddLine "        var myChart = document.getElementById('myChart');"
-            .AddLine "        var blob = myChart.msToBlob()"
-            .AddLine "        window.navigator.msSaveBlob(blob, 'Better-Access-Charts.png');"
-            .AddLine "    }"
-        End If
-        .AddLine "</script>"
-        .AddLine "</body>"
-        .AddLine "</html>"
-        
-        getFooter = strText.ToString
-    End With
-    
-End Function
-
-Private Sub DetermineSingleBarChart()
+Friend Function IsSingleBarChart()
 
     Select Case m_ChartType
         Case chChartType.Bar, chChartType.HorizontalBar
             If DataSource.IsSingleDataset = True Then
-                m_IsSingleBarChart = True
+                IsSingleBarChart = True
             Else
-                m_IsSingleBarChart = False
+                IsSingleBarChart = False
             End If
         Case Else
-            m_IsSingleBarChart = False
+            IsSingleBarChart = False
     End Select
 
-End Sub
-
-Private Function getScales() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    With strText
-        .AddLine "            scales: {"
-        .Add Me.YAxis.getAxis(Me.StackedChart)
-        .Add Me.XAxis.getAxis(Me.StackedChart)
-        .CutTrailingComma
-        .AddLine "            },"
-        
-        getScales = .ToString
-    End With
-    
 End Function
 
-Private Function getPlugins() As String
-
-    'Declarations
-    Dim strText As New BAC_StringBuilder
-    
-    With strText
-        .AddLine "            plugins: {"
-        .Add ColorSchema.getColorSchema
-        .Add DataLabels.getDataLabel
-        .CutTrailingComma
-        .AddLine "                },"
-        
-        getPlugins = .ToString
-    End With
-    
-End Function
 
 
 '### Private Helper Methods
@@ -560,3 +329,19 @@ Private Function getHTMLFileName() As String
     getHTMLFileName = strPath & strFilename
     
 End Function
+
+Private Function CreateChartFile(ByVal FileName As String, ByVal strHTML As String) As Boolean
+
+    'Declarations
+    Dim objFS As Object
+       
+    Set objFS = CreateObject("ADODB.Stream")
+    objFS.Charset = "utf-8"
+    objFS.Open
+    objFS.WriteText strHTML
+    objFS.SaveToFile FileName, 2   '2: Create Or Update
+    objFS.Close
+    CreateChartFile = True
+    
+End Function
+

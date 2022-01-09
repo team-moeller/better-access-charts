@@ -20,11 +20,11 @@ Option Explicit
 ' Private m_DataSetLabel As Variant
 
 Private m_LabelCount As Integer
-Private m_Labels() As String
+Private m_Labels() As String        ' 1..LabelCount
 
 Private m_DataCount As Integer
-Private m_Data() As String
-Private m_DatasetNames() As String
+Private m_Data() As String          ' 1..DataCount
+Private m_DatasetNames() As String  ' 1..DataCount
 
 
 ' ### Properties
