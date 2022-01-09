@@ -23,6 +23,7 @@ Private m_SQLStatement As String
 Private m_Recordset As DAO.Recordset
 Private m_LabelFieldName As String
 Private m_DataFieldNames() As String
+Private m_Dataset As BAC_DataSet
 
 Private m_IsSingleDataset As Boolean
 
@@ -40,12 +41,18 @@ Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
         Case dstQueryName:  Me.ObjectName = DataSource
         Case dstSQLStament: Me.SQLStatement = DataSource
         Case dstRecordset:  Set Me.Recordset = DataSource
+        Case dstDataset:    Set Me.Dataset = DataSource
   End Select
   Me.DataFieldNames = DataFieldNames
   Me.LabelFieldName = LabelFieldName
   
 End Sub
 
+' ### Methods
+
+Public Sub UseDemoData()
+    m_Type = dstDemo
+End Sub
 
 ' ### Properties
 
@@ -72,6 +79,15 @@ End Property
 Public Property Get Recordset() As Object   ' ADODB/DAO.Recordset
     Set Recordset = m_Recordset
 End Property
+
+Public Property Let Dataset(ByVal This_Dataset As BAC_DataSet)
+    m_Type = dstDataset
+    Set m_Dataset = This_Dataset
+End Property
+Public Property Get Dataset() As BAC_DataSet
+    Set Dataset = m_Dataset
+End Property
+
 
 Public Property Let LabelFieldName(ByVal This_LabelFieldName As String)
     m_LabelFieldName = This_LabelFieldName
@@ -116,121 +132,57 @@ On Error GoTo Handle_Error
 
     'Declarations
     Dim db As DAO.Database
-    Dim rst As Object ' ADODB/DAO.Recordset
-    Dim dataSet As New BAC_DataSet
-    Dim Field As Variant
-    Dim i As Integer
+    Dim rst As DAO.Recordset
+    Dim dst As New BAC_DataSet
     
     Set db = CurrentDb()
     
     'Detect data source
-    If Len(ObjectName) > 0 Then
-        Set rst = db.OpenRecordset(ObjectName)
-    ElseIf Len(SQLStatement) > 0 Then
-        Set rst = db.OpenRecordset(SQLStatement)
-    ElseIf Not Recordset Is Nothing Then
-        Set rst = Recordset
-    Else
-        DataFieldNames = Array("Demo")
-    End If
-    
-    'Extract data and labels
-    Select Case ChartType
-        Case chChartType.Bubble
-            If Not rst Is Nothing Then
-                With dataSet
-                    '.LabelCount = rst.RecordCount
-                    '.DataCount = rst.RecordCount
-                    Do While Not rst.EOF
-                        '.Label(i) = rst(LabelFieldName)
-                        .AddLabel rst(LabelFieldName)
-                        .AddDatasetName "Record" & Str(i)
-                        .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
-                                     ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & _
-                                     ", r:" & Str$(Nz(rst(DataFieldNames(2)))) & "}"
-                        i = i + 1
-                        rst.MoveNext
-                    Loop
-                End With
-            Else
-                With dataSet
-                    '.DataCount = 1
-                    '.LabelCount = 1
-                    '.Label(0) = "Demo"
-                    .AddLabel "Demo"
-                    .AddDatasetName "Data"
-                    .AddData "Data", "{x:2,y:3,r:17}"
-                End With
-            End If
-                
-        Case chChartType.Scatter
-            If Not rst Is Nothing Then
-                With dataSet
-                    '.LabelCount = rst.RecordCount
-                    '.DataCount = rst.RecordCount
-                    Do While Not rst.EOF
-                        '.Label(i) = rst(LabelFieldName)
-                        .AddLabel rst(LabelFieldName)
-                        .AddDatasetName "Record" & Str(i)
-                        .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
-                                     ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & "}"
-                        i = i + 1
-                        rst.MoveNext
-                    Loop
-                End With
-            Else
-                With dataSet
-                    '.DataCount = 1
-                    '.LabelCount = 1
-                    '.Label(0) = "Demo"
+    Select Case m_Type
+        Case dstTableName, dstQueryName:
+            Set rst = db.OpenRecordset(ObjectName)
+        Case dstSQLStament:
+            Set rst = db.OpenRecordset(SQLStatement)
+        Case dstRecordset:
+            Set rst = Me.Recordset
+        Case dstDataset:
+            Set dst = Me.Dataset
+        Case dstDemo:
+            If (ChartType = chChartType.Bubble) Then
+                With dst
                     .AddLabel "Demo"
                     .AddDatasetName "Data"
                     .AddData "Data", "{x:2,y:3}"
                 End With
-            End If
-                
-        Case Else
-            With dataSet
-                '.LabelCount = 1
-                '.DataCount = UBound(DataFieldNames) + 1
-                'i = 0
-                For Each Field In DataFieldNames
-                    .AddDatasetName Field
-                    '.DatasetName(i) = Field
-                    'i = i + 1
-                Next
-
-                If Not rst Is Nothing Then
-                    Do While Not rst.EOF
-                        '.Label(0) = .Label(0) & "'" & rst(LabelFieldName) & "',"
-                        .AddLabel rst(LabelFieldName)
-                        'i = 0
-                        For Each Field In DataFieldNames
-                            .AddData Field, Nz(rst(Field))
-                            '.Data(i) = .Data(i) & Str$(Nz(rst(DataFieldNames(i)))) & ","
-                            'i = i + 1
-                        Next Field
-                        rst.MoveNext
-                    Loop
-                Else
+            ElseIf (ChartType = chChartType.Scatter) Then
+                With dst
+                    .AddLabel "Demo"
+                    .AddDatasetName "Data"
+                    .AddData "Data", "{x:2,y:3,r:17}"
+                End With
+            Else
+                With dst
                     .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
-                    .AddData "Demo", "2, 13, 7, 9, 12, 5,"
-                End If
-            End With
+                    .AddDatasetName "Data"
+                    .AddData "Data", "2, 13, 7, 9, 12, 5,"
+                End With
+            End If
             
-            'Cleanup result
-            'DetermineSingleBarChart
-            
-            ReDim m_DataSet1Colors(UBound(DataFieldNames))
-            
+            DataFieldNames = Array("Demo")
     End Select
     
+    If Not (rst Is Nothing) Then
+        Set dst = getDataFromRS(rst, ChartType)
+    End If
+    
+    
 Exit_Here:
-    On Error Resume Next
-    rst.Close
-    Set rst = Nothing
+    If Not (rst Is Nothing) Then
+        rst.Close
+        Set rst = Nothing
+    End If
     Set db = Nothing
-    Set getData = dataSet.Result
+    Set getData = dst.Result
     Exit Function
 
 Handle_Error:
@@ -241,5 +193,58 @@ Handle_Error:
     Resume Exit_Here
     Resume Next
 
+End Function
+
+Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartType) As BAC_DataSet
+    Dim dst As New BAC_DataSet
+    Dim Field As Variant ' As String
+    Dim i As Integer
+    
+    If rst Is Nothing Then Exit Function
+    
+    'Extract data and labels
+    Select Case ChartType
+        Case chChartType.Bubble
+            With dst
+                Do While Not rst.EOF
+                    .AddLabel rst(LabelFieldName)
+                    .AddDatasetName "Record" & Str(i)
+                    .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
+                                 ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & _
+                                 ", r:" & Str$(Nz(rst(DataFieldNames(2)))) & "}"
+                    i = i + 1
+                    rst.MoveNext
+                Loop
+            End With
+                
+        Case chChartType.Scatter
+            With dst
+                Do While Not rst.EOF
+                    .AddLabel rst(LabelFieldName)
+                    .AddDatasetName "Record" & Str(i)
+                    .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
+                                 ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & "}"
+                    i = i + 1
+                    rst.MoveNext
+                Loop
+            End With
+                
+        Case Else
+            With dst
+                For Each Field In DataFieldNames
+                    .AddDatasetName Field
+                Next
+
+                Do While Not rst.EOF
+                    .AddLabel rst(LabelFieldName)
+                    For Each Field In DataFieldNames
+                        .AddData Field, Nz(rst(Field))
+                    Next Field
+                    rst.MoveNext
+                Loop
+            End With
+                        
+    End Select
+    Set getDataFromRS = dst
 End Function
 
