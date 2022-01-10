@@ -19,7 +19,7 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 ## How to integrate into your own database?
 **1. Import of the class module**
 
-First, the class module cls_Better_Access_Chart must be imported from the demo database into your Access database.
+First, all modules with the name "BAC_*" must be imported from the demo database into your Access database.
 
 **2. Insert web browser control on form**
 
