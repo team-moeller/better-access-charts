@@ -50,7 +50,7 @@ In order for the chart to show something, it needs a [data source](https://githu
 
 You can specify one or more field names using the [DataSource.DataFieldNames](https://github.com/team-moeller/better-access-charts/wiki/datasource#datafieldnames) property. If you specify multiple field names, a data series is drawn for each field. You use the [DataSource.LabelFieldName](https://github.com/team-moeller/better-access-charts/wiki/datasource#labelfieldname) attribute to specify the field from which the names of the data points are taken.
 
-Finally, use the [ChartType](https://github.com/team-moeller/better-access-charts/wiki/charttype) property to select which of the nine possible chart types should be created.
+Finally, use the [ChartType](https://github.com/team-moeller/better-access-charts/wiki/chart#charttype) property to select which of the nine possible chart types should be created.
 
 The necessary VBA code could look like this, for example:
 
