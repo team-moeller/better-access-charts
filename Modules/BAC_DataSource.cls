@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.01.09  published: 09.01.2022                                                  #
+'# Version 2.02.02  published: 11.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -115,7 +115,7 @@ On Error GoTo Handle_Error
 
     'Declarations
     Dim db As DAO.Database
-    Dim rst As Object ' DAO.Recordset
+    Dim rst As Object ' ADODB/DAO.Recordset
     Dim dataSet As New BAC_DataSet
     Dim Field As Variant
     Dim i As Integer
