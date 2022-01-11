@@ -48,7 +48,7 @@ When you run this code, you will see a chart with some data. At the moment no da
 
 In order for the chart to show something, it needs a [data source](https://github.com/team-moeller/better-access-charts/wiki/datasource). You can use the [DataSource.ObjectName](https://github.com/team-moeller/better-access-charts/wiki/datasource#objectname) property for this, for example. Enter the name of a table or a query that contains the data to be displayed.
 
-You can specify one or more field names using the [DataSourceDataFieldName](https://github.com/team-moeller/better-access-charts/wiki/datasourcedatafieldname) property. If you specify multiple field names, a data series is drawn for each field. You use the [DataSourceLabelFieldName](https://github.com/team-moeller/better-access-charts/wiki/datasourcelabelfieldname) attribute to specify the field from which the names of the data points are taken.
+You can specify one or more field names using the [DataSource.DataFieldNames](https://github.com/team-moeller/better-access-charts/wiki/datasource#datafieldnames) property. If you specify multiple field names, a data series is drawn for each field. You use the [DataSource.LabelFieldName](https://github.com/team-moeller/better-access-charts/wiki/datasource#labelfieldname) attribute to specify the field from which the names of the data points are taken.
 
 Finally, use the [ChartType](https://github.com/team-moeller/better-access-charts/wiki/charttype) property to select which of the nine possible chart types should be created.
 
