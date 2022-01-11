@@ -46,7 +46,7 @@ When you run this code, you will see a chart with some data. At the moment no da
 
 **4. Add a data source and define the chart type**
 
-In order for the chart to show something, it needs a data source. You can use the [DataSourceObjectName](https://github.com/team-moeller/better-access-charts/wiki/datasourceobjectname) property for this, for example. Enter the name of a table or a query that contains the data to be displayed.
+In order for the chart to show something, it needs a [data source](https://github.com/team-moeller/better-access-charts/wiki/datasource). You can use the [DataSourceObjectName](https://github.com/team-moeller/better-access-charts/wiki/datasourceobjectname) property for this, for example. Enter the name of a table or a query that contains the data to be displayed.
 
 You can specify one or more field names using the [DataSourceDataFieldName](https://github.com/team-moeller/better-access-charts/wiki/datasourcedatafieldname) property. If you specify multiple field names, a data series is drawn for each field. You use the [DataSourceLabelFieldName](https://github.com/team-moeller/better-access-charts/wiki/datasourcelabelfieldname) attribute to specify the field from which the names of the data points are taken.
 
