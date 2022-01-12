@@ -111,20 +111,29 @@ Public Sub PrepareAndExportModules()
 
 End Sub
 
+
 Public Sub ImportModules()
 
     'Declarations
     Dim strFile As String
-    Dim vbc As Object
+    Dim strModule As String
+    Dim vbc As Object ' VBComponents
+    Dim vbModule As Object
     
+    Set vbc = Application.VBE.ActiveVBProject.VBComponents
     strFile = Dir(CurrentProject.Path & "\Modules\")
     Do While Len(strFile) > 0
         On Error Resume Next
-        Set vbc = Application.VBE.ActiveVBProject.VBComponents(strFile)
-        Application.VBE.ActiveVBProject.VBComponents.Remove vbc
-        On Error GoTo 0
-        Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
-        Debug.Print strFile
+        strModule = Left$(strFile, InStr(strFile, ".") - 1)
+		if strModule <> Me.Name Then
+			Set vbModule = vbc.Item(strModule)
+			If Not vbModule Is Nothing Then
+				Application.VBE.ActiveVBProject.VBComponents.Remove vbModule
+			End If
+			On Error GoTo 0
+			Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
+			Debug.Print strFile
+		end if
         strFile = Dir
     Loop
     Application.DoCmd.RunCommand (acCmdCompileAndSaveAllModules)
