@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.02.02  published: 11.01.2022                                                  #
+'# Version 2.03.05  published: 12.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -67,18 +67,15 @@ Private Const HtmlFileName As String = "BetterAccessChart_{}.html"
 
 Private WithEvents m_Control As WebBrowserControl
 Attribute m_Control.VB_VarHelpID = -1
-
 Private m_ChartType As chChartType
-
 Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
 Private m_ChartBackgroundColor As String
 Private m_ShowDownloadLink As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
+Private m_AspectRatio As Double
 
 Private m_IsSingleBarChart As Boolean
-    
-Private m_AspectRatio      As Double
     
 Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
@@ -420,6 +417,7 @@ Private Function getChartData() As String
         
         getChartData = .ToString
     End With
+    
 End Function
     
 Private Function getChartOptions() As String
@@ -440,6 +438,7 @@ Private Function getChartOptions() As String
         
         getChartOptions = .ToString
     End With
+    
 End Function
 
 Private Function getFooter() As String
@@ -462,6 +461,7 @@ Private Function getFooter() As String
         
         getFooter = strText.ToString
     End With
+    
 End Function
 
 Private Sub DetermineSingleBarChart()
@@ -492,12 +492,14 @@ Private Function getScales() As String
         
         getScales = .ToString
     End With
+    
 End Function
 
 Private Function getPlugins() As String
 
     'Declarations
     Dim strText As New BAC_StringBuilder
+    
     With strText
         .AddLine "            plugins: {"
         .Add ColorSchema.getColorSchema
