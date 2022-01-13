@@ -86,7 +86,7 @@ Public Function IsFormOpen(ByVal strFormName As String) As Boolean
     
 End Function
 
-Public Sub PrepareAndExportModules()
+Public Sub PrepareAndExportModules(Optional ByVal TagVersion As Boolean = False)
 
     'Declarations
     Dim Version As String
@@ -99,8 +99,10 @@ Public Sub PrepareAndExportModules()
     
     For Each vbc In Application.VBE.ActiveVBProject.VBComponents
         If vbc.Type = 1 Or vbc.Type = 2 Then
-            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.InsertLines 4, CodeLine
-            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.DeleteLines 5, 1
+            If TagVersion Then
+                Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.InsertLines 4, CodeLine
+                Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.DeleteLines 5, 1
+            End If
     
             Application.VBE.ActiveVBProject.VBComponents(vbc.Name).Export CurrentProject.Path & "\Modules\" & vbc.Name & IIf(vbc.Type = 2, ".cls", ".bas")
         End If
