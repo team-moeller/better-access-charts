@@ -86,7 +86,7 @@ Public Function IsFormOpen(ByVal strFormName As String) As Boolean
     
 End Function
 
-Public Sub PrepareAndExportModules()
+Public Sub PrepareAndExportModules(Optional ByVal TagVersion As Boolean = False)
 
     'Declarations
     Dim Version As String
@@ -99,8 +99,10 @@ Public Sub PrepareAndExportModules()
     
     For Each vbc In Application.VBE.ActiveVBProject.VBComponents
         If vbc.Type = 1 Or vbc.Type = 2 Then
-            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.InsertLines 4, CodeLine
-            Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.DeleteLines 5, 1
+            If TagVersion Then
+                Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.InsertLines 4, CodeLine
+                Application.VBE.ActiveVBProject.VBComponents(vbc.Name).CodeModule.DeleteLines 5, 1
+            End If
     
             Application.VBE.ActiveVBProject.VBComponents(vbc.Name).Export CurrentProject.Path & "\Modules\" & vbc.Name & IIf(vbc.Type = 2, ".cls", ".bas")
         End If
@@ -111,20 +113,29 @@ Public Sub PrepareAndExportModules()
 
 End Sub
 
+
 Public Sub ImportModules()
 
     'Declarations
     Dim strFile As String
-    Dim vbc As Object
+    Dim strModule As String
+    Dim vbc As Object ' VBComponents
+    Dim vbModule As Object
     
+    Set vbc = Application.VBE.ActiveVBProject.VBComponents
     strFile = Dir(CurrentProject.Path & "\Modules\")
     Do While Len(strFile) > 0
         On Error Resume Next
-        Set vbc = Application.VBE.ActiveVBProject.VBComponents(strFile)
-        Application.VBE.ActiveVBProject.VBComponents.Remove vbc
-        On Error GoTo 0
-        Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
-        Debug.Print strFile
+        strModule = Left$(strFile, InStr(strFile, ".") - 1)
+		if strModule <> Me.Name Then
+			Set vbModule = vbc.Item(strModule)
+			If Not vbModule Is Nothing Then
+				Application.VBE.ActiveVBProject.VBComponents.Remove vbModule
+			End If
+			On Error GoTo 0
+			Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
+			Debug.Print strFile
+		end if
         strFile = Dir
     Loop
     Application.DoCmd.RunCommand (acCmdCompileAndSaveAllModules)
