@@ -2,7 +2,7 @@ Attribute VB_Name = "mdl_Helpers"
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.03.05  published: 12.01.2022                                                  #
+'# Version 2.04.04  published: 15.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -86,7 +86,15 @@ Public Function IsFormOpen(ByVal strFormName As String) As Boolean
     
 End Function
 
-Public Sub PrepareAndExportModules(Optional ByVal TagVersion As Boolean = False)
+Public Sub ExportModules()
+' This method is intended for the contributor who just wants to export the modules
+
+    Call PrepareAndExportModules(False)
+
+End Sub
+
+Public Sub PrepareAndExportModules(Optional ByVal TagVersion As Boolean = True)
+' This method is intended for the power user who wants to update the version numbers in the code headers
 
     'Declarations
     Dim Version As String
@@ -113,7 +121,6 @@ Public Sub PrepareAndExportModules(Optional ByVal TagVersion As Boolean = False)
 
 End Sub
 
-
 Public Sub ImportModules()
 
     'Declarations
@@ -121,21 +128,22 @@ Public Sub ImportModules()
     Dim strModule As String
     Dim vbc As Object ' VBComponents
     Dim vbModule As Object
+    Const ThisModuleName As String = "mdl_Helpers"
     
     Set vbc = Application.VBE.ActiveVBProject.VBComponents
     strFile = Dir(CurrentProject.Path & "\Modules\")
     Do While Len(strFile) > 0
         On Error Resume Next
         strModule = Left$(strFile, InStr(strFile, ".") - 1)
-		if strModule <> Me.Name Then
-			Set vbModule = vbc.Item(strModule)
-			If Not vbModule Is Nothing Then
-				Application.VBE.ActiveVBProject.VBComponents.Remove vbModule
-			End If
-			On Error GoTo 0
-			Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
-			Debug.Print strFile
-		end if
+        If strModule <> ThisModuleName Then
+            Set vbModule = vbc.Item(strModule)
+            If Not vbModule Is Nothing Then
+                Application.VBE.ActiveVBProject.VBComponents.Remove vbModule
+            End If
+            On Error GoTo 0
+            Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
+            Debug.Print strFile
+        End If
         strFile = Dir
     Loop
     Application.DoCmd.RunCommand (acCmdCompileAndSaveAllModules)
@@ -143,3 +151,4 @@ Public Sub ImportModules()
     MsgBox "Import done", vbInformation, "Better Access Charts"
 
 End Sub
+
