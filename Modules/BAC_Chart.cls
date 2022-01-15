@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
+'# Copyright (c) 2020 - 2022 Thomas Mï¿½ller, supported by K.D.Gundermann                    #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
 '# Version 2.04.04  published: 15.01.2022                                                  #
 '###########################################################################################
@@ -70,7 +70,7 @@ Attribute m_Control.VB_VarHelpID = -1
 Private m_ChartType As chChartType
 Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
-Private m_ChartBackgroundColor As String
+Private m_BackgroundColor As String
 Private m_ShowDownloadLink As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
 Private m_AspectRatio As Double
@@ -140,11 +140,11 @@ Public Property Get AspectRatio() As Double
     AspectRatio = m_AspectRatio
 End Property
 
-Public Property Let ChartBackgroundColor(ByVal This_ChartBackgroundColor As String)
-    m_ChartBackgroundColor = This_ChartBackgroundColor
+Public Property Let BackgroundColor(ByVal This_BackgroundColor As String)
+    m_BackgroundColor = This_BackgroundColor
 End Property
-Public Property Get ChartBackgroundColor() As String
-    ChartBackgroundColor = m_ChartBackgroundColor
+Public Property Get BackgroundColor() As String
+    BackgroundColor = m_BackgroundColor
 End Property
 
 Public Property Let ShowDownloadLink(ByVal This_ShowDownloadLink As Boolean)
@@ -310,8 +310,8 @@ Private Function getHeader() As String
         .AddLine "</head>"
         .AddLine "<body>"
         .AddLine "<div id=""container"" style=""width: 100%;"">"
-        If Len(ChartBackgroundColor) > 0 Then
-            .AddLine "    <canvas id=""myChart"" style=""background-color: " & ChartBackgroundColor & """ ></canvas>"
+        If Len(BackgroundColor) > 0 Then
+            .AddLine "    <canvas id=""myChart"" style=""background-color: " & BackgroundColor & """ ></canvas>"
         Else
             .AddLine "    <canvas id=""myChart""></canvas>"
         End If
