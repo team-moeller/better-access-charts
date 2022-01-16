@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
+'# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.04.04  published: 15.01.2022                                                  #
+'# Version 2.05.07  published: 16.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -328,6 +328,9 @@ Private Function getHeader() As String
         End If
         If Default.Font.Size > 0 Then
             .AddLine "    Chart.defaults.global.defaultFontSize = " & Default.Font.Size & ";"
+        End If
+        If Default.Font.IsItalic = True Then
+            .AddLine "    Chart.defaults.global.defaultFontStyle = 'italic';"
         End If
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"
