@@ -2,7 +2,7 @@ Attribute VB_Name = "mdl_Helpers"
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.05.07  published: 16.01.2022                                                  #
+'# Version 2.06.06  published: 17.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -131,7 +131,7 @@ Public Sub ImportModules()
     Const ThisModuleName As String = "mdl_Helpers"
     
     Set vbc = Application.VBE.ActiveVBProject.VBComponents
-    strFile = Dir(CurrentProject.Path & "\Modules\")
+    strFile = Dir$(CurrentProject.Path & "\Modules\")
     Do While Len(strFile) > 0
         On Error Resume Next
         strModule = Left$(strFile, InStr(strFile, ".") - 1)
@@ -142,7 +142,6 @@ Public Sub ImportModules()
             End If
             On Error GoTo 0
             Application.VBE.ActiveVBProject.VBComponents.Import CurrentProject.Path & "\Modules\" & strFile
-            Debug.Print strFile
         End If
         strFile = Dir
     Loop

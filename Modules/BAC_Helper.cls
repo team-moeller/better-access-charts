@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.05.07  published: 16.01.2022                                                  #
+'# Version 2.06.06  published: 17.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -112,31 +112,15 @@ End Function
 
 Friend Function getTempFolder() As String
     
-    'Declarations
-    Dim strTempPath As String
-    Dim lngTempPath As Long
-    
-    strTempPath = String(144, vbNullChar)
-    lngTempPath = Len(strTempPath)
-    If (GetTempPath(lngTempPath, strTempPath) > 0) Then
-        getTempFolder = TrimNull(strTempPath)
-    Else
-        getTempFolder = vbNullString
+    'Declaration
+    Dim RetVal As Long
+    Dim TempDir As String
+ 
+    TempDir = Space$(256)
+    RetVal = GetTempPath(Len(TempDir), TempDir)
+ 
+    If RetVal <> 0 Then
+        getTempFolder = Left$(TempDir, RetVal)
     End If
     
 End Function
-
-Private Function TrimNull(ByVal strString As String) As String
-    
-    'Declarations
-    Dim intPos As Integer
-
-    intPos = VBA.InStr(strString, vbNullChar)
-    If intPos > 0 Then
-        TrimNull = VBA.Left$(strString, intPos - 1)
-    Else
-        TrimNull = strString
-    End If
-  
-End Function
-
