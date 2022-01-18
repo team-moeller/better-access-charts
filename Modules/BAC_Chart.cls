@@ -228,7 +228,7 @@ Private Sub Class_Initialize()
     XAxis.Show = True
         
     'ColorSchema
-    ColorSchema.ColorSchema = "brewer.Paired12"
+    ColorSchema.Name = "brewer.Paired12"
 
 End Sub
 
@@ -410,7 +410,7 @@ Private Function getChartData() As String
                     
             .AddLine "                data: [" & dataSet.Data(i) & "],"
             If m_IsSingleBarChart = True Then
-                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorSchema.ColorSchema & ","
+                .AddLine "                backgroundColor: Chart['colorschemes']." & ColorSchema.Name & ","
             End If
             .AddLine "                borderWidth: 1},"
         Next i
