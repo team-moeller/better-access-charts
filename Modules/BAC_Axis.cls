@@ -10,33 +10,31 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.06.06  published: 17.01.2022                                                  #
+'# Version 2.07.14  published: 18.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
+
+
+'### Enums
 
 Public Enum chCartesianAxis
     apXAxis = 1
     apYAxis = 2
 End Enum
 
+
+'### Members
+
 Private m_Axis As chCartesianAxis
 Private m_Show As Boolean
 Private m_LabelText As String
-
 Private m_BeginAtZero As Boolean
 Private m_TicksMin As String
 Private m_TicksMax As String
 
 Private m_TicksNeeded As Boolean
-
-
-' ### Initializer
-
-Friend Sub Init(ByVal Axis As chCartesianAxis)
-    m_Axis = Axis
-End Sub
 
 
 ' ### Properties
@@ -84,6 +82,13 @@ End Property
 Public Property Get TicksMax() As String
     TicksMax = m_TicksMax
 End Property
+
+
+' ### Initializer
+
+Friend Sub Init(ByVal Axis As chCartesianAxis)
+    m_Axis = Axis
+End Sub
 
 
 ' ### Generator Function

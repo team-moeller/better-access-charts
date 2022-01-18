@@ -10,18 +10,23 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.06.06  published: 17.01.2022                                                  #
+'# Version 2.07.14  published: 18.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
+'### Members
+
 Private m_Color As String
 Private m_Family As String
 Private m_Size As Integer
 Private m_IsItalic As Boolean
 Private m_IsBold As Boolean
+
+
+' ### Properties
 
 Public Property Let Color(ByVal This_Color As String)
     m_Color = This_Color
@@ -59,8 +64,8 @@ Public Property Get IsBold() As Boolean
 End Property
 
 
-' ###
+' ### Functions
 
 Friend Property Get SectionIsNeeded() As Boolean
-   SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
+    SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
 End Property

@@ -10,14 +10,19 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.06.06  published: 17.01.2022                                                  #
+'# Version 2.07.14  published: 18.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
+'### Members
+
 Private m_String As String
+
+
+'### Public Methods
 
 Public Sub Add(ByVal TheString As String)
     m_String = m_String & TheString

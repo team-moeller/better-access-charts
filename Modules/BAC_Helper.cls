@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.06.06  published: 17.01.2022                                                  #
+'# Version 2.07.14  published: 18.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -32,6 +32,8 @@ Option Explicit
     Private Declare Function MakeSureDirectoryPathExists Lib "imagehlp.dll" (ByVal lpPath As String) As Long
 #End If
 
+
+'### Functions
 
 Friend Function getPositionString(ByVal ThisPosition As chPosition) As String
 

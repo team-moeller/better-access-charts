@@ -10,28 +10,36 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.06.06  published: 17.01.2022                                                  #
+'# Version 2.07.14  published: 18.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
+'### Members
+
 Private m_ChartJS       As BAC_ChartJS
 Private m_ColorSchemes  As BAC_ChartJS_Plugin_ColorSchemes
 Private m_DataLabels    As BAC_ChartJS_Plugin_Datalabels
 
+
+'### Object Properties
+
 Public Property Get ChartJS() As BAC_ChartJS
-  Set ChartJS = m_ChartJS
+    Set ChartJS = m_ChartJS
 End Property
 
 Public Property Get Plugin_ColorSchemes() As BAC_ChartJS_Plugin_ColorSchemes
-  Set Plugin_ColorSchemes = m_ColorSchemes
+    Set Plugin_ColorSchemes = m_ColorSchemes
 End Property
 
 Public Property Get Plugin_DataLabels() As BAC_ChartJS_Plugin_Datalabels
-  Set Plugin_DataLabels = m_DataLabels
+    Set Plugin_DataLabels = m_DataLabels
 End Property
+
+
+'### Instancing
 
 Private Sub Class_Initialize()
     Set m_ChartJS = New BAC_ChartJS

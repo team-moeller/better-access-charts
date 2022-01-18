@@ -10,33 +10,39 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.06.06  published: 17.01.2022                                                  #
+'# Version 2.07.14  published: 18.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
-Private m_ColorSchema As String
+' ### Members
+
+Private m_Name As String
+
 
 ' ### Properties
 
-Public Property Let ColorSchema(ByVal This_ColorSchema As String)
-    m_ColorSchema = This_ColorSchema
+Public Property Let Name(ByVal NewValue As String)
+    m_Name = NewValue
 End Property
-Public Property Get ColorSchema() As String
-    ColorSchema = m_ColorSchema
+Public Property Get Name() As String
+    Name = m_Name
 End Property
+
 
 ' ### Generator Function
 
 Friend Function getColorSchema() As String
+
     With New BAC_StringBuilder
         .AddLine "                colorschemes: {"
-        .AddLine "                    scheme: '" & ColorSchema & "'"
+        .AddLine "                    scheme: '" & Me.Name & "'"
         .AddLine "                    },"
         
         getColorSchema = .ToString
     End With
+    
 End Function
 
