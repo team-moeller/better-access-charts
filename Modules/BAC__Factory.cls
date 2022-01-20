@@ -62,7 +62,3 @@ Public Function Generator(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BA
 End Function
 
 
-Private Sub Class_Initialize()
-    Set m_Helper = New BAC_Helper
-    Set m_Scripts = New BAC_Scripts
-End Sub
