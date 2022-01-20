@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '###########################################################################################
-'# Copyright (c) 2020 - 2022 Thomas Möller, supported by K.D.Gundermann                    #
+'# Copyright (c) 2020 - 2022 Thomas Mï¿½ller, supported by K.D.Gundermann                    #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
 '# Version 2.xx.xx  published: xx.01.2022                                                  #
 '###########################################################################################
@@ -71,8 +71,8 @@ Private Function getHeader() As String
         
         .AddLine "<body>"
         .AddLine "<div id=""container"" style=""width: 100%;"">"
-        If Len(Options.ChartBackgroundColor) > 0 Then
-            .AddLine "    <canvas id=""myChart"" style=""background-color: " & Options.ChartBackgroundColor & """ ></canvas>"
+        If Len(Options.BackgroundColor) > 0 Then
+            .AddLine "    <canvas id=""myChart"" style=""background-color: " & Options.BackgroundColor & """ ></canvas>"
         Else
             .AddLine "    <canvas id=""myChart""></canvas>"
         End If
@@ -176,7 +176,7 @@ Private Function getChartData() As String
             .AddLine "                data: [" & Data.Data(i) & "],"
             
             If Options.IsSingleBarChart Then
-                .AddLine "                backgroundColor: Chart['colorschemes']." & Options.ColorSchema.ColorSchema & ","
+                .AddLine "                backgroundColor: Chart['colorschemes']." & Options.ColorSchema.Name & ","
             End If
             
             .AddLine "                borderWidth: 1},"
