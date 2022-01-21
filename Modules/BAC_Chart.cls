@@ -73,6 +73,7 @@ Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
 Private m_BackgroundColor As String
 Private m_ShowDownloadLink As Boolean
+Private m_ShowInBrowser As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
 Private m_AspectRatio As Double
     
@@ -168,6 +169,13 @@ Public Property Get ShowDownloadLink() As Boolean
     ShowDownloadLink = m_ShowDownloadLink
 End Property
 
+Public Property Let ShowInBrowser(ByVal This_ShowInBrowser As Boolean)
+    m_ShowInBrowser = This_ShowInBrowser
+End Property
+Public Property Get ShowInBrowser() As Boolean
+    ShowInBrowser = m_ShowInBrowser
+End Property
+
 Public Property Let SaveHtmlFileForDebugging(ByVal This_SaveHtmlFileForDebugging As Boolean)
     m_SaveHtmlFileForDebugging = This_SaveHtmlFileForDebugging
 End Property
@@ -256,14 +264,19 @@ End Sub
 Public Sub DrawChart()
 
     Dim strHTML As String
+ 
+    
     With BAC.Generator(Me, Me.DataSource.getData(Me.ChartType))
         strHTML = .GenerateHTML
     End With
     
-    If CreateChartFile(getHTMLFileName, strHTML) Then
-        Control.Object.Navigate getHTMLFileName
+    If ShowInBrowser Then
+        ShowChartInBrowser strHTML
+    Else
+        If CreateChartFile(getHTMLFileName, strHTML) Then
+            Control.Object.Navigate getHTMLFileName
+        End If
     End If
-    
 End Sub
 
     
@@ -345,3 +358,30 @@ Private Function CreateChartFile(ByVal FileName As String, ByVal strHTML As Stri
     
 End Function
 
+Private Sub ShowChartInBrowser(ByVal strHTML As String)
+    Dim shellWins As SHDocVw.ShellWindows
+    Dim explorer As SHDocVw.InternetExplorer
+    Dim objIE As SHDocVw.InternetExplorer
+    
+    Set shellWins = New SHDocVw.ShellWindows
+    For Each explorer In shellWins
+        If explorer.Name = "Internet Explorer" Then
+            If explorer.LocationName = "about:" Then
+                Set objIE = explorer
+            End If
+        End If
+    Next
+    
+    If objIE Is Nothing Then
+        'Set objIE = CreateObject("InternetExplorer.Application")
+        Set objIE = New SHDocVw.InternetExplorer
+        objIE.Navigate "about:"
+    End If
+    objIE.Visible = True
+    Do While objIE.ReadyState <> 4: DoEvents: Loop
+    With objIE.Document
+        .Open
+        .Write strHTML
+        .Close
+    End With
+End Sub
