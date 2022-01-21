@@ -238,7 +238,7 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
                 Do While Not rst.EOF
                     .AddLabel rst(LabelFieldName)
                     For Each Field In DataFieldNames
-                        .AddData Field, Nz(rst(Field))
+                        .AddData Field, Str$(Nz(rst(Field)))
                     Next Field
                     rst.MoveNext
                 Loop
