@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.08.04  published: 19.01.2022                                                  #
+'# Version 2.09.05  published: 22.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -18,6 +18,7 @@ Option Explicit
 
 
 '### Windows API Declarations
+
 #If VBA7 Then
     Private Declare PtrSafe Function GetTempPath Lib "kernel32" Alias "GetTempPathA" _
         (ByVal nBufferLength As LongPtr, ByVal lpbuffer As String) As Long
@@ -31,6 +32,35 @@ Option Explicit
 #Else
     Private Declare Function MakeSureDirectoryPathExists Lib "imagehlp.dll" (ByVal lpPath As String) As Long
 #End If
+
+#If VBA7 Then
+    Private Declare PtrSafe Function ShellExecuteA Lib "Shell32" _
+        (ByVal hWnd As LongPtr, ByVal lpOperation As String, _
+         ByVal lpFile As String, ByVal lpParameters As String, _
+         ByVal lpDirectory As String, ByVal nShowCmd As eShowCmd) As Long
+#Else
+    Private Declare Function ShellExecuteA Lib "Shell32" _
+        (ByVal hWnd As Long, ByVal lpOperation As String, _
+         ByVal lpFile As String, ByVal lpParameters As String, _
+         ByVal lpDirectory As String, ByVal nShowCmd As eShowCmd) As Long
+#End If
+
+
+'### Enumerations
+
+Public Enum eShowCmd
+    SW_HIDE = 0             'Blendet Fenster aus und aktiviert ein anderes Fenster
+    SW_MAXIMIZE = 3         'Maximiert Fenster und aktiviert es
+    SW_MINIMIZE = 6         'Minimiert Fenster und aktiviert ein anderes Fenster
+    SW_RESTORE = 9          'Aktiviert bisher minimiertes Fenster in aktueller Größe
+    SW_SHOW = 5             'Aktiviert Fenster in aktueller Größe
+    SW_SHOWDEFAULT = 10     'Aktiviert Fenster in ursprünglicher Größe
+    SW_SHOWMINIMIZED = 2    'Minimiert Fenster und aktiviert es
+    SW_SHOWMININOACTIVE = 7 'Minimiert Fenster. Das aktive Fenster bleibt aktiv
+    SW_SHOWNA = 8           'Fenster in aktueller Größe. Aktives Fenster bleibt aktiv
+    SW_SHOWNOACTIVATE = 4   'Fenster in neuer Größe. Das aktive Fenster bleibt aktiv
+    SW_SHOWNORMAL = 1       'Aktiviert Fenster. Falls schon min/maximiert, normale Größe
+End Enum
 
 
 '### Functions
@@ -126,3 +156,10 @@ Friend Function getTempFolder() As String
     End If
     
 End Function
+
+Friend Sub ShellExecute(FileName As String)
+
+    Call ShellExecuteA(Application.hWndAccessApp, "open", FileName, "", CurDir$, SW_SHOW)
+
+End Sub
+    
