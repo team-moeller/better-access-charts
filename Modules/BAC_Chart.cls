@@ -33,10 +33,10 @@ End Enum
 
 Public Enum chDataSourceType
     dstDemo
-    dstRecordset
     dstTableName
     dstQueryName
     dstSQLStament
+    dstRecordset
     dstDataset
 End Enum
 

@@ -36,7 +36,7 @@ Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
                 Optional ByVal LabelFieldName As String)
   
   Select Case DataSourceType
-        Case dstDemo:       Me.ObjectName = ""
+        Case dstDemo:       ' will be created later
         Case dstTableName:  Me.ObjectName = DataSource
         Case dstQueryName:  Me.ObjectName = DataSource
         Case dstSQLStament: Me.SQLStatement = DataSource
@@ -80,7 +80,7 @@ Public Property Get Recordset() As Object   ' ADODB/DAO.Recordset
     Set Recordset = m_Recordset
 End Property
 
-Public Property Let Dataset(ByVal This_Dataset As BAC_DataSet)
+Public Property Set Dataset(ByVal This_Dataset As BAC_DataSet)
     m_Type = dstDataset
     Set m_Dataset = This_Dataset
 End Property
@@ -148,27 +148,7 @@ On Error GoTo Handle_Error
         Case dstDataset:
             Set dst = Me.Dataset
         Case dstDemo:
-            If (ChartType = chChartType.Bubble) Then
-                With dst
-                    .AddLabel "Demo"
-                    .AddDatasetName "Data"
-                    .AddData "Data", "{x:2,y:3}"
-                End With
-            ElseIf (ChartType = chChartType.Scatter) Then
-                With dst
-                    .AddLabel "Demo"
-                    .AddDatasetName "Data"
-                    .AddData "Data", "{x:2,y:3,r:17}"
-                End With
-            Else
-                With dst
-                    .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
-                    .AddDatasetName "Data"
-                    .AddData "Data", "2, 13, 7, 9, 12, 5,"
-                End With
-            End If
-            
-            DataFieldNames = Array("Demo")
+            Set dst = CreateDemoDataset(ChartType)
     End Select
     
     If Not (rst Is Nothing) Then
@@ -248,3 +228,33 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
     Set getDataFromRS = dst
 End Function
 
+Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSet
+    Dim dst As New BAC_DataSet
+    
+    DataFieldNames = Array("Demo")
+    
+    If (ChartType = chChartType.Scatter) Then
+        With dst
+            .AddDatasetName "Data"
+            .AddLabel "Demo"
+            .AddData "Data", "{x:1,y:5}"
+            .AddData "Data", "{x:2,y:3}"
+            .AddData "Data", "{x:4,y:2}"
+        End With
+    ElseIf (ChartType = chChartType.Bubble) Then
+        With dst
+            .AddDatasetName "Data"
+            .AddLabel "Demo"
+            .AddData "Data", "{x:2,y:3,r:17}"
+            .AddData "Data", "{x:1,y:5,r:9}"
+            .AddData "Data", "{x:4,y:2,r:4}"
+        End With
+    Else
+        With dst
+            .AddDatasetName "Data"
+            .AddData "Data", "2, 13, 7, 9, 12, 5,"
+            .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
+        End With
+    End If
+    Set CreateDemoDataset = dst
+End Function
