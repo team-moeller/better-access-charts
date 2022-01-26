@@ -268,9 +268,14 @@ End Sub
 
 Public Sub ShowInBrowser()
     
-    CreateChartFile
+    Dim strHTML As String
+    With BAC.Generator(Me, Me.DataSource.getData(Me.ChartType))
+        strHTML = .GenerateHTML
+    End With
     
-    BAC.Helper.ShellExecute getHTMLFileName
+    If CreateChartFile(getHTMLFileName, strHTML) Then
+        BAC.Helper.ShellExecute getHTMLFileName
+    End If
 
 End Sub
 
