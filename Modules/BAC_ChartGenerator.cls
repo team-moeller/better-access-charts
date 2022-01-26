@@ -61,6 +61,16 @@ Private Function IsSingleBarChart()
 
 End Function
 
+Private Function IsBubbleOrScatterChart() As Boolean
+    If c_Options.ChartType = Bubble Then
+        IsBubbleOrScatterChart = True
+    ElseIf c_Options.ChartType = Scatter Then
+        IsBubbleOrScatterChart = True
+    Else
+        IsBubbleOrScatterChart = False
+    End If
+End Function
+
 '### Private Methods / Functions
 Private Function getHeader() As String
     
@@ -165,14 +175,14 @@ Private Function getChartData() As String
 
     With strText
         .AddLine "        data: {"
-        If Not Options.IsBubbleOrScatterChart Then
+        If Not IsBubbleOrScatterChart Then
             .AddLine "            labels: [" & Data.Labels & "],"
         End If
         
         .AddLine "            datasets: ["
         For i = 0 To Data.DataCount - 1
         
-            If Options.IsBubbleOrScatterChart Then
+            If IsBubbleOrScatterChart Then
                 .AddLine "               {label: '" & Data.Label(i) & "' ,"
             Else
                 .AddLine "               {label: '" & Data.DatasetName(i) & "' ,"

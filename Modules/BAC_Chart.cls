@@ -289,15 +289,6 @@ End Sub
 
 '### Private Methods
 
-Friend Function IsBubbleOrScatterChart() As Boolean
-    If m_ChartType = Bubble Then
-        IsBubbleOrScatterChart = True
-    ElseIf m_ChartType = Scatter Then
-        IsBubbleOrScatterChart = True
-    Else
-        IsBubbleOrScatterChart = False
-    End If
-End Function
 
 
 '### Private Helper Methods
