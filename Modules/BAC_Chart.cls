@@ -38,6 +38,7 @@ Public Enum chDataSourceType
     dstSQLStament
     dstRecordset
     dstDataset
+    dstEmpty
 End Enum
 
 Public Enum chPosition
@@ -209,6 +210,11 @@ End Property
 Public Property Get DataLabels() As BAC_DataLabels
     Set DataLabels = m_DataLabels
 End Property
+
+Public Property Get DataSet() As BAC_DataSet
+    Set DataSet = m_DataSource.DataSet
+End Property
+
 
 '### Instancing
 

@@ -42,6 +42,7 @@ Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
         Case dstSQLStament: Me.SQLStatement = DataSource
         Case dstRecordset:  Set Me.Recordset = DataSource
         Case dstDataset:    Set Me.Dataset = DataSource
+        Case dstEmpty:      Set Me.Dataset = New BAC_DataSet
   End Select
   Me.DataFieldNames = DataFieldNames
   Me.LabelFieldName = LabelFieldName
