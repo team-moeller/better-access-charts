@@ -211,8 +211,8 @@ Public Property Get DataLabels() As BAC_DataLabels
     Set DataLabels = m_DataLabels
 End Property
 
-Public Property Get DataSet() As BAC_DataSet
-    Set DataSet = m_DataSource.DataSet
+Public Property Get Dataset() As BAC_DataSet
+    Set Dataset = m_DataSource.Dataset
 End Property
 
 
@@ -288,22 +288,6 @@ End Sub
     
 
 '### Private Methods
-
- 
-Friend Function IsSingleBarChart()
-
-    Select Case m_ChartType
-        Case chChartType.Bar, chChartType.HorizontalBar
-            If DataSource.IsSingleDataset = True Then
-                IsSingleBarChart = True
-            Else
-                IsSingleBarChart = False
-            End If
-        Case Else
-            IsSingleBarChart = False
-    End Select
-
-End Function
 
 Friend Function IsBubbleOrScatterChart() As Boolean
     If m_ChartType = Bubble Then

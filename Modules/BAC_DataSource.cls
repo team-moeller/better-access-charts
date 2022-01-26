@@ -25,8 +25,6 @@ Private m_LabelFieldName As String
 Private m_DataFieldNames() As String
 Private m_Dataset As BAC_DataSet
 
-Private m_IsSingleDataset As Boolean
-
 
 ' ### Initializer
 
@@ -111,18 +109,9 @@ Public Property Let DataFieldNames(ByRef This_DataFieldNames As Variant)
         m_DataFieldNames = Split(This_DataFieldNames, ",")
     End If
     
-    If LBound(m_DataFieldNames) = UBound(m_DataFieldNames) Then
-        m_IsSingleDataset = True
-    Else
-        m_IsSingleDataset = False
-    End If
 End Property
 Public Property Get DataFieldNames() As Variant
     DataFieldNames = m_DataFieldNames
-End Property
-
-Public Property Get IsSingleDataset() As Boolean
-    IsSingleDataset = m_IsSingleDataset
 End Property
 
 

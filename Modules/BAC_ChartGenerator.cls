@@ -46,6 +46,20 @@ Private Property Get Data() As BAC_DataSet
     Set Data = c_Data
 End Property
 
+Private Function IsSingleBarChart()
+
+    Select Case c_Options.ChartType
+        Case chChartType.Bar, chChartType.HorizontalBar
+            If c_Data.IsSingleDataset = True Then
+                IsSingleBarChart = True
+            Else
+                IsSingleBarChart = False
+            End If
+        Case Else
+            IsSingleBarChart = False
+    End Select
+
+End Function
 
 '### Private Methods / Functions
 Private Function getHeader() As String
@@ -175,7 +189,7 @@ Private Function getChartData() As String
                     
             .AddLine "                data: [" & Data.Data(i) & "],"
             
-            If Options.IsSingleBarChart Then
+            If IsSingleBarChart Then
                 .AddLine "                backgroundColor: Chart['colorschemes']." & Options.ColorSchema.Name & ","
             End If
             
@@ -262,4 +276,3 @@ Private Function getPlugins() As String
     End With
     
 End Function
-

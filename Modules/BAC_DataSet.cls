@@ -83,6 +83,10 @@ Public Property Let DataCount(ByVal NewValue As Integer)
     ReDim Preserve m_DatasetNames(NewValue - 1)
 End Property
 
+Public Property Get IsSingleDataset() As Boolean
+    IsSingleDataset = (DataCount = 1)
+End Property
+
 Public Property Get Data(ByVal Index As Integer) As String
     Data = m_Data(Index)
 End Property
