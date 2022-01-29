@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 - 2022 Thomas M�ller, supported by K.D.Gundermann                    #
+'# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.09.05  published: 22.01.2022                                                  #
+'# Version 2.10.08  published: 29.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -122,7 +122,7 @@ On Error GoTo Handle_Error
 
     'Declarations
     Dim db As DAO.Database
-    Dim rst As DAO.Recordset
+    Dim rst As Object           'ADO/DAO Recordset
     Dim dst As New BAC_DataSet
     
     Set db = CurrentDb()
