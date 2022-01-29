@@ -56,3 +56,9 @@ Public Function Scripts() As BAC_Scripts
     Set Scripts = m_Scripts
 End Function
 
+Public Function Generator(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BAC_DataSet) As BAC_ChartGenerator
+    Set Generator = New BAC_ChartGenerator
+    Generator.Init ChartOptions, ChartData
+End Function
+
+
