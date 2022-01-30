@@ -10,14 +10,14 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
-' Private m_DataSetLabel As Variant
+'### Members
 
 Private m_LabelCount As Integer
 Private m_Labels() As String        ' 1..LabelCount
@@ -25,51 +25,6 @@ Private m_Labels() As String        ' 1..LabelCount
 Private m_DataCount As Integer
 Private m_Data() As String          ' 1..DataCount
 Private m_DatasetNames() As String  ' 1..DataCount
-
-'### Initializer
-Public Sub Init()
-    m_LabelCount = 0
-    m_DataCount = 0
-End Sub
-
-' ### Methods
-
-Public Sub AddLabel(ByVal TheLabel As String)
-    LabelCount = LabelCount + 1
-    Label(LabelCount - 1) = TheLabel
-End Sub
-
-Public Sub AddLabels(ByVal TheLabels As Variant)
-    If IsArray(TheLabels) Then
-        m_Labels = TheLabels
-    Else
-        m_Labels = Strings.Split(TheLabels, ",")
-    End If
-    m_LabelCount = UBound(m_Labels)
-End Sub
-
-Public Sub AddDatasetName(ByVal TheDatasetName As String)
-    DataCount = DataCount + 1
-    DatasetName(DataCount - 1) = TheDatasetName
-End Sub
-
-Public Sub AddData(ByVal TheDataset As Variant, ByVal TheData As String)
-    Dim idx As Integer
-    Select Case VarType(TheDataset)
-        Case vbString: idx = GetDatasetIndex(TheDataset)
-        Case vbInteger, vbLong: idx = TheDataset
-        Case Else: Err.Raise vbObjectError, , "Invalid Datatype for TheDataset": Exit Sub
-    End Select
-    If idx < 0 Then
-        Err.Raise vbObjectError, , "Invalid Index for AddData": Exit Sub
-    End If
-    If Data(idx) = "" Then
-        Data(idx) = TheData
-    Else
-        Data(idx) = Data(idx) & "," & TheData
-    End If
-End Sub
-
 
 
 ' ### Properties
@@ -132,9 +87,69 @@ Public Property Get Labels(Optional ByVal Quoted As Boolean = True) As String
 End Property
 
 
+'### Initializer
+
+Public Sub Init()
+
+    m_LabelCount = 0
+    m_DataCount = 0
+    
+End Sub
+
+
+' ### Methods
+
+Public Sub AddLabel(ByVal TheLabel As String)
+
+    LabelCount = LabelCount + 1
+    Label(LabelCount - 1) = TheLabel
+    
+End Sub
+
+Public Sub AddLabels(ByVal TheLabels As Variant)
+
+    If IsArray(TheLabels) Then
+        m_Labels = TheLabels
+    Else
+        m_Labels = Strings.Split(TheLabels, ",")
+    End If
+    m_LabelCount = UBound(m_Labels)
+    
+End Sub
+
+Public Sub AddDatasetName(ByVal TheDatasetName As String)
+
+    DataCount = DataCount + 1
+    DatasetName(DataCount - 1) = TheDatasetName
+    
+End Sub
+
+Public Sub AddData(ByVal TheDataset As Variant, ByVal TheData As String)
+
+    'Declarations
+    Dim idx As Integer
+    
+    Select Case VarType(TheDataset)
+        Case vbString: idx = GetDatasetIndex(TheDataset)
+        Case vbInteger, vbLong: idx = TheDataset
+        Case Else: Err.Raise vbObjectError, , "Invalid Datatype for TheDataset": Exit Sub
+    End Select
+    If idx < 0 Then
+        Err.Raise vbObjectError, , "Invalid Index for AddData": Exit Sub
+    End If
+    If Data(idx) = "" Then
+        Data(idx) = TheData
+    Else
+        Data(idx) = Data(idx) & "," & TheData
+    End If
+    
+End Sub
+
+
 ' ### Public Function
 
 Public Function Result() As BAC_DataSet
+
     ' Cleanup the data and return me as Result
     Dim i  As Integer
     
@@ -145,23 +160,30 @@ Public Function Result() As BAC_DataSet
         Label(i) = BAC.Helper.CutTrailingComma(Label(i))
     Next
     Set Result = Me
+    
 End Function
 
-' ### Private Function
+
+' ### Private Functions
 
 Private Function GetDatasetIndex(ByVal TheDatasetName As String)
+
+    'Declarations
     Dim i As Integer
     
     For i = 0 To DataCount - 1
         If DatasetName(i) = TheDatasetName Then GetDatasetIndex = i: Exit Function
     Next
     GetDatasetIndex = -1
+    
 End Function
 
 Private Function Quote(ByVal TheString As String) As String
+
     If Left(TheString, 1) <> "'" And Right(TheString, 1) <> "'" Then
         Quote = "'" & TheString & "'"
     Else
         Quote = TheString
     End If
+    
 End Function

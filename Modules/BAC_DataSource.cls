@@ -10,12 +10,14 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
+
+'### Members
 
 Private m_Type As chDataSourceType
 Private m_ObjectName As String
@@ -25,33 +27,6 @@ Private m_LabelFieldName As String
 Private m_DataFieldNames() As String
 Private m_Dataset As BAC_DataSet
 
-
-' ### Initializer
-
-Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
-                Optional ByVal DataSource As Variant, _
-                Optional ByVal DataFieldNames As Variant, _
-                Optional ByVal LabelFieldName As String)
-  
-  Select Case DataSourceType
-        Case dstDemo:       ' will be created later
-        Case dstTableName:  Me.ObjectName = DataSource
-        Case dstQueryName:  Me.ObjectName = DataSource
-        Case dstSQLStament: Me.SQLStatement = DataSource
-        Case dstRecordset:  Set Me.Recordset = DataSource
-        Case dstDataset:    Set Me.Dataset = DataSource
-        Case dstEmpty:      Set Me.Dataset = New BAC_DataSet
-  End Select
-  Me.DataFieldNames = DataFieldNames
-  Me.LabelFieldName = LabelFieldName
-  
-End Sub
-
-' ### Methods
-
-Public Sub UseDemoData()
-    m_Type = dstDemo
-End Sub
 
 ' ### Properties
 
@@ -115,6 +90,37 @@ Public Property Get DataFieldNames() As Variant
 End Property
 
 
+' ### Initializer
+
+Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
+                Optional ByVal DataSource As Variant, _
+                Optional ByVal DataFieldNames As Variant, _
+                Optional ByVal LabelFieldName As String)
+  
+    Select Case DataSourceType
+        Case dstDemo:       ' will be created later
+        Case dstTableName:  Me.ObjectName = DataSource
+        Case dstQueryName:  Me.ObjectName = DataSource
+        Case dstSQLStament: Me.SQLStatement = DataSource
+        Case dstRecordset:  Set Me.Recordset = DataSource
+        Case dstDataset:    Set Me.Dataset = DataSource
+        Case dstEmpty:      Set Me.Dataset = New BAC_DataSet
+    End Select
+    Me.DataFieldNames = DataFieldNames
+    Me.LabelFieldName = LabelFieldName
+  
+End Sub
+
+
+' ### Methods
+
+Public Sub UseDemoData()
+
+    m_Type = dstDemo
+    
+End Sub
+
+
 ' ### Generator Function
 
 Friend Function getData(ByVal ChartType As chChartType) As BAC_DataSet
@@ -166,6 +172,8 @@ Handle_Error:
 End Function
 
 Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartType) As BAC_DataSet
+
+    'Declarations
     Dim dst As New BAC_DataSet
     Dim Field As Variant ' As String
     Dim i As Integer
@@ -180,8 +188,8 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
                     .AddLabel rst(LabelFieldName)
                     .AddDatasetName "Record" & Str(i)
                     .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
-                                 ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & _
-                                 ", r:" & Str$(Nz(rst(DataFieldNames(2)))) & "}"
+                                ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & _
+                                ", r:" & Str$(Nz(rst(DataFieldNames(2)))) & "}"
                     i = i + 1
                     rst.MoveNext
                 Loop
@@ -216,9 +224,12 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
                         
     End Select
     Set getDataFromRS = dst
+    
 End Function
 
 Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSet
+
+    'Declarations
     Dim dst As New BAC_DataSet
     
     DataFieldNames = Array("Demo")
@@ -247,4 +258,5 @@ Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSe
         End With
     End If
     Set CreateDemoDataset = dst
+    
 End Function

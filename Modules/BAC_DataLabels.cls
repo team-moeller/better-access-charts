@@ -10,12 +10,14 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
+
+'### Members
 
 Private m_Show As Boolean
 Private m_Anchor As chDataLabelAnchor
@@ -23,11 +25,6 @@ Private m_Font As BAC_Font
 
 Private m_SectionIsNeeded As Boolean
 
-' ### Initialize
-
-Private Sub Class_Initialize()
-    Set m_Font = New BAC_Font
-End Sub
 
 ' ### Properties
 
@@ -51,6 +48,15 @@ End Property
 Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
+
+
+' ### Instanzing
+
+Private Sub Class_Initialize()
+
+    Set m_Font = New BAC_Font
+    
+End Sub
 
 
 ' ### Generator Function

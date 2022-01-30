@@ -10,15 +10,19 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
+
+'### Members
+
 Private m_Source As chScriptSource
 Private m_CDN As String
 Private m_PathFilename As String
+
 
 ' ### Properties
 
@@ -42,6 +46,17 @@ End Property
 Public Property Get PathFilename() As String
     PathFilename = m_PathFilename
 End Property
+
+
+' ### Instanzing
+
+Private Sub Class_Initialize()
+
+    Me.Source = chScriptSource.CDN
+    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
+    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
+    
+End Sub
 
 
 ' ### Public Function
@@ -72,9 +87,3 @@ Friend Function getDataLabelLocation() As String
     getDataLabelLocation = strText
 
 End Function
-
-Private Sub Class_Initialize()
-    Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
-    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
-End Sub

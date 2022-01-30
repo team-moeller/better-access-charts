@@ -10,24 +10,18 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
+
+'### Members
+
 Private m_Source As chScriptSource
 Private m_CDN As String
 Private m_PathFilename As String
-
-
-' ### Initialize
-
-Private Sub Class_Initialize()
-  Me.Source = chScriptSource.CDN
-  Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
-  Me.PathFilename = CurrentProject.Path & "\Chart.min.js"
-End Sub
 
 
 ' ### Properties
@@ -54,10 +48,23 @@ Public Property Get PathFilename() As String
 End Property
 
 
+' ### Instanzing
+
+Private Sub Class_Initialize()
+
+    Me.Source = chScriptSource.CDN
+    Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    Me.PathFilename = CurrentProject.Path & "\Chart.min.js"
+  
+End Sub
+
+
 ' ### Public Functions
 
 Public Function SaveToDisk() As Boolean
+
     SaveToDisk = BAC.Helper.SaveFileToDisk("Chart.min.js", CurrentProject.Path)
+    
 End Function
 
 

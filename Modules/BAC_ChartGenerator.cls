@@ -10,21 +10,41 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
+
 Option Compare Database
 Option Explicit
 
-Private c_Options  As BAC_Chart
-Private c_Data     As BAC_DataSet
+
+'### Members
+
+Private m_Options  As BAC_Chart
+Private m_Data     As BAC_DataSet
+
+
+' ### Properties
+
+Private Property Get Options() As BAC_Chart
+    Set Options = m_Options
+End Property
+Private Property Get Data() As BAC_DataSet
+    Set Data = m_Data
+End Property
+
 
 '### Initializer
+
 Public Sub Init(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BAC_DataSet)
-    Set c_Options = ChartOptions
-    Set c_Data = ChartData
+
+    Set m_Options = ChartOptions
+    Set m_Data = ChartData
+    
 End Sub
 
+
 '### Public Methods
+
 Public Function GenerateHTML() As String
     
     Dim strHTML As New BAC_StringBuilder
@@ -36,46 +56,17 @@ Public Function GenerateHTML() As String
         .Add getFooter
     End With
     GenerateHTML = strHTML.ToString()
+    
 End Function
 
-'### Private Properties
-Private Property Get Options() As BAC_Chart
-    Set Options = c_Options
-End Property
-Private Property Get Data() As BAC_DataSet
-    Set Data = c_Data
-End Property
-
-Private Function IsSingleBarChart()
-
-    Select Case c_Options.ChartType
-        Case chChartType.Bar, chChartType.HorizontalBar
-            If c_Data.IsSingleDataset = True Then
-                IsSingleBarChart = True
-            Else
-                IsSingleBarChart = False
-            End If
-        Case Else
-            IsSingleBarChart = False
-    End Select
-
-End Function
-
-Private Function IsBubbleOrScatterChart() As Boolean
-    If c_Options.ChartType = Bubble Then
-        IsBubbleOrScatterChart = True
-    ElseIf c_Options.ChartType = Scatter Then
-        IsBubbleOrScatterChart = True
-    Else
-        IsBubbleOrScatterChart = False
-    End If
-End Function
 
 '### Private Methods / Functions
+
 Private Function getHeader() As String
     
     'Declarations
     Dim strText As New BAC_StringBuilder
+    
     With strText
         .AddLine "<!DOCTYPE html>"
         .AddLine "<!-- saved from url=(0014)about:internet -->"
@@ -117,6 +108,7 @@ Private Function getHeader() As String
 End Function
 
 Private Function getDefaultFont() As String
+
     'Declarations
     Dim strText As New BAC_StringBuilder
     Dim Font As BAC_Font
@@ -133,6 +125,7 @@ Private Function getDefaultFont() As String
             .AddLine "    Chart.defaults.global.defaultFontSize = " & Font.Size & ";"
         End If
     End With
+    
 End Function
 
 Private Function getChartType() As String
@@ -212,12 +205,14 @@ Private Function getChartData() As String
         
         getChartData = .ToString
     End With
+    
 End Function
     
 Private Function getChartOptions() As String
     
     'Declarations
     Dim strText As New BAC_StringBuilder
+    
     With strText
         .AddLine "        options: {"
         If Options.AspectRatio <> 2# Then
@@ -232,12 +227,14 @@ Private Function getChartOptions() As String
         
         getChartOptions = .ToString
     End With
+    
 End Function
 
 Private Function getFooter() As String
 
     'Declarations
     Dim strText As New BAC_StringBuilder
+    
     With strText
         .AddLine "    });"  ' closing: var myChart = new Chart(ctx, {"
         
@@ -254,12 +251,14 @@ Private Function getFooter() As String
         
         getFooter = strText.ToString
     End With
+    
 End Function
 
 Private Function getScales() As String
 
     'Declarations
     Dim strText As New BAC_StringBuilder
+    
     With strText
         .AddLine "            scales: {"
         .Add Options.YAxis.getAxis(Options.StackedChart)
@@ -269,12 +268,14 @@ Private Function getScales() As String
         
         getScales = .ToString
     End With
+    
 End Function
 
 Private Function getPlugins() As String
 
     'Declarations
     Dim strText As New BAC_StringBuilder
+    
     With strText
         .AddLine "            plugins: {"
         .Add Options.ColorSchema.getColorSchema
@@ -284,6 +285,33 @@ Private Function getPlugins() As String
         
         getPlugins = .ToString
     End With
+    
+End Function
+
+Private Function IsSingleBarChart()
+
+    Select Case Options.ChartType
+        Case chChartType.Bar, chChartType.HorizontalBar
+            If Data.IsSingleDataset = True Then
+                IsSingleBarChart = True
+            Else
+                IsSingleBarChart = False
+            End If
+        Case Else
+            IsSingleBarChart = False
+    End Select
+
+End Function
+
+Private Function IsBubbleOrScatterChart() As Boolean
+
+    If Options.ChartType = Bubble Then
+        IsBubbleOrScatterChart = True
+    ElseIf Options.ChartType = Scatter Then
+        IsBubbleOrScatterChart = True
+    Else
+        IsBubbleOrScatterChart = False
+    End If
     
 End Function
 

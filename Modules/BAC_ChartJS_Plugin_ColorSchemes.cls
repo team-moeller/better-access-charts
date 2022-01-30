@@ -10,23 +10,18 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
+
+'### Members
+
 Private m_Source As chScriptSource
 Private m_CDN As String
 Private m_PathFilename As String
-
-' ### Initialize
-
-Private Sub Class_Initialize()
-    Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"
-    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-colorschemes.min.js"
-End Sub
 
 ' ### Properties
 
@@ -52,9 +47,21 @@ Public Property Get PathFilename() As String
 End Property
 
 
+' ### Instanzing
+
+Private Sub Class_Initialize()
+
+    Me.Source = chScriptSource.CDN
+    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"
+    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-colorschemes.min.js"
+    
+End Sub
+
+
 ' ### Public Functions
 
 Public Function SavePluginToDisk() As Boolean
+
     With BAC.Helper
         If .SaveFileToDisk("chartjs-plugin-colorschemes.min.js", CurrentProject.Path) = False Then
             SavePluginToDisk = False
@@ -68,6 +75,7 @@ Public Function SavePluginToDisk() As Boolean
             SavePluginToDisk = True
         End If
     End With
+    
 End Function
 
 

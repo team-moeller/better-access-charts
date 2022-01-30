@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -58,11 +58,6 @@ Public Enum chDataLabelAnchor
     anCenter = 2
     anEnd = 3
 End Enum
-
-
-'### Constants
-
-Private Const HtmlFileName As String = "BetterAccessChart_{}.html"
 
 
 '### Members
@@ -261,27 +256,17 @@ End Sub
 
 Public Sub DrawChart()
 
-    Dim strHTML As String
-    With BAC.Generator(Me, Me.DataSource.getData(Me.ChartType))
-        strHTML = .GenerateHTML
-    End With
+    CreateChartFile
     
-    If CreateChartFile(getHTMLFileName, strHTML) Then
-        Control.Object.Navigate getHTMLFileName
-    End If
+    Control.Object.Navigate getHTMLFileName
     
 End Sub
 
 Public Sub ShowInBrowser()
+
+    CreateChartFile
     
-    Dim strHTML As String
-    With BAC.Generator(Me, Me.DataSource.getData(Me.ChartType))
-        strHTML = .GenerateHTML
-    End With
-    
-    If CreateChartFile(getHTMLFileName, strHTML) Then
-        BAC.Helper.ShellExecute getHTMLFileName
-    End If
+    BAC.Helper.ShellExecute getHTMLFileName
 
 End Sub
 
@@ -289,53 +274,54 @@ End Sub
 
 '### Private Methods
 
+Private Sub CreateChartFile()
+
+    'Declarations
+    Dim strHTML As String
+    
+    With BAC.Generator(Me, Me.DataSource.getData(Me.ChartType))
+        strHTML = .GenerateHTML
+    End With
+ 
+    If Me.SaveHtmlFileForDebugging = True Then
+        Call saveHtmlFile(CurrentProject.Path & "\", strHTML)
+    End If
+    
+    Call saveHtmlFile(BAC.Helper.getTempFolder, strHTML)
+    
+End Sub
 
 
 '### Private Helper Methods
 
-Private Sub saveHtmlFile(ByVal strContent As String)
-
-    'Declarations
-    Dim strPath As String
-    Dim strFilename As String
-    Dim f As Integer
-    Const HtmlFileName As String = "BetterAccessChart_{}.html"
-    
-    strPath = CurrentProject.Path & "\"
-    strFilename = Replace(HtmlFileName, "{}", m_Control.Name)
-    
-    f = FreeFile()
-    Open strPath & strFilename For Output As f
-    Print #f, strContent;
-    Close f
-    
-End Sub
-
-Private Function getHTMLFileName() As String
-    
-    'Declarations
-    Dim strPath As String
-    Dim strFilename As String
-    
-    strPath = BAC.Helper.getTempFolder
-    strFilename = Replace(HtmlFileName, "{}", m_Control.Name)
-
-    getHTMLFileName = strPath & strFilename
-    
-End Function
-
-Private Function CreateChartFile(ByVal FileName As String, ByVal strHTML As String) As Boolean
+Private Sub saveHtmlFile(ByVal Folder As String, ByVal strHTML As String)
 
     'Declarations
     Dim objFS As Object
+    Dim FileName As String
        
+    FileName = getHTMLFileName(Folder)
+    
     Set objFS = CreateObject("ADODB.Stream")
     objFS.Charset = "utf-8"
     objFS.Open
     objFS.WriteText strHTML
     objFS.SaveToFile FileName, 2   '2: Create Or Update
     objFS.Close
-    CreateChartFile = True
+    
+End Sub
+
+Private Function getHTMLFileName(Optional Path As String = vbNullString) As String
+    
+    'Declarations
+    Dim strFilename As String
+    Const HtmlFileName As String = "BetterAccessChart_{}.html"
+
+    If Path = vbNullString Then
+        Path = BAC.Helper.getTempFolder
+    End If
+    strFilename = Replace(HtmlFileName, "{}", m_Control.Name)
+
+    getHTMLFileName = Path & strFilename
     
 End Function
-

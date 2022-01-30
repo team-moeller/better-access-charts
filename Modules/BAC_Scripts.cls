@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.10.08  published: 29.01.2022                                                  #
+'# Version 2.11.09  published: 30.01.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -42,7 +42,9 @@ End Property
 '### Instancing
 
 Private Sub Class_Initialize()
+
     Set m_ChartJS = New BAC_ChartJS
     Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
     Set m_DataLabels = New BAC_ChartJS_Plugin_Datalabels
+    
 End Sub
