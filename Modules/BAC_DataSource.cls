@@ -253,10 +253,11 @@ Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSe
     Else
         With dst
             .AddDatasetName "Data"
-            .AddData "Data", "2, 13, 7, 9, 12, 5,"
-            .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid',"
+            .AddData "Data", "2, 13, 7, 9, 12, 5"
+            .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid'"
         End With
     End If
     Set CreateDemoDataset = dst
     
 End Function
+

@@ -113,7 +113,7 @@ Public Sub AddLabels(ByVal TheLabels As Variant)
     Else
         m_Labels = Strings.Split(TheLabels, ",")
     End If
-    m_LabelCount = UBound(m_Labels)
+    m_LabelCount = UBound(m_Labels) + 1
     
 End Sub
 
