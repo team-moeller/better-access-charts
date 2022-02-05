@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.11.09  published: 30.01.2022                                                  #
+'# Version 2.12.05  published: 05.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -113,7 +113,7 @@ Public Sub AddLabels(ByVal TheLabels As Variant)
     Else
         m_Labels = Strings.Split(TheLabels, ",")
     End If
-    m_LabelCount = UBound(m_Labels)
+    m_LabelCount = UBound(m_Labels) + 1
     
 End Sub
 
@@ -172,9 +172,15 @@ Private Function GetDatasetIndex(ByVal TheDatasetName As String)
     Dim i As Integer
     
     For i = 0 To DataCount - 1
-        If DatasetName(i) = TheDatasetName Then GetDatasetIndex = i: Exit Function
+        If DatasetName(i) = TheDatasetName Then
+            GetDatasetIndex = i
+            Exit Function
+        End If
     Next
-    GetDatasetIndex = -1
+    
+    'Add dataset name if not already exists
+    Call AddDatasetName(TheDatasetName)
+    GetDatasetIndex = DataCount - 1
     
 End Function
 
