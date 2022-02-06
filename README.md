@@ -34,7 +34,7 @@ The best thing to do is to add another button. In the click event, paste the fol
 ```vba
 Dim myChart As BAC_Chart  
 Set myChart = BAC.Chart(Me.ctlWebbrowser)  
-myChart.DrawChart  
+myChart.CreateChart  
 ```
 
 * In line 1 a variable of the type BAC_Chart is declared.
