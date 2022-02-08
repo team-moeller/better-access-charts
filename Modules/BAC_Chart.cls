@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.11.09  published: 30.01.2022                                                  #
+'# Version 2.13.08  published: 06.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -59,6 +59,10 @@ Public Enum chDataLabelAnchor
     anEnd = 3
 End Enum
 
+Public Enum chDisplayIn
+    chWebBrowserControl = 1
+    chSystemBrowser = 2
+End Enum
 
 '### Members
 
@@ -73,6 +77,7 @@ Private m_BackgroundColor As String
 Private m_ShowDownloadLink As Boolean
 Private m_SaveHtmlFileForDebugging As Boolean
 Private m_AspectRatio As Double
+Private m_DisplayIn As chDisplayIn
     
 Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
@@ -110,7 +115,7 @@ End Sub
 
 Public Property Set Control(ByVal This_Control As Access.WebBrowserControl)
     Set m_Control = This_Control
-    Set Webbrowser = This_Control.Object
+    m_DisplayIn = chWebBrowserControl
 End Property
 Public Property Get Control() As Access.WebBrowserControl
     Set Control = m_Control
@@ -191,6 +196,14 @@ Public Property Get SaveHtmlFileForDebugging() As Boolean
     SaveHtmlFileForDebugging = m_SaveHtmlFileForDebugging
 End Property
 
+Public Property Let DisplayIn(ByVal newValue As chDisplayIn)
+    m_DisplayIn = newValue
+End Property
+Public Property Get DisplayIn() As chDisplayIn
+    DisplayIn = m_DisplayIn
+End Property
+
+
 
 '### Object Properties
 
@@ -251,6 +264,7 @@ Private Sub Class_Initialize()
     ChartType = chChartType.Bar
     StackedChart = False
     AspectRatio = 2
+    DisplayIn = chWebBrowserControl
     'Title
     Title.Show = False
     Title.Position = posTop
@@ -274,20 +288,22 @@ End Sub
 
 '### Public Methods
 
-Public Sub DrawChart()
+Public Sub CreateChart()
+
+    CreateChartFile
     
-    Me.Webbrowser.Navigate CreateChartFile
-    
+    Select Case Me.DisplayIn
+        Case chDisplayIn.chWebBrowserControl
+            Control.Object.Navigate getHTMLFileName
+        Case chDisplayIn.chSystemBrowser
+            BAC.Helper.ShellExecute getHTMLFileName
+        Case Else
+            'Do nothing
+    End Select
+                                                                                   
 End Sub
 
-Public Sub ShowInBrowser()
     
-    BAC.Helper.ShellExecute CreateChartFile
-
-End Sub
-
-    
-
 '### Private Methods
 
 Private Function CreateChartFile() As String

@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.11.09  published: 30.01.2022                                                  #
+'# Version 2.13.08  published: 06.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -252,9 +252,8 @@ Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSe
         End With
     Else
         With dst
-            .AddDatasetName "Data"
-            .AddData "Data", "2, 13, 7, 9, 12, 5"
-            .AddLabels "'Berlin', 'London', 'Paris', 'Rome', 'Lisbon', 'Madrid'"
+            .AddLabels "Berlin,London,Paris,Rome,Lisbon,Madrid"
+            .AddData "Data", "2,13,7,9,12,5"
         End With
     End If
     Set CreateDemoDataset = dst

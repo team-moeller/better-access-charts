@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.11.09  published: 30.01.2022                                                  #
+'# Version 2.13.08  published: 06.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -32,10 +32,10 @@ Private m_DatasetNames() As String  ' 1..DataCount
 Public Property Get DataCount() As Integer
     DataCount = m_DataCount
 End Property
-Public Property Let DataCount(ByVal NewValue As Integer)
-    m_DataCount = NewValue
-    ReDim Preserve m_Data(NewValue - 1)
-    ReDim Preserve m_DatasetNames(NewValue - 1)
+Public Property Let DataCount(ByVal newValue As Integer)
+    m_DataCount = newValue
+    ReDim Preserve m_Data(newValue - 1)
+    ReDim Preserve m_DatasetNames(newValue - 1)
 End Property
 
 Public Property Get IsSingleDataset() As Boolean
@@ -45,30 +45,30 @@ End Property
 Public Property Get Data(ByVal Index As Integer) As String
     Data = m_Data(Index)
 End Property
-Public Property Let Data(ByVal Index As Integer, ByVal NewValue As String)
-    m_Data(Index) = NewValue
+Public Property Let Data(ByVal Index As Integer, ByVal newValue As String)
+    m_Data(Index) = newValue
 End Property
 
 Public Property Get DatasetName(ByVal Index As Integer) As String
     DatasetName = m_DatasetNames(Index)
 End Property
-Public Property Let DatasetName(ByVal Index As Integer, ByVal NewValue As String)
-    m_DatasetNames(Index) = NewValue
+Public Property Let DatasetName(ByVal Index As Integer, ByVal newValue As String)
+    m_DatasetNames(Index) = newValue
 End Property
 
 Public Property Get LabelCount() As Integer
     LabelCount = m_LabelCount
 End Property
-Public Property Let LabelCount(ByVal NewValue As Integer)
-    m_LabelCount = NewValue
-    ReDim Preserve m_Labels(NewValue - 1)
+Public Property Let LabelCount(ByVal newValue As Integer)
+    m_LabelCount = newValue
+    ReDim Preserve m_Labels(newValue - 1)
 End Property
 
 Public Property Get Label(ByVal Index As Integer) As String
     Label = m_Labels(Index)
 End Property
-Public Property Let Label(ByVal Index As Integer, ByVal NewValue As String)
-    m_Labels(Index) = NewValue
+Public Property Let Label(ByVal Index As Integer, ByVal newValue As String)
+    m_Labels(Index) = newValue
 End Property
 
 Public Property Get Labels(Optional ByVal Quoted As Boolean = True) As String
@@ -172,9 +172,15 @@ Private Function GetDatasetIndex(ByVal TheDatasetName As String)
     Dim i As Integer
     
     For i = 0 To DataCount - 1
-        If DatasetName(i) = TheDatasetName Then GetDatasetIndex = i: Exit Function
+        If DatasetName(i) = TheDatasetName Then
+            GetDatasetIndex = i
+            Exit Function
+        End If
     Next
-    GetDatasetIndex = -1
+    
+    'Add dataset name if not already exists
+    Call AddDatasetName(TheDatasetName)
+    GetDatasetIndex = DataCount - 1
     
 End Function
 

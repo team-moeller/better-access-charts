@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.11.09  published: 30.01.2022                                                  #
+'# Version 2.13.08  published: 06.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -24,8 +24,8 @@ Private m_Name As String
 
 ' ### Properties
 
-Public Property Let Name(ByVal NewValue As String)
-    m_Name = NewValue
+Public Property Let Name(ByVal newValue As String)
+    m_Name = newValue
 End Property
 Public Property Get Name() As String
     Name = m_Name
