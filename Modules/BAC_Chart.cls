@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.13.08  published: 06.02.2022                                                  #
+'# Version 2.14.14  published: 08.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -61,15 +61,14 @@ End Enum
 
 Public Enum chDisplayIn
     chWebBrowserControl = 1
-    chSystemBrowser = 2
+    chWebBrowserActiveX = 2
+    chSystemBrowser = 3
 End Enum
 
 '### Members
 
-Private m_Control As WebBrowserControl
-Attribute m_Control.VB_VarHelpID = -1
-Private m_WebBrowser As SHDocVw.Webbrowser
-
+Private m_WebBrowserControl As Access.WebBrowserControl
+Private m_WebBrowserActiveX As SHDocVw.WebBrowser
 Private m_ChartType As chChartType
 Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
@@ -97,14 +96,7 @@ Public Sub Init(Optional ByVal TheControl As Object, _
                 Optional ByVal DataFieldNames As Variant, _
                 Optional ByVal LabelFieldName As String)
   
-    If TypeName(TheControl) = "WebBrowserControl" Then
-      Set Me.Control = TheControl
-    ElseIf TypeName(TheControl) = "WebBrowser" Then
-      Set Me.Webbrowser = TheControl
-    ElseIf Not (TheControl Is Nothing) Then
-      Err.Raise vbObjectError, , "Please use a WebBrowserControl/WebBrowser as TheControl param"
-    End If
-    
+    Set Me.Control = TheControl
     Me.ChartType = ChartType
     Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
     
@@ -113,22 +105,30 @@ End Sub
     
 '### Properties
 
-Public Property Set Control(ByVal This_Control As Access.WebBrowserControl)
-    Set m_Control = This_Control
-    m_DisplayIn = chWebBrowserControl
-End Property
-Public Property Get Control() As Access.WebBrowserControl
-    Set Control = m_Control
-End Property
-
-Public Property Set Webbrowser(ByVal This_Webbrowser As SHDocVw.Webbrowser)
-    Set m_WebBrowser = This_Webbrowser
-    If Not (m_WebBrowser Is Nothing) Then
-      m_WebBrowser.Navigate "about:"
+Public Property Set Control(ByVal New_Control As Object)
+    If TypeName(New_Control) = "WebBrowserControl" Then
+        Set Me.WebBrowserControl = New_Control
+    ElseIf TypeName(New_Control.Object) = "WebBrowser" Then
+        Set Me.WebBrowserActiveX = New_Control.Object
+    Else
+        Err.Raise vbObjectError, , "Type of control not supported!"
     End If
 End Property
-Public Property Get Webbrowser() As SHDocVw.Webbrowser
-  Set Webbrowser = m_WebBrowser
+
+Public Property Set WebBrowserControl(ByVal New_Control As Access.WebBrowserControl)
+    Set m_WebBrowserControl = New_Control
+    m_DisplayIn = chWebBrowserControl
+End Property
+Public Property Get WebBrowserControl() As WebBrowserControl
+    Set WebBrowserControl = m_WebBrowserControl
+End Property
+
+Public Property Set WebBrowserActiveX(ByVal New_Control As SHDocVw.WebBrowser)
+    Set m_WebBrowserActiveX = New_Control
+    m_DisplayIn = chWebBrowserActiveX
+End Property
+Public Property Get WebBrowserActiveX() As SHDocVw.WebBrowser
+    Set WebBrowserActiveX = m_WebBrowserActiveX
 End Property
 
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
@@ -294,19 +294,21 @@ Public Sub CreateChart()
     
     Select Case Me.DisplayIn
         Case chDisplayIn.chWebBrowserControl
-            Control.Object.Navigate getHTMLFileName
+            Me.WebBrowserControl.Object.Navigate getHTMLFileName
+        Case chDisplayIn.chWebBrowserActiveX
+            Me.WebBrowserActiveX.Navigate getHTMLFileName
         Case chDisplayIn.chSystemBrowser
             BAC.Helper.ShellExecute getHTMLFileName
         Case Else
             'Do nothing
     End Select
-                                                                                   
+    
 End Sub
 
     
 '### Private Methods
 
-Private Function CreateChartFile() As String
+Private Sub CreateChartFile()
 
     'Declarations
     Dim strHTML As String
@@ -319,14 +321,14 @@ Private Function CreateChartFile() As String
         Call saveHtmlFile(CurrentProject.Path & "\", strHTML)
     End If
     
-    CreateChartFile = saveHtmlFile(BAC.Helper.getTempFolder, strHTML)
+    Call saveHtmlFile(BAC.Helper.getTempFolder, strHTML)
     
-End Function
+End Sub
 
 
 '### Private Helper Methods
 
-Private Function saveHtmlFile(ByVal Folder As String, ByVal strHTML As String) As String
+Private Sub saveHtmlFile(ByVal Folder As String, ByVal strHTML As String)
 
     'Declarations
     Dim objFS As Object
@@ -341,8 +343,7 @@ Private Function saveHtmlFile(ByVal Folder As String, ByVal strHTML As String) A
     objFS.SaveToFile FileName, 2   '2: Create Or Update
     objFS.Close
     
-    saveHtmlFile = FileName
-End Function
+End Sub
 
 Private Function getHTMLFileName(Optional Path As String = vbNullString) As String
     
@@ -358,4 +359,3 @@ Private Function getHTMLFileName(Optional Path As String = vbNullString) As Stri
     getHTMLFileName = Path & strFilename
     
 End Function
-

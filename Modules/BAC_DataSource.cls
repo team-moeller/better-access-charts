@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.13.08  published: 06.02.2022                                                  #
+'# Version 2.14.14  published: 08.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -259,4 +259,3 @@ Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSe
     Set CreateDemoDataset = dst
     
 End Function
-
