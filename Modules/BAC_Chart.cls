@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.14.14  published: 08.02.2022                                                  #
+'# Version 2.15.09  published: 09.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -37,7 +37,7 @@ Public Enum chDataSourceType
     dstQueryName
     dstSQLStament
     dstRecordset
-    dstDataset
+    dstData
     dstEmpty
 End Enum
 
@@ -239,8 +239,8 @@ Public Property Get DataLabels() As BAC_DataLabels
     Set DataLabels = m_DataLabels
 End Property
 
-Public Property Get Dataset() As BAC_DataSet
-    Set Dataset = m_DataSource.Dataset
+Public Property Get Data() As BAC_Data
+    Set Data = m_DataSource.Data
 End Property
 
 

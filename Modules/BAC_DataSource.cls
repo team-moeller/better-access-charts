@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.14.14  published: 08.02.2022                                                  #
+'# Version 2.15.09  published: 09.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -25,7 +25,7 @@ Private m_SQLStatement As String
 Private m_Recordset As DAO.Recordset
 Private m_LabelFieldName As String
 Private m_DataFieldNames() As String
-Private m_Dataset As BAC_DataSet
+Private m_Data As BAC_Data
 
 
 ' ### Properties
@@ -54,12 +54,12 @@ Public Property Get Recordset() As Object   ' ADODB/DAO.Recordset
     Set Recordset = m_Recordset
 End Property
 
-Public Property Set Dataset(ByVal This_Dataset As BAC_DataSet)
-    m_Type = dstDataset
-    Set m_Dataset = This_Dataset
+Public Property Set Data(ByVal This_Data As BAC_Data)
+    m_Type = dstData
+    Set m_Data = This_Data
 End Property
-Public Property Get Dataset() As BAC_DataSet
-    Set Dataset = m_Dataset
+Public Property Get Data() As BAC_Data
+    Set Data = m_Data
 End Property
 
 
@@ -103,8 +103,8 @@ Public Sub Init(Optional ByVal DataSourceType As chDataSourceType = dstDemo, _
         Case dstQueryName:  Me.ObjectName = DataSource
         Case dstSQLStament: Me.SQLStatement = DataSource
         Case dstRecordset:  Set Me.Recordset = DataSource
-        Case dstDataset:    Set Me.Dataset = DataSource
-        Case dstEmpty:      Set Me.Dataset = New BAC_DataSet
+        Case dstData:       Set Me.Data = DataSource
+        Case dstEmpty:      Set Me.Data = New BAC_Data
     End Select
     Me.DataFieldNames = DataFieldNames
     Me.LabelFieldName = LabelFieldName
@@ -123,13 +123,13 @@ End Sub
 
 ' ### Generator Function
 
-Friend Function getData(ByVal ChartType As chChartType) As BAC_DataSet
+Friend Function getData(ByVal ChartType As chChartType) As BAC_Data
 On Error GoTo Handle_Error
 
     'Declarations
     Dim db As DAO.Database
     Dim rst As Object           'ADO/DAO Recordset
-    Dim dst As New BAC_DataSet
+    Dim dst As New BAC_Data
     
     Set db = CurrentDb()
     
@@ -141,8 +141,8 @@ On Error GoTo Handle_Error
             Set rst = db.OpenRecordset(SQLStatement)
         Case dstRecordset:
             Set rst = Me.Recordset
-        Case dstDataset:
-            Set dst = Me.Dataset
+        Case dstData:
+            Set dst = Me.Data
         Case dstDemo:
             Set dst = CreateDemoDataset(ChartType)
     End Select
@@ -171,10 +171,10 @@ Handle_Error:
 
 End Function
 
-Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartType) As BAC_DataSet
+Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartType) As BAC_Data
 
     'Declarations
-    Dim dst As New BAC_DataSet
+    Dim dst As New BAC_Data
     Dim Field As Variant ' As String
     Dim i As Integer
     
@@ -227,10 +227,10 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
     
 End Function
 
-Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_DataSet
+Private Function CreateDemoDataset(ByVal ChartType As chChartType) As BAC_Data
 
     'Declarations
-    Dim dst As New BAC_DataSet
+    Dim dst As New BAC_Data
     
     DataFieldNames = Array("Demo")
     

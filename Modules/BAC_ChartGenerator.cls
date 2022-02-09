@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.14.14  published: 08.02.2022                                                  #
+'# Version 2.15.09  published: 09.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -20,7 +20,7 @@ Option Explicit
 '### Members
 
 Private m_Options  As BAC_Chart
-Private m_Data     As BAC_DataSet
+Private m_Data     As BAC_Data
 
 
 ' ### Properties
@@ -28,14 +28,14 @@ Private m_Data     As BAC_DataSet
 Private Property Get Options() As BAC_Chart
     Set Options = m_Options
 End Property
-Private Property Get Data() As BAC_DataSet
+Private Property Get Data() As BAC_Data
     Set Data = m_Data
 End Property
 
 
 '### Initializer
 
-Public Sub Init(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BAC_DataSet)
+Public Sub Init(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BAC_Data)
 
     Set m_Options = ChartOptions
     Set m_Data = ChartData

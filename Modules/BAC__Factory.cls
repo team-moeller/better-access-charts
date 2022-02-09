@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.14.14  published: 08.02.2022                                                  #
+'# Version 2.15.09  published: 09.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -56,7 +56,7 @@ Public Function Scripts() As BAC_Scripts
     Set Scripts = m_Scripts
 End Function
 
-Public Function Generator(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BAC_DataSet) As BAC_ChartGenerator
+Public Function Generator(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BAC_Data) As BAC_ChartGenerator
     Set Generator = New BAC_ChartGenerator
     Generator.Init ChartOptions, ChartData
 End Function
