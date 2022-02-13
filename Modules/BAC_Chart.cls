@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.15.09  published: 09.02.2022                                                  #
+'# Version 2.16.06  published: 13.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -62,13 +62,15 @@ End Enum
 Public Enum chDisplayIn
     chWebBrowserControl = 1
     chWebBrowserActiveX = 2
-    chSystemBrowser = 3
+    chImageControl = 3
+    chSystemBrowser = 4
 End Enum
 
 '### Members
 
 Private m_WebBrowserControl As Access.WebBrowserControl
 Private m_WebBrowserActiveX As SHDocVw.WebBrowser
+Private m_ImageControl As Access.Image
 Private m_ChartType As chChartType
 Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
@@ -108,6 +110,8 @@ End Sub
 Public Property Set Control(ByVal New_Control As Object)
     If TypeName(New_Control) = "WebBrowserControl" Then
         Set Me.WebBrowserControl = New_Control
+    ElseIf TypeName(New_Control) = "Image" Then
+        Set Me.ImageControl = New_Control
     ElseIf TypeName(New_Control.Object) = "WebBrowser" Then
         Set Me.WebBrowserActiveX = New_Control.Object
     Else
@@ -129,6 +133,14 @@ Public Property Set WebBrowserActiveX(ByVal New_Control As SHDocVw.WebBrowser)
 End Property
 Public Property Get WebBrowserActiveX() As SHDocVw.WebBrowser
     Set WebBrowserActiveX = m_WebBrowserActiveX
+End Property
+
+Public Property Set ImageControl(ByVal New_Control As Access.Image)
+    Set m_ImageControl = New_Control
+    m_DisplayIn = chImageControl
+End Property
+Public Property Get ImageControl() As Access.Image
+    Set ImageControl = m_ImageControl
 End Property
 
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
@@ -290,6 +302,9 @@ End Sub
 
 Public Sub CreateChart()
 
+    'Declarations
+    Dim ImageFileName As String
+
     CreateChartFile
     
     Select Case Me.DisplayIn
@@ -297,6 +312,9 @@ Public Sub CreateChart()
             Me.WebBrowserControl.Object.Navigate getHTMLFileName
         Case chDisplayIn.chWebBrowserActiveX
             Me.WebBrowserActiveX.Navigate getHTMLFileName
+        Case chDisplayIn.chImageControl
+            Call SaveChartAsImage(ImageFileName)
+            Me.ImageControl.Picture = ImageFileName
         Case chDisplayIn.chSystemBrowser
             BAC.Helper.ShellExecute getHTMLFileName
         Case Else
@@ -323,6 +341,55 @@ Private Sub CreateChartFile()
     
     Call saveHtmlFile(BAC.Helper.getTempFolder, strHTML)
     
+End Sub
+
+Private Sub SaveChartAsImage(ByRef ImageFileName As String)
+
+    'Declarations
+    Dim objIE As Object 'As SHDocVw.InternetExplorer 'InternetExplorer
+    Dim objCanvas As Object 'As MSHTML.HTMLCanvasElement 'As HTMLCanvasElement
+    Dim objXML As Object 'As MSXML2.DOMDocument
+    Dim objDocElem As Object 'As MSXML2.IXMLDOMElement
+    Dim objStream As Object 'As ADODB.Stream
+    Dim strImg As String
+    Dim strData As String
+    Dim arr64decode() As Byte
+
+    'Start IE and load chart
+    Set objIE = CreateObject("InternetExplorer.Application") 'New InternetExplorer
+''    objIE.Visible = True
+''    objIE.Height = 353: objIE.Width = 295
+    objIE.Navigate getHTMLFileName
+    Do While objIE.ReadyState <> 4
+        DoEvents
+    Loop
+
+    'Get canvas and grab image
+    Set objCanvas = objIE.Document.getElementById("myChart")
+    strImg = objCanvas.toDataURL("image/png")
+    
+    'Use exclamation mark if no image available
+    If Left$(strImg, 22) <> "data:image/png;base64," Then
+        strImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAASCAIAAAACF7MiAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABpSURBVChTYzxw4AADfgBU8R83AMoyQRXiBqSquDPRmpExfTuUBwHk2GKlpQplQQCpZqio6UBZCIBpho6aCpQFASS7VFXLCsqCAzQVKvlHZ3pC2VCAqoJwiAGN+P8fzRCSXYoFEEpBDAwAPNYyBnTMkl4AAAAASUVORK5CYII="
+    End If
+    
+    'Convert image to byte array
+    strData = Right$(strImg, Len(strImg) - 22)
+    Set objXML = CreateObject("MSXML2.DOMDocument")
+    Set objDocElem = objXML.createElement("tmp")
+    objDocElem.DataType = "bin.base64"
+    objDocElem.Text = strData
+    arr64decode = objDocElem.NodeTypedValue
+    
+    'Save to file
+    Set objStream = CreateObject("ADODB.Stream")
+    objStream.Type = 1 ' adTypeBinary = 1
+    objStream.Open
+    objStream.Write arr64decode
+    ImageFileName = BAC.Helper.getTempFolder & "image.png"
+    objStream.SaveToFile ImageFileName, 2 ' adSaveCreateOverWrite = 2
+    objIE.Quit
+
 End Sub
 
 
