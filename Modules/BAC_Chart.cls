@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.16.06  published: 13.02.2022                                                  #
+'# Version 2.17.07  published: 15.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -358,7 +358,6 @@ Private Sub SaveChartAsImage(ByRef ImageFileName As String)
     'Start IE and load chart
     Set objIE = CreateObject("InternetExplorer.Application") 'New InternetExplorer
 ''    objIE.Visible = True
-''    objIE.Height = 353: objIE.Width = 295
     objIE.Navigate getHTMLFileName
     Do While objIE.ReadyState <> 4
         DoEvents

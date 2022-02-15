@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.16.06  published: 13.02.2022                                                  #
+'# Version 2.17.07  published: 15.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -85,7 +85,7 @@ Private Function getHeader() As String
         .AddLine "</head>"
         
         .AddLine "<body>"
-        .AddLine "<div id=""container"" style=""width: 100%;"">"
+        .AddLine "<div id=""container"" " & getContainerStyle & ">"
         If Len(Options.BackgroundColor) > 0 Then
             .AddLine "    <canvas id=""myChart"" style=""background-color: " & Options.BackgroundColor & """ ></canvas>"
         Else
@@ -99,6 +99,9 @@ Private Function getHeader() As String
         
         .AddLine "<script>"
         .Add getDefaultFont
+        If Options.DisplayIn = chDisplayIn.chImageControl Then
+            .AddLine "    Chart.defaults.global.animation = false;"
+        End If
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"
         
@@ -106,6 +109,23 @@ Private Function getHeader() As String
     End With
     
 End Function
+
+Private Function getContainerStyle() As String
+
+    'Declarations
+    Dim Width As Long
+    Dim Height As Long
+
+    If Options.DisplayIn = chDisplayIn.chImageControl Then
+        Width = Options.ImageControl.Width / BAC.Helper.TwipsPerPixel("X")
+        Height = Options.ImageControl.Height / BAC.Helper.TwipsPerPixel("Y")
+        getContainerStyle = "Style = ""width:" & Width & "px; height:" & Height & "px"""
+    Else
+        getContainerStyle = "style=""width: 100%;"""
+    End If
+
+End Function
+
 
 Private Function getDefaultFont() As String
 

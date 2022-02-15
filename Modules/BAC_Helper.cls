@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.16.06  published: 13.02.2022                                                  #
+'# Version 2.17.07  published: 15.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -43,6 +43,26 @@ Option Explicit
         (ByVal hWnd As Long, ByVal lpOperation As String, _
          ByVal lpFile As String, ByVal lpParameters As String, _
          ByVal lpDirectory As String, ByVal nShowCmd As eShowCmd) As Long
+#End If
+
+#If VBA7 And Win64 Then
+    Private Declare PtrSafe Function GetDC Lib "user32" _
+        (ByVal hWnd As LongPtr) As LongPtr
+    Private Declare PtrSafe Function ReleaseDC Lib "user32" ( _
+        ByVal hWnd As LongPtr, _
+        ByVal hDC As LongPtr) As LongPtr
+    Private Declare PtrSafe Function GetDeviceCaps Lib "gdi32" ( _
+        ByVal hDC As LongPtr, _
+        ByVal nIndex As Long) As LongPtr
+#Else
+    Private Declare Function GetDC Lib "user32" ( _
+        ByVal hWnd As Long) As Long
+    Private Declare Function ReleaseDC Lib "user32" ( _
+        ByVal hWnd As Long, _
+        ByVal hDC As Long) As Long
+   Private Declare Function GetDeviceCaps Lib "gdi32" ( _
+        ByVal hDC As Long, _
+        ByVal nIndex As Long) As Long
 #End If
 
 
@@ -163,3 +183,29 @@ Friend Sub ShellExecute(FileName As String)
 
 End Sub
     
+Friend Function TwipsPerPixel(ByVal Dimension As String) As Long
+   
+   'Declarations
+   #If VBA7 And Win64 Then
+      Dim hDC As LongPtr
+   #Else
+      Dim hDC As Long
+   #End If
+   
+   Const LOGPIXELSX = 88 'pixels/inch in X
+   Const LOGPIXELSY = 90 'pixels/inch in Y
+      
+   'Get handle
+   hDC = GetDC(0)
+   
+   If Dimension = "Y" Then
+      TwipsPerPixel = 1440 / GetDeviceCaps(hDC, LOGPIXELSY)
+   ElseIf Dimension = "X" Then
+      TwipsPerPixel = 1440 / GetDeviceCaps(hDC, LOGPIXELSX)
+   End If
+      
+   'Release handle
+   hDC = ReleaseDC(0, hDC)
+    
+End Function
+
