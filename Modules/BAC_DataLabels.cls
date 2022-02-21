@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.17.07  published: 15.02.2022                                                  #
+'# Version 2.18.06  published: 21.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -64,7 +64,7 @@ End Sub
 Friend Function getDataLabel() As String
 
     If Not Me.Show Then Exit Function
-    If Not m_SectionIsNeeded = True And Not Me.Font.Color <> vbNullString And Not Me.Font.SectionIsNeeded = True Then Exit Function
+    If Not m_SectionIsNeeded = True And Not Me.Font.Color <> vbNullString And Not Me.Font.SectionIsNeeded("DataLabel") = True Then Exit Function
     
     With New BAC_StringBuilder
         .AddLine "                datalabels: {"
@@ -74,7 +74,7 @@ Friend Function getDataLabel() As String
         If Me.Font.Color <> vbNullString Then
             .AddLine "                    color: '" & Me.Font.Color & "',"
         End If
-        If Me.Font.SectionIsNeeded Then
+        If Me.Font.SectionIsNeeded("DataLabel") Then
             .AddLine "                    font: {"
             If Me.Font.Family <> vbNullString Then
                 .AddLine "                        family: '" & Me.Font.Family & "',"
