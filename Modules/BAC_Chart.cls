@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.18.06  published: 21.02.2022                                                  #
+'# Version 2.19.06  published: 23.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -51,6 +51,12 @@ End Enum
 Public Enum chScriptSource
     CDN = 1
     LocalFile = 2
+End Enum
+
+Public Enum chAlign
+    alStart = 1
+    alCenter = 2
+    alEnd = 3
 End Enum
 
 Public Enum chDataLabelAnchor

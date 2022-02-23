@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.18.06  published: 21.02.2022                                                  #
+'# Version 2.19.06  published: 23.02.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -22,6 +22,7 @@ Option Explicit
 Private m_Font As BAC_Font
 Private m_Show As Boolean
 Private m_Position As chPosition
+Private m_Align As chAlign
 
 
 ' ### Properties
@@ -30,18 +31,25 @@ Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
 
-Public Property Let Show(ByVal This_Show As Boolean)
-    m_Show = This_Show
+Public Property Let Show(ByVal newValue As Boolean)
+    m_Show = newValue
 End Property
 Public Property Get Show() As Boolean
     Show = m_Show
 End Property
 
-Public Property Let Position(ByVal This_Position As chPosition)
-    m_Position = This_Position
+Public Property Let Position(ByVal newValue As chPosition)
+    m_Position = newValue
 End Property
 Public Property Get Position() As chPosition
     Position = m_Position
+End Property
+
+Public Property Let Align(ByVal newValue As chAlign)
+    m_Align = newValue
+End Property
+Public Property Get Align() As chAlign
+    Align = m_Align
 End Property
 
 
@@ -65,6 +73,9 @@ Friend Function getLegend() As String
             .AddLine "            legend: {"
             .AddLine "                display: true,"
             .AddLine "                position: " & BAC.Helper.getPositionString(Me.Position) & ","
+            If Me.Align > 0 Then
+                .AddLine "                    align: '" & getAlignString(Me.Align) & "',"
+            End If
             If Me.Font.SectionIsNeeded("Legend") = True Then
                 .AddLine "                labels: {"
                 If Me.Font.Family <> vbNullString Then
@@ -92,6 +103,21 @@ Friend Function getLegend() As String
         End If
         getLegend = .ToString
     End With
+    
+End Function
+
+Private Function getAlignString(ByVal ThisAlign As chAlign) As String
+
+    Select Case ThisAlign
+        Case chAlign.alStart
+            getAlignString = "start"
+        Case chAlign.alCenter
+            getAlignString = "center"
+        Case chAlign.alEnd
+            getAlignString = "end"
+        Case Else
+            getAlignString = "center"
+    End Select
     
 End Function
 
