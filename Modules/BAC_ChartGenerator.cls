@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.19.06  published: 23.02.2022                                                  #
+'# Version 2.20.11  published: 06.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -236,7 +236,7 @@ Private Function getChartOptions() As String
     With strText
         .AddLine "        options: {"
         If Options.AspectRatio <> 2# Then
-            .AddLine " aspectRatio: " & Str(Options.AspectRatio) & ","
+            .AddLine "            aspectRatio: " & Str(Options.AspectRatio) & ","
         End If
         .Add Options.Title.getTitle
         .Add Options.Legend.getLegend
@@ -279,15 +279,29 @@ Private Function getScales() As String
     'Declarations
     Dim strText As New BAC_StringBuilder
     
-    With strText
-        .AddLine "            scales: {"
-        .Add Options.YAxis.getAxis(Options.StackedChart)
-        .Add Options.XAxis.getAxis(Options.StackedChart)
-        .CutTrailingComma
-        .AddLine "            },"
-        
-        getScales = .ToString
-    End With
+    Select Case Options.ChartType
+        Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
+            With strText
+                .AddLine "            scales: {"
+                .Add Options.YAxis.getCartesianAxis(Options.StackedChart)
+                .Add Options.XAxis.getCartesianAxis(Options.StackedChart)
+                .CutTrailingComma
+                .AddLine "            },"
+                getScales = .ToString
+            End With
+        Case chChartType.PolarArea, chChartType.Radar
+            With strText
+                .AddLine "            scale: {"
+                .Add Options.RadialAxis.getRadialAxis
+                .CutTrailingComma
+                .AddLine "            },"
+                getScales = .ToString
+            End With
+        Case chChartType.Pie, chChartType.Doughnut
+            'No axes available
+        Case Else
+            'Do Nothing
+    End Select
     
 End Function
 

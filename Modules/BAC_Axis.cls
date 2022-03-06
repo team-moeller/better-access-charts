@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.19.06  published: 23.02.2022                                                  #
+'# Version 2.20.11  published: 06.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,14 +53,14 @@ Public Property Get LabelText() As String
     LabelText = m_LabelText
 End Property
 
-Public Property Let BeginAtZero(ByVal This_BeginAtZero As Boolean)
+Public Property Let beginAtZero(ByVal This_BeginAtZero As Boolean)
     m_BeginAtZero = This_BeginAtZero
     If This_BeginAtZero = True Then
         m_TicksNeeded = True
     End If
 End Property
-Public Property Get BeginAtZero() As Boolean
-    BeginAtZero = m_BeginAtZero
+Public Property Get beginAtZero() As Boolean
+    beginAtZero = m_BeginAtZero
 End Property
 
 Public Property Let TicksMin(ByVal This_TicksMin As String)
@@ -91,9 +91,9 @@ Friend Sub Init(ByVal Axis As chCartesianAxis)
 End Sub
 
 
-' ### Generator Function
+' ### Generator Functions
 
-Friend Function getAxis(ByVal StackedChart As Boolean)
+Friend Function getCartesianAxis(ByVal StackedChart As Boolean)
 
     With New BAC_StringBuilder
         .AddLine "                #Axes: [{"
@@ -116,7 +116,7 @@ Friend Function getAxis(ByVal StackedChart As Boolean)
             If m_TicksNeeded = True Then
                 .AddLine "                    ticks: {"
             End If
-            If Me.BeginAtZero = True Then
+            If Me.beginAtZero = True Then
                 .AddLine "                       beginAtZero: true,"
             End If
             If Len(Me.TicksMin) > 0 Then
@@ -142,12 +142,44 @@ Friend Function getAxis(ByVal StackedChart As Boolean)
         .AddLine "                    }],"
     
         If m_Axis = apXAxis Then
-            getAxis = Replace(.ToString, "#", "x")
+            getCartesianAxis = Replace(.ToString, "#", "x")
         ElseIf m_Axis = apYAxis Then
-            getAxis = Replace(.ToString, "#", "y")
+            getCartesianAxis = Replace(.ToString, "#", "y")
         End If
     
     End With
     
 End Function
 
+Friend Function getRadialAxis()
+
+    With New BAC_StringBuilder
+        If Me.Show = False Then
+            .AddLine "                display: false"
+        Else
+            .AddLine "                display: true,"
+            If m_TicksNeeded = True Then
+                .AddLine "                ticks: {"
+            End If
+            If Me.beginAtZero = True Then
+                .AddLine "                    beginAtZero: true,"
+            End If
+            If Len(Me.TicksMin) > 0 Then
+                If IsNumeric(Me.TicksMin) = True Then
+                    .AddLine "                    min: " & Str$(Me.TicksMin) & " ,"
+                End If
+            End If
+            If Len(Me.TicksMax) > 0 Then
+                If IsNumeric(Me.TicksMax) = True Then
+                    .AddLine "                    max: " & Str$(Me.TicksMax) & " ,"
+                End If
+            End If
+            .CutTrailingComma
+            If m_TicksNeeded = True Then
+                .AddLine "                }"
+            End If
+        End If
+        getRadialAxis = .ToString
+    End With
+
+End Function

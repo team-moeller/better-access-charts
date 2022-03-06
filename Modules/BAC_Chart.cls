@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.19.06  published: 23.02.2022                                                  #
+'# Version 2.20.11  published: 06.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -92,6 +92,7 @@ Private m_DataLabels  As BAC_DataLabels
 Private m_Defaults    As BAC_Defaults
 Private m_XAxis       As BAC_Axis
 Private m_YAxis       As BAC_Axis
+Private m_RadialAxis  As BAC_Axis
 Private m_Legend      As BAC_Legend
 Private m_Title       As BAC_Title
     
@@ -155,9 +156,11 @@ Public Property Let ChartType(ByVal This_ChartType As chChartType)
         Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
             YAxis.Show = True
             XAxis.Show = True
+            RadialAxis.Show = False
         Case chChartType.Doughnut, chChartType.Pie, chChartType.PolarArea, chChartType.Radar
             YAxis.Show = False
             XAxis.Show = False
+            RadialAxis.Show = True
         Case Else
             'Do Nothing
     End Select
@@ -253,6 +256,10 @@ Public Property Get YAxis() As BAC_Axis
     Set YAxis = m_YAxis
 End Property
 
+Public Property Get RadialAxis() As BAC_Axis
+    Set RadialAxis = m_RadialAxis
+End Property
+
 Public Property Get DataLabels() As BAC_DataLabels
     Set DataLabels = m_DataLabels
 End Property
@@ -277,6 +284,7 @@ Private Sub Class_Initialize()
     m_XAxis.Init apXAxis
     Set m_YAxis = New BAC_Axis
     m_YAxis.Init apYAxis
+    Set m_RadialAxis = New BAC_Axis
     
     'Set default values
     ChartType = chChartType.Bar
