@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.20.11  published: 06.03.2022                                                  #
+'# Version 2.21.05  published: 09.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -19,12 +19,17 @@ Option Explicit
 
 '### Members
 
+Private m_Font As BAC_Font
 Private m_Show As Boolean
 Private m_Position As chPosition
 Private m_Text As String
 
 
 ' ### Properties
+
+Public Property Get Font() As BAC_Font
+    Set Font = m_Font
+End Property
 
 Public Property Let Show(ByVal This_Show As Boolean)
     m_Show = This_Show
@@ -48,6 +53,15 @@ Public Property Get Text() As String
 End Property
 
 
+'### Instancing
+
+Private Sub Class_Initialize()
+
+    Set m_Font = New BAC_Font
+    
+End Sub
+
+
 ' ### Generator Function
 
 Friend Function getTitle() As String
@@ -61,7 +75,26 @@ Friend Function getTitle() As String
             .AddLine "            title: {"
             .AddLine "                display: true,"
             .AddLine "                position: " & BAC.Helper.getPositionString(Me.Position) & ","
-            .AddLine "                text: '" & Me.Text & "'"
+            .AddLine "                text: '" & Me.Text & "',"
+            If Me.Font.Family <> vbNullString Then
+                .AddLine "                    fontFamily: '" & Me.Font.Family & "',"
+            End If
+            If Me.Font.Size > 0 Then
+                .AddLine "                    fontSize: " & Me.Font.Size & ","
+            End If
+            If Me.Font.Color <> vbNullString Then
+                .AddLine "                    fontColor: '" & Me.Font.Color & "',"
+            End If
+            If Me.Font.IsBold = True And Me.Font.IsItalic = True Then
+                .AddLine "                    fontStyle: 'bold italic'"
+            ElseIf Me.Font.IsBold = True Then
+                .AddLine "                    fontStyle: 'bold'"
+            ElseIf Me.Font.IsItalic = True Then
+                .AddLine "                    fontStyle: 'italic'"
+            Else
+                'Do nothing
+            End If
+            .CutTrailingComma
             .AddLine "            },"
         End If
         

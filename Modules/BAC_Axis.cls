@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.20.11  published: 06.03.2022                                                  #
+'# Version 2.21.05  published: 09.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -93,7 +93,7 @@ End Sub
 
 ' ### Generator Functions
 
-Friend Function getCartesianAxis(ByVal StackedChart As Boolean)
+Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
 
     With New BAC_StringBuilder
         .AddLine "                #Axes: [{"
@@ -151,7 +151,7 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean)
     
 End Function
 
-Friend Function getRadialAxis()
+Friend Function getRadialAxis() As String
 
     With New BAC_StringBuilder
         If Me.Show = False Then

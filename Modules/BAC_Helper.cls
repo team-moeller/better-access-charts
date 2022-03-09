@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.20.11  published: 06.03.2022                                                  #
+'# Version 2.21.05  published: 09.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -192,8 +192,8 @@ Friend Function TwipsPerPixel(ByVal Dimension As String) As Long
       Dim hDC As Long
    #End If
    
-   Const LOGPIXELSX = 88 'pixels/inch in X
-   Const LOGPIXELSY = 90 'pixels/inch in Y
+   Const LOGPIXELSX As Long = 88 'pixels/inch in X
+   Const LOGPIXELSY As Long = 90 'pixels/inch in Y
       
    'Get handle
    hDC = GetDC(0)
