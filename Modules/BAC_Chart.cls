@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.21.05  published: 09.03.2022                                                  #
+'# Version 2.22.12  published: 12.03.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -72,6 +72,40 @@ Public Enum chDisplayIn
     chSystemBrowser = 4
 End Enum
 
+Public Enum chEasing
+    linear = 0
+    easeInQuad = 1
+    easeOutQuad = 2
+    easeInOutQuad = 3
+    easeInCubic = 4
+    easeOutCubic = 5
+    easeInOutCubic = 6
+    easeInQuart = 7
+    easeOutQuart = 8
+    easeInOutQuart = 9
+    easeInQuint = 10
+    easeOutQuint = 11
+    easeInOutQuint = 12
+    easeInSine = 13
+    easeOutSine = 14
+    easeInOutSine = 15
+    easeInExpo = 16
+    easeOutExpo = 17
+    easeInOutExpo = 18
+    easeInCirc = 19
+    easeOutCirc = 20
+    easeInOutCirc = 21
+    easeInElastic = 22
+    easeOutElastic = 23
+    easeInOutElastic = 24
+    easeInBack = 25
+    easeOutBack = 26
+    easeInOutBack = 27
+    easeInBounce = 28
+    easeOutBounce = 29
+    easeInOutBounce = 30
+End Enum
+
 '### Members
 
 Private m_WebBrowserControl As Access.WebBrowserControl
@@ -86,6 +120,7 @@ Private m_SaveHtmlFileForDebugging As Boolean
 Private m_AspectRatio As Double
 Private m_DisplayIn As chDisplayIn
     
+Private m_Animation   As BAC_Animation
 Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
 Private m_DataLabels  As BAC_DataLabels
@@ -228,6 +263,10 @@ End Property
 
 '### Object Properties
 
+Public Property Get Animation() As BAC_Animation
+    Set Animation = m_Animation
+End Property
+
 Public Property Get ColorSchema() As BAC_ColorSchema
     Set ColorSchema = m_ColorSchema
 End Property
@@ -273,7 +312,8 @@ End Property
 
 Private Sub Class_Initialize()
     
-    'create Sub Classes
+    'Create Sub Classes
+    Set m_Animation = New BAC_Animation
     Set m_ColorSchema = New BAC_ColorSchema
     Set m_DataSource = New BAC_DataSource
     Set m_DataLabels = New BAC_DataLabels
