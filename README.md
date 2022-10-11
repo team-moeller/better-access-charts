@@ -17,7 +17,7 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 4. Push the button: "Create Chart"
 
 ## How to integrate into your own database?
-**1. Import of the class module**
+**1. Import of the class modules**
 
 First, all modules with the name "BAC_*" must be imported from the demo database into your Access database.
 
