@@ -145,6 +145,8 @@ Private Function getDefaultFont() As String
         If Font.Size > 0 Then
             .AddLine "    Chart.defaults.global.defaultFontSize = " & Font.Size & ";"
         End If
+        
+        getDefaultFont = .ToString
     End With
     
 End Function
