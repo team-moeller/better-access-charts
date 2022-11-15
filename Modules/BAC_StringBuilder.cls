@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.23.06  published: 25.10.2022                                                  #
+'# Version 2.24.02  published: 15.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -29,7 +29,13 @@ Public Sub Add(ByVal TheString As String)
 End Sub
 
 Public Sub AddLine(ByVal TheString As String)
-    m_String = m_String & TheString & vbCrLf
+    If m_String = vbNullString Then
+        m_String = TheString & vbCrLf
+    ElseIf TheString = vbNullString Then
+        m_String = m_String & vbCrLf
+    Else
+        m_String = m_String & TheString & vbCrLf
+    End If
 End Sub
 
 Public Sub CutTrailingComma()

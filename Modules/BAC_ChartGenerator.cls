@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.23.06  published: 25.10.2022                                                  #
+'# Version 2.24.02  published: 15.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -70,7 +70,6 @@ Private Function getHeader() As String
     With strText
         .AddLine "<!DOCTYPE html>"
         .AddLine "<!-- saved from url=(0014)about:internet -->"
-        .AddLine "<!-- saved from url=(0016)http://localhost -->"
         .AddLine "<html>"
         .AddLine "<head>"
         .AddLine "    <meta charset=""utf-8"">"
