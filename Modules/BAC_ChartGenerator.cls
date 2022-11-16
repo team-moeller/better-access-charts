@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.24.02  published: 15.11.2022                                                  #
+'# Version 2.25.03  published: 16.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -72,15 +72,15 @@ Private Function getHeader() As String
         .AddLine "<!-- saved from url=(0014)about:internet -->"
         .AddLine "<html>"
         .AddLine "<head>"
-        .AddLine "    <meta charset=""utf-8"">"
-        .AddLine "    <meta http-equiv=""X-UA-Compatible"" content=""IE=Edge""/>"
         .AddLine "    <title>Chart</title>"
-        .AddLine "    <style>body{margin:0;padding:0;}</style>"
+        .AddLine "    <meta charset='utf-8'>"
+        .AddLine "    <meta http-equiv='X-UA-Compatible' content='IE=Edge'>"
         .AddLine "    <script src=" & BAC.Scripts.ChartJS.getLocation & "></script>"
         .AddLine "    <script src=" & BAC.Scripts.Plugin_ColorSchemes.getLocation & "></script>"
         If Options.DataLabels.Show = True Then
             .AddLine "    <script src=" & BAC.Scripts.Plugin_DataLabels.getDataLabelLocation & "></script>"
         End If
+        .AddLine "    <style>body{margin:0;padding:0;}</style>"
         .AddLine "</head>"
         
         .AddLine "<body>"
