@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.25.03  published: 16.11.2022                                                  #
+'# Version 2.26.05  published: 18.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -80,20 +80,22 @@ Private Function getHeader() As String
         If Options.DataLabels.Show = True Then
             .AddLine "    <script src=" & BAC.Scripts.Plugin_DataLabels.getDataLabelLocation & "></script>"
         End If
-        .AddLine "    <style>body{margin:0;padding:0;}</style>"
+        .AddLine "    <style>"
+        .AddLine "        body { margin: 0; padding: 0; }"
+        .AddLine "        #container { " & getContainerStyle & " }"
+        If Len(Options.BackgroundColor) > 0 Then
+            .AddLine "        #myChart { background-color: " & Options.BackgroundColor & " }"
+        End If
+        .AddLine "    </style>"
         .AddLine "</head>"
         
         .AddLine "<body>"
-        .AddLine "<div id=""container"" " & getContainerStyle & ">"
-        If Len(Options.BackgroundColor) > 0 Then
-            .AddLine "    <canvas id=""myChart"" style=""background-color: " & Options.BackgroundColor & """ ></canvas>"
-        Else
-            .AddLine "    <canvas id=""myChart""></canvas>"
-        End If
+        .AddLine "<div id='container'>"
+        .AddLine "    <canvas id='myChart'></canvas>"
         .AddLine "</div>"
         
         If Options.ShowDownloadLink = True Then
-            .AddLine "<a href=""#"" id=""download"" onclick=""download()"">Download</a>"
+            .AddLine "<a href='#' id='download' onclick='download()'>Download</a>"
         End If
         
         .AddLine "<script>"
@@ -119,9 +121,9 @@ Private Function getContainerStyle() As String
     If Options.DisplayIn = chDisplayIn.chImageControl Then
         Width = Options.ImageControl.Width / BAC.Helper.TwipsPerPixel("X")
         Height = Options.ImageControl.Height / BAC.Helper.TwipsPerPixel("Y")
-        getContainerStyle = "Style = ""width:" & Width & "px; height:" & Height & "px"""
+        getContainerStyle = "width: " & Width & "px; height: " & Height & "px"
     Else
-        getContainerStyle = "style=""width: 100%;"""
+        getContainerStyle = "width: 100%;"
     End If
 
 End Function
