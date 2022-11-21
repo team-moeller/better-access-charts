@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.26.05  published: 18.11.2022                                                  #
+'# Version 2.27.04  published: 21.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -47,15 +47,15 @@ End Sub
 
 Public Function GenerateHTML() As String
     
-    Dim strHTML As New BAC_StringBuilder
-    With strHTML
+    Dim strHtml As New BAC_StringBuilder
+    With strHtml
         .Add getHeader
         .Add getChartType
         .Add getChartData
         .Add getChartOptions
         .Add getFooter
     End With
-    GenerateHTML = strHTML.ToString()
+    GenerateHTML = strHtml.ToString()
     
 End Function
 
