@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.27.04  published: 21.11.2022                                                  #
+'# Version 2.28.02  published: 22.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -359,8 +359,6 @@ Public Sub CreateChart()
     'Declarations
     Dim ImageFileName As String
     Dim strHtml As String
-
-    CreateChartFile
     
     Select Case Me.DisplayIn
         Case chDisplayIn.chWebBrowserControl
@@ -376,11 +374,23 @@ Public Sub CreateChart()
                 .Close
             End With
         Case chDisplayIn.chWebBrowserActiveX
-            Me.WebBrowserActiveX.Navigate getHTMLFileName
+            CreateEmptyHtmlFile
+            Me.WebBrowserActiveX.Navigate getHTMLFileName(, True)
+            Do While Me.WebBrowserActiveX.Busy Or Me.WebBrowserActiveX.ReadyState <> 4
+                DoEvents
+            Loop
+            With Me.WebBrowserActiveX.Document
+                .Open
+                strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
+                .Write strHtml
+                .Close
+            End With
         Case chDisplayIn.chImageControl
+            CreateChartFile
             Call SaveChartAsImage(ImageFileName)
             Me.ImageControl.Picture = ImageFileName
         Case chDisplayIn.chSystemBrowser
+            CreateChartFile
             BAC.Helper.ShellExecute getHTMLFileName
         Case Else
             'Do nothing
