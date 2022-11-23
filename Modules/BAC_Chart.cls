@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.28.02  published: 22.11.2022                                                  #
+'# Version 2.29.02  published: 23.11.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -386,7 +386,6 @@ Public Sub CreateChart()
                 .Close
             End With
         Case chDisplayIn.chImageControl
-            CreateChartFile
             Call SaveChartAsImage(ImageFileName)
             Me.ImageControl.Picture = ImageFileName
         Case chDisplayIn.chSystemBrowser
@@ -442,11 +441,11 @@ End Sub
 Private Sub SaveChartAsImage(ByRef ImageFileName As String)
 
     'Declarations
-    Dim objIE As Object 'As SHDocVw.InternetExplorer 'InternetExplorer
-    Dim objCanvas As Object 'As MSHTML.HTMLCanvasElement 'As HTMLCanvasElement
-    Dim objXML As Object 'As MSXML2.DOMDocument
+    Dim objIE As Object      'As SHDocVw.InternetExplorer 'InternetExplorer
+    Dim objCanvas As Object  'As MSHTML.HTMLCanvasElement 'As HTMLCanvasElement
+    Dim objXML As Object     'As MSXML2.DOMDocument
     Dim objDocElem As Object 'As MSXML2.IXMLDOMElement
-    Dim objStream As Object 'As ADODB.Stream
+    Dim objStream As Object  'As ADODB.Stream
     Dim strImg As String
     Dim strData As String
     Dim arr64decode() As Byte
@@ -454,11 +453,19 @@ Private Sub SaveChartAsImage(ByRef ImageFileName As String)
     'Start IE and load chart
     Set objIE = CreateObject("InternetExplorer.Application") 'New InternetExplorer
 ''    objIE.Visible = True
-    objIE.Navigate getHTMLFileName
-    Do While objIE.ReadyState <> 4
+    CreateEmptyHtmlFile
+    objIE.Navigate getHTMLFileName(, True)
+    Do While objIE.Busy Or objIE.ReadyState <> 4
         DoEvents
     Loop
-
+    With objIE.Document
+        .Open
+        Dim strHtml As String
+        strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
+        .Write strHtml
+        .Close
+    End With
+    
     'Get canvas and grab image
     Set objCanvas = objIE.Document.getElementById("myChart")
     strImg = objCanvas.toDataURL("image/png")
