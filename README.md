@@ -3,7 +3,7 @@ Better charts for Access with charts.js
 
 ## Why Better charts for Access?
 
-Microsoft Access badly needs modern charts. The original charts in MS Access date from the 90s of the previous century. Microsoft has given the charts in Access a lift. They call it "Modern Charts".
+Microsoft Access badly needs modern charts. The original charts in MS Access date from the 90s of the previous century. Microsoft has given the charts in Access a lift. They called it "Modern Charts".
 
 There are countless JavaScript libraries on the world wide web that you can use to create cool charts. This project makes use of this.
 We create charts using the Chart.js library and display them in the web browser control. The whole logic is hidden in some class modules.
