@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 2.29.02  published: 23.11.2022                                                  #
+'# Version 2.30.02  published: 30.12.2022                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -373,6 +373,9 @@ Public Sub CreateChart()
                 .Write strHtml
                 .Close
             End With
+            If Me.SaveHtmlFileForDebugging = True Then
+                Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
+            End If
         Case chDisplayIn.chWebBrowserActiveX
             CreateEmptyHtmlFile
             Me.WebBrowserActiveX.Navigate getHTMLFileName(, True)
@@ -385,6 +388,9 @@ Public Sub CreateChart()
                 .Write strHtml
                 .Close
             End With
+            If Me.SaveHtmlFileForDebugging = True Then
+                Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
+            End If
         Case chDisplayIn.chImageControl
             Call SaveChartAsImage(ImageFileName)
             Me.ImageControl.Picture = ImageFileName
@@ -465,6 +471,9 @@ Private Sub SaveChartAsImage(ByRef ImageFileName As String)
         .Write strHtml
         .Close
     End With
+    If Me.SaveHtmlFileForDebugging = True Then
+        Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
+    End If
     
     'Get canvas and grab image
     Set objCanvas = objIE.Document.getElementById("myChart")
