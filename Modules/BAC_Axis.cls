@@ -26,6 +26,7 @@ End Enum
 
 
 '### Members
+Private m_Properties As BAC_Properties
 
 Private m_Axis As chCartesianAxis
 Private m_Show As Boolean
@@ -38,6 +39,9 @@ Private m_TicksNeeded As Boolean
 
 
 ' ### Properties
+Public Property Get Properties() As BAC_Properties
+   Set Properties = m_Properties
+End Property
 
 Public Property Let Show(ByVal This_ShowAxis As Boolean)
     m_Show = This_ShowAxis
@@ -53,14 +57,14 @@ Public Property Get LabelText() As String
     LabelText = m_LabelText
 End Property
 
-Public Property Let beginAtZero(ByVal This_BeginAtZero As Boolean)
+Public Property Let BeginAtZero(ByVal This_BeginAtZero As Boolean)
     m_BeginAtZero = This_BeginAtZero
     If This_BeginAtZero = True Then
         m_TicksNeeded = True
     End If
 End Property
-Public Property Get beginAtZero() As Boolean
-    beginAtZero = m_BeginAtZero
+Public Property Get BeginAtZero() As Boolean
+    BeginAtZero = m_BeginAtZero
 End Property
 
 Public Property Let TicksMin(ByVal This_TicksMin As String)
@@ -85,6 +89,9 @@ End Property
 
 
 ' ### Initializer
+Private Sub Class_Initialize()
+   Set m_Properties = New BAC_Properties
+End Sub
 
 Friend Sub Init(ByVal Axis As chCartesianAxis)
     m_Axis = Axis
@@ -116,19 +123,19 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
             If m_TicksNeeded = True Then
                 .AddLine "                    ticks: {"
             End If
-            If Me.beginAtZero = True Then
+            If Me.BeginAtZero = True Then
                 .AddLine "                       beginAtZero: true,"
             End If
             If Len(Me.TicksMin) > 0 Then
                 If IsNumeric(Me.TicksMin) = True Then
-                    .AddLine "                       min: " & Str$(Me.TicksMin) & " ,"
+                    .AddLine "                       min: " & str$(Me.TicksMin) & " ,"
                 Else
                     .AddLine "                       min: '" & Me.TicksMin & "' ,"
                 End If
             End If
             If Len(Me.TicksMax) > 0 Then
                 If IsNumeric(Me.TicksMax) = True Then
-                    .AddLine "                       max: " & Str$(Me.TicksMax) & " ,"
+                    .AddLine "                       max: " & str$(Me.TicksMax) & " ,"
                 Else
                     .AddLine "                       max: '" & Me.TicksMax & "' ,"
                 End If
@@ -161,17 +168,17 @@ Friend Function getRadialAxis() As String
             If m_TicksNeeded = True Then
                 .AddLine "                ticks: {"
             End If
-            If Me.beginAtZero = True Then
+            If Me.BeginAtZero = True Then
                 .AddLine "                    beginAtZero: true,"
             End If
             If Len(Me.TicksMin) > 0 Then
                 If IsNumeric(Me.TicksMin) = True Then
-                    .AddLine "                    min: " & Str$(Me.TicksMin) & " ,"
+                    .AddLine "                    min: " & str$(Me.TicksMin) & " ,"
                 End If
             End If
             If Len(Me.TicksMax) > 0 Then
                 If IsNumeric(Me.TicksMax) = True Then
-                    .AddLine "                    max: " & Str$(Me.TicksMax) & " ,"
+                    .AddLine "                    max: " & str$(Me.TicksMax) & " ,"
                 End If
             End If
             .CutTrailingComma

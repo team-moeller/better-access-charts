@@ -113,4 +113,3 @@ Private Function getAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As Strin
     End Select
     
 End Function
-

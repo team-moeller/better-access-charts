@@ -31,22 +31,22 @@ Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
 
-Public Property Let Show(ByVal newValue As Boolean)
-    m_Show = newValue
+Public Property Let Show(ByVal NewValue As Boolean)
+    m_Show = NewValue
 End Property
 Public Property Get Show() As Boolean
     Show = m_Show
 End Property
 
-Public Property Let Position(ByVal newValue As chPosition)
-    m_Position = newValue
+Public Property Let Position(ByVal NewValue As chPosition)
+    m_Position = NewValue
 End Property
 Public Property Get Position() As chPosition
     Position = m_Position
 End Property
 
-Public Property Let Align(ByVal newValue As chAlign)
-    m_Align = newValue
+Public Property Let Align(ByVal NewValue As chAlign)
+    m_Align = NewValue
 End Property
 Public Property Get Align() As chAlign
     Align = m_Align
@@ -120,4 +120,3 @@ Private Function getAlignString(ByVal ThisAlign As chAlign) As String
     End Select
     
 End Function
-

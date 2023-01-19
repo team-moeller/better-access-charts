@@ -32,10 +32,10 @@ Private m_DatasetNames() As String  ' 1..DataCount
 Public Property Get DataCount() As Integer
     DataCount = m_DataCount
 End Property
-Public Property Let DataCount(ByVal newValue As Integer)
-    m_DataCount = newValue
-    ReDim Preserve m_Data(newValue - 1)
-    ReDim Preserve m_DatasetNames(newValue - 1)
+Public Property Let DataCount(ByVal NewValue As Integer)
+    m_DataCount = NewValue
+    ReDim Preserve m_Data(NewValue - 1)
+    ReDim Preserve m_DatasetNames(NewValue - 1)
 End Property
 
 Public Property Get IsSingleDataset() As Boolean
@@ -45,30 +45,30 @@ End Property
 Public Property Get Data(ByVal Index As Integer) As String
     Data = m_Data(Index)
 End Property
-Public Property Let Data(ByVal Index As Integer, ByVal newValue As String)
-    m_Data(Index) = newValue
+Public Property Let Data(ByVal Index As Integer, ByVal NewValue As String)
+    m_Data(Index) = NewValue
 End Property
 
 Public Property Get DatasetName(ByVal Index As Integer) As String
     DatasetName = m_DatasetNames(Index)
 End Property
-Public Property Let DatasetName(ByVal Index As Integer, ByVal newValue As String)
-    m_DatasetNames(Index) = newValue
+Public Property Let DatasetName(ByVal Index As Integer, ByVal NewValue As String)
+    m_DatasetNames(Index) = NewValue
 End Property
 
 Public Property Get LabelCount() As Integer
     LabelCount = m_LabelCount
 End Property
-Public Property Let LabelCount(ByVal newValue As Integer)
-    m_LabelCount = newValue
-    ReDim Preserve m_Labels(newValue - 1)
+Public Property Let LabelCount(ByVal NewValue As Integer)
+    m_LabelCount = NewValue
+    ReDim Preserve m_Labels(NewValue - 1)
 End Property
 
 Public Property Get Label(ByVal Index As Integer) As String
     Label = m_Labels(Index)
 End Property
-Public Property Let Label(ByVal Index As Integer, ByVal newValue As String)
-    m_Labels(Index) = newValue
+Public Property Let Label(ByVal Index As Integer, ByVal NewValue As String)
+    m_Labels(Index) = NewValue
 End Property
 
 Public Property Get Labels(Optional ByVal Quoted As Boolean = True) As String

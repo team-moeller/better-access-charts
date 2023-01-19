@@ -186,10 +186,10 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
             With dst
                 Do While Not rst.EOF
                     .AddLabel rst(LabelFieldName)
-                    .AddDatasetName "Record" & Str(i)
-                    .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
-                                ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & _
-                                ", r:" & Str$(Nz(rst(DataFieldNames(2)))) & "}"
+                    .AddDatasetName "Record" & str(i)
+                    .AddData i, "{x:" & str$(Nz(rst(DataFieldNames(0)))) & _
+                                ", y:" & str$(Nz(rst(DataFieldNames(1)))) & _
+                                ", r:" & str$(Nz(rst(DataFieldNames(2)))) & "}"
                     i = i + 1
                     rst.MoveNext
                 Loop
@@ -199,9 +199,9 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
             With dst
                 Do While Not rst.EOF
                     .AddLabel rst(LabelFieldName)
-                    .AddDatasetName "Record" & Str(i)
-                    .AddData i, "{x:" & Str$(Nz(rst(DataFieldNames(0)))) & _
-                                 ", y:" & Str$(Nz(rst(DataFieldNames(1)))) & "}"
+                    .AddDatasetName "Record" & str(i)
+                    .AddData i, "{x:" & str$(Nz(rst(DataFieldNames(0)))) & _
+                                 ", y:" & str$(Nz(rst(DataFieldNames(1)))) & "}"
                     i = i + 1
                     rst.MoveNext
                 Loop
@@ -216,7 +216,7 @@ Private Function getDataFromRS(ByVal rst As Object, ByVal ChartType As chChartTy
                 Do While Not rst.EOF
                     .AddLabel rst(LabelFieldName)
                     For Each Field In DataFieldNames
-                        .AddData Field, Str$(Nz(rst(Field)))
+                        .AddData Field, str$(Nz(rst(Field)))
                     Next Field
                     rst.MoveNext
                 Loop

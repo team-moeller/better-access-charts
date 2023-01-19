@@ -6,7 +6,7 @@ Attribute VB_Name = "BAC_ChartGenerator"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
@@ -248,7 +248,7 @@ Private Function getChartOptions() As String
     With strText
         .AddLine "        options: {"
         If Options.AspectRatio <> 2# Then
-            .AddLine "            aspectRatio: " & Str(Options.AspectRatio) & ","
+            .AddLine "            aspectRatio: " & str(Options.AspectRatio) & ","
         End If
         .Add Options.Title.getTitle
         .Add Options.Legend.getLegend
@@ -360,4 +360,3 @@ Private Function IsBubbleOrScatterChart() As Boolean
     End If
     
 End Function
-

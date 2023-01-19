@@ -25,15 +25,15 @@ Private m_Easing As chEasing
 
 ' ### Properties
 
-Public Property Let Duration(ByVal newValue As Long)
-    m_Duration = newValue
+Public Property Let Duration(ByVal NewValue As Long)
+    m_Duration = NewValue
 End Property
 Public Property Get Duration() As Long
     Duration = m_Duration
 End Property
 
-Public Property Let Easing(ByVal newValue As chEasing)
-    m_Easing = newValue
+Public Property Let Easing(ByVal NewValue As chEasing)
+    m_Easing = NewValue
 End Property
 Public Property Get Easing() As chEasing
     Easing = m_Easing

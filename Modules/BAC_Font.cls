@@ -18,6 +18,7 @@ Option Explicit
 
 
 '### Members
+Private m_Properties As BAC_Properties
 
 Private m_Color As String
 Private m_Family As String
@@ -27,9 +28,13 @@ Private m_IsBold As Boolean
 
 
 ' ### Properties
+Public Property Get Properties() As BAC_Properties
+   Set Properties = m_Properties
+End Property
 
 Public Property Let Color(ByVal This_Color As String)
     m_Color = This_Color
+    m_Properties.Item("Color").Value = This_Color
 End Property
 Public Property Get Color() As String
     Color = m_Color
@@ -37,6 +42,7 @@ End Property
 
 Public Property Let Family(ByVal This_Family As String)
     m_Family = This_Family
+    m_Properties.Item("Family").Value = This_Family
 End Property
 Public Property Get Family() As String
     Family = m_Family
@@ -44,6 +50,7 @@ End Property
 
 Public Property Let Size(ByVal This_Size As Integer)
     m_Size = This_Size
+    m_Properties.Item("Size").Value = This_Size
 End Property
 Public Property Get Size() As Integer
     Size = m_Size
@@ -51,6 +58,7 @@ End Property
 
 Public Property Let IsItalic(ByVal This_IsItalic As Boolean)
     m_IsItalic = This_IsItalic
+    m_Properties.Item("IsItalic").Value = This_IsItalic
 End Property
 Public Property Get IsItalic() As Boolean
     IsItalic = m_IsItalic
@@ -58,6 +66,7 @@ End Property
 
 Public Property Let IsBold(ByVal This_IsBold As Boolean)
     m_IsBold = This_IsBold
+    m_Properties.Item("IsBold").Value = This_IsBold
 End Property
 Public Property Get IsBold() As Boolean
     IsBold = m_IsBold
@@ -78,3 +87,16 @@ Friend Property Get SectionIsNeeded(Optional Parent As String) As Boolean
     End Select
     
 End Property
+
+Private Sub Class_Initialize()
+   InitProperties
+End Sub
+
+Private Sub InitProperties()
+   Set m_Properties = New BAC_Properties
+   m_Properties.NewProperty "Color"
+   m_Properties.NewProperty "Family"
+   m_Properties.NewProperty "Size"
+   m_Properties.NewProperty "IsItalic"
+   m_Properties.NewProperty "IsBold"
+End Sub

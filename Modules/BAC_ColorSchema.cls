@@ -24,8 +24,8 @@ Private m_Name As String
 
 ' ### Properties
 
-Public Property Let Name(ByVal newValue As String)
-    m_Name = newValue
+Public Property Let Name(ByVal NewValue As String)
+    m_Name = NewValue
 End Property
 Public Property Get Name() As String
     Name = m_Name
@@ -45,4 +45,3 @@ Friend Function getColorSchema() As String
     End With
     
 End Function
-
