@@ -35,3 +35,20 @@ End Property
 Public Property Get Count() As Long
    Count = m_Properties.Count
 End Property
+
+Public Sub SetProperties(ByVal NewProperties As BAC_Properties)
+   
+   Dim CurrentProp As BAC_Property
+   Dim NewProp As BAC_Property
+   Dim i As Long
+   
+   For i = 1 To NewProperties.Count
+      Set NewProp = NewProperties.Item(i)
+      Set CurrentProp = m_Properties.Item(NewProp.Name)
+      CurrentProp.Value = NewProp.Value
+      If NewProp.Properties.Count > 0 Then
+         CurrentProp.Properties.SetProperties NewProp.Properties
+      End If
+   Next
+   
+End Sub

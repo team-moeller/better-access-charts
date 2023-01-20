@@ -34,9 +34,9 @@ Public Function AddInStartUp()
    DoCmd.OpenForm "frm_Startup"
 End Function
 
-Public Function NewTransferModule() As TransferCodeModule
+Public Function NewCodeModuleSupport() As CodeModuleSupport
     
-    Set NewTransferModule = New TransferCodeModule
+    Set NewCodeModuleSupport = New CodeModuleSupport
     
 End Function
 

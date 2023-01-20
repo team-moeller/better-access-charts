@@ -384,7 +384,8 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub InitProperties()
-   m_Properties.NewProperty("ChartType").Value = 0
+   m_Properties.NewProperty "DataSourceType"
+   m_Properties.NewProperty "ChartType"
    m_Properties.NewProperty "StackedChart"
    m_Properties.NewProperty "AreaFilled"
    m_Properties.NewProperty "BackgroundColor"

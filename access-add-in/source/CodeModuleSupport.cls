@@ -2,25 +2,29 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "TransferCodeModule"
+Attribute VB_Name = "CodeModuleSupport"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '---------------------------------------------------------------------------------------
 '<codelib>
-'  <file>%AppFolder%/source/TransferCodeModule.cls</file>
+'  <file>%AppFolder%/source/CodeModuleSupport.cls</file>
 '</codelib>
 '---------------------------------------------------------------------------------------
 Option Compare Database
 Option Explicit
 
-Const ErrNumber91_ObjectVariableOrWithBlockVariableNotSet As Long = 91
+Private Const ErrNumber91_ObjectVariableOrWithBlockVariableNotSet As Long = 91
 
-#Const EARLYBINDING = 0
+Private Const BAC_EarlyBindingConstName As String = "BAC_EarlyBinding"
+Private Const ConditionalCompilationArgumentsOptionName As String = "Conditional Compilation Arguments"
+Private Const BetterAccessChartsReferenceName As String = "BetterAccessCharts"
+
+#Const EarlyBinding = 0
 #Const DEBUGMODE = 0
 
-#If EARLYBINDING = 1 Then
+#If EarlyBinding = 1 Then
 #Else
 
    Public Enum vbext_ComponentType
@@ -33,13 +37,13 @@ Const ErrNumber91_ObjectVariableOrWithBlockVariableNotSet As Long = 91
    
 #End If
 
-#If EARLYBINDING = 1 Then
+#If EarlyBinding = 1 Then
 Private Property Get CurrentVbProject() As VBIDE.VBProject
 #Else
 Private Property Get CurrentVbProject() As Object
 #End If
 
-#If EARLYBINDING = 1 Then
+#If EarlyBinding = 1 Then
    Dim Proj As VBProject
    Dim Temp As VBProject
 #Else
@@ -65,6 +69,113 @@ Private Property Get CurrentVbProject() As Object
 
 End Property
 
+Public Property Get EarlyBinding() As Boolean
+
+   Dim ConditionalCompilationArgumentsString As String
+   Dim ConditionalCompilationArguments() As String
+   Dim TestString As String
+   Dim i As Long
+   
+   ConditionalCompilationArgumentsString = Trim(Nz(Application.GetOption(ConditionalCompilationArgumentsOptionName), vbNullString))
+   
+   If Len(ConditionalCompilationArgumentsString) = 0 Then
+      EarlyBinding = False
+      Exit Property
+   End If
+   
+   ConditionalCompilationArguments = GetConditionalCompilationArgumentsArray(ConditionalCompilationArgumentsString)
+   For i = LBound(ConditionalCompilationArguments) To UBound(ConditionalCompilationArguments)
+      TestString = Replace(ConditionalCompilationArguments(i), " ", vbNullString)
+      If TestString Like BAC_EarlyBindingConstName & "=*" Then
+         EarlyBinding = (TestString <> BAC_EarlyBindingConstName & "=0")
+         Exit For
+      End If
+   Next
+   
+End Property
+
+Public Property Let EarlyBinding(ByVal UseEarlyBinding As Boolean)
+
+   Dim ConditionalCompilationArgumentsString As String
+   Dim ConditionalCompilationArguments() As String
+   Dim TestString As String
+   Dim ArgExists As Boolean
+   Dim i As Long
+   
+   ConditionalCompilationArgumentsString = Trim(Nz(Application.GetOption("Conditional Compilation Arguments"), vbNullString))
+   
+   If Len(ConditionalCompilationArgumentsString) = 0 Then
+      Application.SetOption ConditionalCompilationArgumentsOptionName, BAC_EarlyBindingConstName & " = " & Abs(UseEarlyBinding)
+      Exit Property
+   End If
+   
+   ConditionalCompilationArguments = GetConditionalCompilationArgumentsArray(ConditionalCompilationArgumentsString)
+   For i = LBound(ConditionalCompilationArguments) To UBound(ConditionalCompilationArguments)
+      If Replace(ConditionalCompilationArguments(i), " ", vbNullString) Like BAC_EarlyBindingConstName & "=*" Then
+         ConditionalCompilationArguments(i) = BAC_EarlyBindingConstName & " = " & Abs(UseEarlyBinding)
+         ArgExists = True
+         Exit For
+      End If
+   Next
+   
+   If ArgExists Then
+      ConditionalCompilationArgumentsString = Join(ConditionalCompilationArguments, ":")
+   Else
+      ConditionalCompilationArgumentsString = ConditionalCompilationArgumentsString & " : " & BAC_EarlyBindingConstName & " = " & Abs(UseEarlyBinding)
+   End If
+
+   Application.SetOption ConditionalCompilationArgumentsOptionName, ConditionalCompilationArgumentsString
+   
+   If UseEarlyBinding Then
+      AddReference
+   Else
+      RemoveReference
+   End If
+
+End Property
+
+Private Function GetConditionalCompilationArgumentsArray(ByVal FullString As String) As String()
+   GetConditionalCompilationArgumentsArray = Split(FullString, ":")
+End Function
+
+Private Sub AddReference()
+   If Not ReferenceExits() Then
+    Application.References.AddFromFile CodeProject.FullName
+   End If
+End Sub
+
+Private Function GetAddInLocation() As String
+   Dim strLocation As String
+   strLocation = CodeProject.Path
+   GetAddInLocation = strLocation
+End Function
+
+Private Function ReferenceExits() As Boolean
+   Dim ref As Reference
+   Dim BacRef As Reference
+   For Each ref In Application.References
+      If ref.Name = BetterAccessChartsReferenceName Then
+         ReferenceExits = True
+         Exit Function
+      End If
+   Next
+   ReferenceExits = False
+End Function
+
+Private Sub RemoveReference()
+   Dim ref As Reference
+   Dim BacRef As Reference
+   For Each ref In Application.References
+      If ref.Name = BetterAccessChartsReferenceName Then
+         Set BacRef = ref
+      End If
+   Next
+   If Not (BacRef Is Nothing) Then
+      Application.References.Remove BacRef
+   End If
+End Sub
+
+
 Public Sub CreateModulesInApp()
    CreateModuleInApp BAC_LoaderModuleName, GetBetterAccessChartsLoaderModuleString
    CreateModuleInApp BAC_FactoryModuleName, GetBetterAccessChartsFactoryModuleString
@@ -74,7 +185,7 @@ Public Sub CreateModuleInApp(ByVal ModuleName As String, ByVal CodeString As Str
 
 On Error GoTo Fehler
 
-#If EARLYBINDING = 1 Then
+#If EarlyBinding = 1 Then
     Dim cm As CodeModule
     Dim vbc As VBComponent
     Dim vbp As VBProject
@@ -129,7 +240,7 @@ Public Sub DeleteModuleFromApp()
 
 On Error GoTo Fehler
 
-#If EARLYBINDING = 1 Then
+#If EarlyBinding = 1 Then
     Dim vbc As VBComponent
 #Else
     Dim vbc As Object
@@ -156,7 +267,7 @@ End Sub
 Public Function CodeModuleExists( _
                 ByVal CodeModulName As String) As Boolean
 
-#If EARLYBINDING = 1 Then
+#If EarlyBinding = 1 Then
    Dim VbcCol As VBIDE.VBComponents
    Dim vbc As VBIDE.VBComponent
 #Else
