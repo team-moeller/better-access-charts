@@ -24,5 +24,3 @@ End Property
 Public Property Get BAC() As BAC__Factory
   Set BAC = BetterAccessCharts
 End Property
-
-

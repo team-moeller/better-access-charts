@@ -16,46 +16,54 @@ Attribute VB_Exposed = True
 Option Compare Database
 Option Explicit
 
-
 '### Members
-
-Private m_Show As Boolean
-Private m_Anchor As chDataLabelAnchor
+Private m_Properties As BAC_Properties
 Private m_Font As BAC_Font
 
-Private m_SectionIsNeeded As Boolean
-
-
 ' ### Properties
+Public Property Get Properties() As BAC_Properties
+   Set Properties = m_Properties
+End Property
 
 Public Property Let Show(ByVal This_Show As Boolean)
-    m_Show = This_Show
+    m_Properties.Item("Show").Value = This_Show
 End Property
 Public Property Get Show() As Boolean
-    Show = m_Show
+    Show = Nz(m_Properties.Item("Show").Value, True)
 End Property
 
 Public Property Let Anchor(ByVal This_Anchor As chDataLabelAnchor)
-    m_Anchor = This_Anchor
-    If This_Anchor > 0 Then
-        m_SectionIsNeeded = True
-    End If
+    m_Properties.Item("Anchor").Value = This_Anchor
 End Property
 Public Property Get Anchor() As chDataLabelAnchor
-    Anchor = m_Anchor
+    Anchor = Nz(m_Properties.Item("Anchor").Value, 0)
 End Property
 
 Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
 
+Private Property Get SectionIsNeeded() As Boolean
+   SectionIsNeeded = (Anchor > 0)
+End Property
 
 ' ### Instanzing
 
 Private Sub Class_Initialize()
 
     Set m_Font = New BAC_Font
+    InitProperties
     
+End Sub
+
+Private Sub InitProperties()
+
+   Set m_Properties = New BAC_Properties
+   
+   Set m_Properties.NewProperty("Font").Properties = m_Font.Properties
+   m_Properties.NewProperty "Show"
+   m_Properties.NewProperty "Anchor"
+   
 End Sub
 
 
@@ -64,7 +72,9 @@ End Sub
 Friend Function getDataLabel() As String
 
     If Not Me.Show Then Exit Function
-    If Not m_SectionIsNeeded = True And Not Me.Font.Color <> vbNullString And Not Me.Font.SectionIsNeeded("DataLabel") = True Then Exit Function
+    If Not SectionIsNeeded And Not Me.Font.Color <> vbNullString And Not Me.Font.SectionIsNeeded("DataLabel") = True Then
+      Exit Function
+    End If
     
     With New BAC_StringBuilder
         .AddLine "                datalabels: {"
@@ -113,4 +123,3 @@ Private Function getAnchorString(ByVal ThisAnchor As chDataLabelAnchor) As Strin
     End Select
     
 End Function
-

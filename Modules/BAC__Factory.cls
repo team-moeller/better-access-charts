@@ -6,7 +6,7 @@ Attribute VB_Name = "BAC__Factory"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2022 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
@@ -41,10 +41,18 @@ Public Function Chart(Optional ByVal TheControl As WebBrowserControl, _
                 Optional ByVal LabelFieldName As String) As BAC_Chart
   
     Set Chart = New BAC_Chart
+    
+    If TheControl Is Nothing Then
+      Exit Function
+    End If
+    
     Chart.Init TheControl, ChartType, DataSourceType, DataSource, DataFieldNames, LabelFieldName
   
 End Function
 
+Public Function NewProperties() As BAC_Properties
+    Set NewProperties = New BAC_Properties
+End Function
 
 '### Public Methods
 
@@ -60,5 +68,3 @@ Public Function Generator(ByVal ChartOptions As BAC_Chart, ByVal ChartData As BA
     Set Generator = New BAC_ChartGenerator
     Generator.Init ChartOptions, ChartData
 End Function
-
-

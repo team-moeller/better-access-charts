@@ -20,36 +20,36 @@ Option Explicit
 '### Members
 
 Private m_Font As BAC_Font
-Private m_Show As Boolean
-Private m_Position As chPosition
-Private m_Align As chAlign
-
+Private m_Properties As BAC_Properties
 
 ' ### Properties
+Public Property Get Properties() As BAC_Properties
+   Set Properties = m_Properties
+End Property
 
 Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
 
-Public Property Let Show(ByVal newValue As Boolean)
-    m_Show = newValue
+Public Property Let Show(ByVal NewValue As Boolean)
+    m_Properties.Item("Show").Value = NewValue
 End Property
 Public Property Get Show() As Boolean
-    Show = m_Show
+    Show = Nz(m_Properties.Item("Show").Value, False)
 End Property
 
-Public Property Let Position(ByVal newValue As chPosition)
-    m_Position = newValue
+Public Property Let Position(ByVal NewValue As chPosition)
+    m_Properties.Item("Position").Value = NewValue
 End Property
 Public Property Get Position() As chPosition
-    Position = m_Position
+    Position = Nz(m_Properties.Item("Position").Value, 0)
 End Property
 
-Public Property Let Align(ByVal newValue As chAlign)
-    m_Align = newValue
+Public Property Let Align(ByVal NewValue As chAlign)
+    m_Properties.Item("Align").Value = NewValue
 End Property
 Public Property Get Align() As chAlign
-    Align = m_Align
+    Align = Nz(m_Properties.Item("Align").Value, 0)
 End Property
 
 
@@ -57,6 +57,17 @@ End Property
 
 Private Sub Class_Initialize()
     Set m_Font = New BAC_Font
+    InitProperties
+End Sub
+
+Private Sub InitProperties()
+
+   Set m_Properties = New BAC_Properties
+   Set m_Properties.NewProperty("Font").Properties = m_Font.Properties
+   m_Properties.NewProperty "Show"
+   m_Properties.NewProperty "Position"
+   m_Properties.NewProperty "Align"
+   
 End Sub
 
 
@@ -120,4 +131,3 @@ Private Function getAlignString(ByVal ThisAlign As chAlign) As String
     End Select
     
 End Function
-

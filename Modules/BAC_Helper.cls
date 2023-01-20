@@ -125,7 +125,7 @@ On Error GoTo Handle_Error
     Dim FileLen As Long
     Dim Success As Boolean
 
-    Set cnn = CurrentProject.Connection
+    Set cnn = CodeProject.Connection
     Set rst = New ADODB.Recordset
     rst.Open "Select FileData FROM USys_FileData Where FileName='" & FileName & "'", _
         cnn, adOpenDynamic, adLockOptimistic
@@ -208,4 +208,3 @@ Friend Function TwipsPerPixel(ByVal Dimension As String) As Long
    hDC = ReleaseDC(0, hDC)
     
 End Function
-

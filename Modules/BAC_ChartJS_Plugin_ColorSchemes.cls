@@ -98,4 +98,3 @@ Friend Function getLocation() As String
     getLocation = strText
 
 End Function
-
