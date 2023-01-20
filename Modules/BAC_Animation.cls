@@ -18,25 +18,25 @@ Option Explicit
 
 
 '### Members
-
-Private m_Duration As Long
-Private m_Easing As chEasing
-
+Private m_Properties As BAC_Properties
 
 ' ### Properties
+Public Property Get Properties() As BAC_Properties
+   Set Properties = m_Properties
+End Property
 
 Public Property Let Duration(ByVal NewValue As Long)
-    m_Duration = NewValue
+    m_Properties.Item("Duration").Value = NewValue
 End Property
 Public Property Get Duration() As Long
-    Duration = m_Duration
+    Duration = Nz(m_Properties.Item("Duration").Value, 0)
 End Property
 
 Public Property Let Easing(ByVal NewValue As chEasing)
-    m_Easing = NewValue
+    m_Properties.Item("Easing").Value = NewValue
 End Property
 Public Property Get Easing() As chEasing
-    Easing = m_Easing
+    Easing = Nz(m_Properties.Item("Easing").Value, 0)
 End Property
 
 
@@ -122,3 +122,13 @@ Private Function getEasingString(ByVal ThisEasing As chEasing) As String
     End Select
     
 End Function
+
+Private Sub Class_Initialize()
+   InitProperties
+End Sub
+
+Private Sub InitProperties()
+   Set m_Properties = New BAC_Properties
+   m_Properties.NewProperty "Duration"
+   m_Properties.NewProperty "Easing"
+End Sub

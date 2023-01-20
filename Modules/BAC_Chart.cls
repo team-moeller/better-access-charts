@@ -112,15 +112,7 @@ Private m_Properties As BAC_Properties
 Private m_WebBrowserControl As Access.WebBrowserControl
 Private m_WebBrowserActiveX As SHDocVw.WebBrowser
 Private m_ImageControl As Access.Image
-Private m_ChartType As chChartType
-Private m_StackedChart As Boolean
-Private m_AreaFilled As Boolean
-Private m_BackgroundColor As String
-Private m_ShowDownloadLink As Boolean
-Private m_SaveHtmlFileForDebugging As Boolean
-Private m_AspectRatio As Double
-Private m_DisplayIn As chDisplayIn
-    
+
 Private m_Animation   As BAC_Animation
 Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
@@ -178,7 +170,7 @@ End Property
 
 Public Property Set WebBrowserControl(ByVal New_Control As Access.WebBrowserControl)
     Set m_WebBrowserControl = New_Control
-    m_DisplayIn = chWebBrowserControl
+    DisplayIn = chWebBrowserControl
 End Property
 Public Property Get WebBrowserControl() As WebBrowserControl
     Set WebBrowserControl = m_WebBrowserControl
@@ -186,7 +178,7 @@ End Property
 
 Public Property Set WebBrowserActiveX(ByVal New_Control As SHDocVw.WebBrowser)
     Set m_WebBrowserActiveX = New_Control
-    m_DisplayIn = chWebBrowserActiveX
+    DisplayIn = chWebBrowserActiveX
 End Property
 Public Property Get WebBrowserActiveX() As SHDocVw.WebBrowser
     Set WebBrowserActiveX = m_WebBrowserActiveX
@@ -194,14 +186,13 @@ End Property
 
 Public Property Set ImageControl(ByVal New_Control As Access.Image)
     Set m_ImageControl = New_Control
-    m_DisplayIn = chImageControl
+    DisplayIn = chImageControl
 End Property
 Public Property Get ImageControl() As Access.Image
     Set ImageControl = m_ImageControl
 End Property
 
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
-    m_ChartType = This_ChartType
     m_Properties.Item("ChartType").Value = This_ChartType
     Select Case This_ChartType
         Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
@@ -217,69 +208,71 @@ Public Property Let ChartType(ByVal This_ChartType As chChartType)
     End Select
 End Property
 Public Property Get ChartType() As chChartType
-    ChartType = m_ChartType
+    ChartType = Nz(m_Properties.Item("ChartType").Value, 0)
 End Property
 
 Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
-    m_StackedChart = This_StackedChart
     m_Properties.Item("StackedChart").Value = This_StackedChart
 End Property
 Public Property Get StackedChart() As Boolean
     Select Case ChartType
         Case chChartType.Line, chChartType.Bar, chChartType.HorizontalBar
-            StackedChart = m_StackedChart
+            StackedChart = Nz(m_Properties.Item("StackedChart").Value, False)
         Case Else
             StackedChart = False
     End Select
 End Property
 
 Public Property Let AreaFilled(ByVal This_AreaFilled As Boolean)
-    m_AreaFilled = This_AreaFilled
     m_Properties.Item("AreaFilled").Value = This_AreaFilled
 End Property
 Public Property Get AreaFilled() As Boolean
-    AreaFilled = m_AreaFilled
+    AreaFilled = Nz(m_Properties.Item("AreaFilled").Value, False)
 End Property
 
 ' Proportion of Width / Height
 Public Property Let AspectRatio(ByVal This_Ratio As Double)
-    m_AspectRatio = This_Ratio
     m_Properties.Item("AspectRatio").Value = This_Ratio
 End Property
 Public Property Get AspectRatio() As Double
-    AspectRatio = m_AspectRatio
+    AspectRatio = Nz(m_Properties.Item("AspectRatio").Value, 0)
+    If AspectRatio = 0 Then
+      If Me.Control Is Nothing Then
+         AspectRatio = 2
+      ElseIf Control.Height > 0 Then
+         AspectRatio = Control.Width / Control.Height
+      Else
+         AspectRatio = 2
+      End If
+    End If
 End Property
 
 Public Property Let BackgroundColor(ByVal This_BackgroundColor As String)
-    m_BackgroundColor = This_BackgroundColor
     m_Properties.Item("BackgroundColor").Value = This_BackgroundColor
 End Property
 Public Property Get BackgroundColor() As String
-    BackgroundColor = m_BackgroundColor
+    BackgroundColor = Nz(m_Properties.Item("BackgroundColor").Value, vbNullString)
 End Property
 
 Public Property Let ShowDownloadLink(ByVal This_ShowDownloadLink As Boolean)
-    m_ShowDownloadLink = This_ShowDownloadLink
     m_Properties.Item("ShowDownloadLink").Value = This_ShowDownloadLink
 End Property
 Public Property Get ShowDownloadLink() As Boolean
-    ShowDownloadLink = m_ShowDownloadLink
+    ShowDownloadLink = Nz(m_Properties.Item("ShowDownloadLink").Value, False)
 End Property
 
 Public Property Let SaveHtmlFileForDebugging(ByVal This_SaveHtmlFileForDebugging As Boolean)
-    m_SaveHtmlFileForDebugging = This_SaveHtmlFileForDebugging
     m_Properties.Item("SaveHtmlFileForDebugging").Value = This_SaveHtmlFileForDebugging
 End Property
 Public Property Get SaveHtmlFileForDebugging() As Boolean
-    SaveHtmlFileForDebugging = m_SaveHtmlFileForDebugging
+    SaveHtmlFileForDebugging = Nz(m_Properties.Item("SaveHtmlFileForDebugging").Value, False)
 End Property
 
 Public Property Let DisplayIn(ByVal NewValue As chDisplayIn)
-    m_DisplayIn = NewValue
     m_Properties.Item("DisplayIn").Value = NewValue
 End Property
 Public Property Get DisplayIn() As chDisplayIn
-    DisplayIn = m_DisplayIn
+    DisplayIn = Nz(m_Properties.Item("DisplayIn").Value, 0)
 End Property
 
 
@@ -339,12 +332,24 @@ Private Sub Class_Initialize()
     
     'Create Sub Classes
     Set m_Animation = New BAC_Animation
+    Set m_Properties.NewProperty("Animation").Properties = m_Animation.Properties
+    
     Set m_ColorSchema = New BAC_ColorSchema
+    Set m_Properties.NewProperty("ColorSchema").Properties = m_ColorSchema.Properties
+    
     Set m_DataSource = New BAC_DataSource
+    
     Set m_DataLabels = New BAC_DataLabels
+    Set m_Properties.NewProperty("DataLabels").Properties = m_DataLabels.Properties
+    
     Set m_Defaults = New BAC_Defaults
+    Set m_Properties.NewProperty("Default").Properties = m_Defaults.Properties
+    
     Set m_Legend = New BAC_Legend
+    Set m_Properties.NewProperty("Legend").Properties = m_Legend.Properties
+    
     Set m_Title = New BAC_Title
+    Set m_Properties.NewProperty("Title").Properties = m_Title.Properties
     
     Set m_XAxis = New BAC_Axis
     Set m_Properties.NewProperty("XAxis").Properties = m_XAxis.Properties

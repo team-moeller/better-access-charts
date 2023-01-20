@@ -18,38 +18,39 @@ Option Explicit
 
 
 '### Members
-
 Private m_Font As BAC_Font
-Private m_Show As Boolean
-Private m_Position As chPosition
-Private m_Text As String
 
+'### Members
+Private m_Properties As BAC_Properties
 
 ' ### Properties
+Public Property Get Properties() As BAC_Properties
+   Set Properties = m_Properties
+End Property
 
 Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
 
 Public Property Let Show(ByVal This_Show As Boolean)
-    m_Show = This_Show
+    m_Properties.Item("Show").Value = This_Show
 End Property
 Public Property Get Show() As Boolean
-    Show = m_Show
+    Show = Nz(m_Properties.Item("Show").Value, False)
 End Property
 
 Public Property Let Position(ByVal This_Position As chPosition)
-    m_Position = This_Position
+    m_Properties.Item("Position").Value = This_Position
 End Property
 Public Property Get Position() As chPosition
-    Position = m_Position
+    Position = Nz(m_Properties.Item("Position").Value, 0)
 End Property
 
 Public Property Let Text(ByVal This_Text As String)
-    m_Text = This_Text
+    m_Properties.Item("Text").Value = This_Text
 End Property
 Public Property Get Text() As String
-    Text = m_Text
+    Text = Nz(m_Properties.Item("Text").Value, vbNullString)
 End Property
 
 
@@ -58,7 +59,18 @@ End Property
 Private Sub Class_Initialize()
 
     Set m_Font = New BAC_Font
+    InitProperties
     
+End Sub
+
+Private Sub InitProperties()
+
+   Set m_Properties = New BAC_Properties
+   Set m_Properties.NewProperty("Font").Properties = m_Font.Properties
+   m_Properties.NewProperty "Show"
+   m_Properties.NewProperty "Position"
+   m_Properties.NewProperty "Text"
+   
 End Sub
 
 

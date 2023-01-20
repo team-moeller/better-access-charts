@@ -20,56 +20,44 @@ Option Explicit
 '### Members
 Private m_Properties As BAC_Properties
 
-Private m_Color As String
-Private m_Family As String
-Private m_Size As Integer
-Private m_IsItalic As Boolean
-Private m_IsBold As Boolean
-
-
 ' ### Properties
 Public Property Get Properties() As BAC_Properties
    Set Properties = m_Properties
 End Property
 
 Public Property Let Color(ByVal This_Color As String)
-    m_Color = This_Color
     m_Properties.Item("Color").Value = This_Color
 End Property
 Public Property Get Color() As String
-    Color = m_Color
+    Color = Nz(m_Properties.Item("Color").Value, vbNullString)
 End Property
 
 Public Property Let Family(ByVal This_Family As String)
-    m_Family = This_Family
     m_Properties.Item("Family").Value = This_Family
 End Property
 Public Property Get Family() As String
-    Family = m_Family
+    Family = Nz(m_Properties.Item("Family").Value, vbNullString)
 End Property
 
 Public Property Let Size(ByVal This_Size As Integer)
-    m_Size = This_Size
     m_Properties.Item("Size").Value = This_Size
 End Property
 Public Property Get Size() As Integer
-    Size = m_Size
+    Size = Nz(m_Properties.Item("Size").Value, 0)
 End Property
 
 Public Property Let IsItalic(ByVal This_IsItalic As Boolean)
-    m_IsItalic = This_IsItalic
     m_Properties.Item("IsItalic").Value = This_IsItalic
 End Property
 Public Property Get IsItalic() As Boolean
-    IsItalic = m_IsItalic
+    IsItalic = Nz(m_Properties.Item("IsItalic").Value, False)
 End Property
 
 Public Property Let IsBold(ByVal This_IsBold As Boolean)
-    m_IsBold = This_IsBold
     m_Properties.Item("IsBold").Value = This_IsBold
 End Property
 Public Property Get IsBold() As Boolean
-    IsBold = m_IsBold
+    IsBold = Nz(m_Properties.Item("IsBold").Value, False)
 End Property
 
 
