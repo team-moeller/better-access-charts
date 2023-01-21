@@ -34,11 +34,11 @@ End Sub
 '### Initializer
 
 Public Function Chart(Optional ByVal TheControl As WebBrowserControl, _
-                Optional ByVal ChartType As chChartType = chChartType.Bar, _
-                Optional ByVal DataSourceType As chDataSourceType = chDataSourceType.dstDemo, _
-                Optional ByVal DataSource As Variant, _
-                Optional ByVal DataFieldNames As Variant, _
-                Optional ByVal LabelFieldName As String) As BAC_Chart
+                      Optional ByVal ChartType As chChartType = chChartType.Bar, _
+                      Optional ByVal DataSourceType As chDataSourceType = chDataSourceType.dstDemo, _
+                      Optional ByVal DataSource As Variant, _
+                      Optional ByVal DataFieldNames As Variant, _
+                      Optional ByVal LabelFieldName As String) As BAC_Chart
   
     Set Chart = New BAC_Chart
     
@@ -53,6 +53,7 @@ End Function
 Public Function NewProperties() As BAC_Properties
     Set NewProperties = New BAC_Properties
 End Function
+
 
 '### Public Methods
 

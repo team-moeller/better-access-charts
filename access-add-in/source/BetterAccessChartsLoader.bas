@@ -1,4 +1,9 @@
 Attribute VB_Name = "BetterAccessChartsLoader"
+'---------------------------------------------------------------------------------------
+'<codelib>
+'  <file>%AppFolder%/source/BetterAccessChartsLoader.bas</file>
+'</codelib>
+'---------------------------------------------------------------------------------------
 Option Compare Database
 Option Explicit
 
@@ -9,6 +14,7 @@ Option Explicit
 Private Const BetterAccessChartsFileName As String = "BetterAccessCharts"
 Private Const BetterAccessChartsReferenceName As String = "BetterAccessCharts"
 Private Const BetterAccessChartsFactory As String = "BAC"
+Private Const BetterAccessChartsAddInTools As String = "BACx"
 
 Public Sub CheckBetterAccessChartsReference()
    CheckReference
@@ -20,6 +26,15 @@ Public Function GetBetterAccessChartsFactory() As Object
     Set GetBetterAccessChartsFactory = BetterAccessCharts.BetterAccessCharts
 #Else
     Set GetBetterAccessChartsFactory = Application.Run(GetAddInLocation & BetterAccessChartsFileName & "." & BetterAccessChartsFactory)
+#End If
+End Function
+
+Public Function GetBetterAccessChartsAddInTools() As Object
+   CheckReference
+#If BAC_EarlyBinding Then
+    Set GetBetterAccessChartsAddInTools = BetterAccessCharts.BetterAccessCharts
+#Else
+    Set GetBetterAccessChartsAddInTools = Application.Run(GetAddInLocation & BetterAccessChartsFileName & "." & BetterAccessChartsAddInTools)
 #End If
 End Function
 

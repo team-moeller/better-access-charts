@@ -1,8 +1,14 @@
 Attribute VB_Name = "BetterAccessChartsFactory"
+'---------------------------------------------------------------------------------------
+'<codelib>
+'  <file>%AppFolder%/source/BetterAccessChartsFactory.bas</file>
+'</codelib>
+'---------------------------------------------------------------------------------------
 Option Compare Database
 Option Explicit
 
-Private m_Bac As Object
+Private m_BAC As Object
+Private m_BACx As Object
 
 #If BAC_EarlyBinding Then
 #Else
@@ -98,12 +104,23 @@ End Enum
 
 ' Factory
 #If BAC_EarlyBinding Then
-Public Function BAC() As BAC__Factory
+Public Function BAC() As BetterAccessChartsLoader.BAC__Factory
 #Else
 Public Function BAC() As Object
 #End If
-    If m_Bac Is Nothing Then
-        Set m_Bac = BetterAccessChartsLoader.GetBetterAccessChartsFactory
+    If m_BAC Is Nothing Then
+        Set m_BAC = BetterAccessChartsLoader.GetBetterAccessChartsFactory
     End If
-    Set BAC = m_Bac
+    Set BAC = m_BAC
+End Function
+
+#If BAC_EarlyBinding Then
+Public Function BACx() As BetterAccessChartsLoader.BacAddInTools
+#Else
+Public Function BACx() As Object
+#End If
+    If m_BACx Is Nothing Then
+        Set m_BACx = BetterAccessChartsLoader.GetBetterAccessChartsAddInTools
+    End If
+    Set BACx = m_BACx
 End Function

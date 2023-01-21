@@ -16,6 +16,8 @@ Public Const BetterAccessChartAddInVersion As String = "0.1.0"
 
 Public CallAsAccessAddIn As Boolean
 
+Private m_AddInTools As BacAddInTools
+
 #If VBA7 Then
 
 Private Declare PtrSafe Function WNetGetConnection Lib "mpr.dll" Alias "WNetGetConnectionA" ( _
@@ -34,10 +36,11 @@ Public Function AddInStartUp()
    DoCmd.OpenForm "frm_Startup"
 End Function
 
-Public Function NewCodeModuleSupport() As CodeModuleSupport
-    
-    Set NewCodeModuleSupport = New CodeModuleSupport
-    
+Public Function BACx() As BacAddInTools
+    If m_AddInTools Is Nothing Then
+        Set m_AddInTools = New BacAddInTools
+    End If
+   Set BACx = m_AddInTools
 End Function
 
 Public Function UncPath( _
