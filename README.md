@@ -10,6 +10,8 @@ We create charts using the Chart.js library and display them in the web browser 
 
 Take a look at the demo and let yourself be inspired by the possibilities.
 
+![grab-landing-page](https://github.com/team-moeller/better-access-charts/blob/main/Demo.gif)
+
 ## You want to give it a try?
 1. Download the [latest release](https://github.com/team-moeller/better-access-charts/releases/latest)
 2. Unpack the files to a trusted folder
