@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.00.09  published: 19.03.2023                                                  #
+'# Version 3.01.01  published: 20.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -426,22 +426,15 @@ Private Sub CreateEmptyHtmlFile()
     Dim strHtml As New BAC_StringBuilder
     
     With strHtml
-        .AddLine "<!DOCTYPE html>"
-        .AddLine "<!-- saved from url=(0014)about:internet -->"
         .AddLine "<html>"
         .AddLine "<head>"
-        .AddLine "    <meta http-equiv='X-UA-Compatible' content='IE=Edge'>"
         .AddLine "</head>"
         .AddLine "<body>"
         .AddLine "</body>"
         .AddLine "</html>"
     End With
-
-''    Dim strHtml As String
-''    strHtml = "<html><head></head><body></body></html>"
     
     Call saveHtmlFile(vbNullString, strHtml.ToString, True)
-''    Call saveHtmlFile(vbNullString, strHtml, True)
     
 End Sub
 
