@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.01.01  published: 20.03.2023                                                  #
+'# Version 3.02.02  published: 25.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -359,13 +359,10 @@ Public Sub CreateChart()
     'Declarations
     Dim ImageFileName As String
     Dim strHtml As String
+    Dim js As String
     
     Select Case Me.DisplayIn
         Case chDisplayIn.chWebBrowserControl
-''            Me.WebBrowserControl.Navigate getHTMLFileName(, True)
-''            Do While Me.WebBrowserControl.Object.Busy Or Me.WebBrowserControl.Object.ReadyState <> 4
-''                DoEvents
-''            Loop
             If Me.WebBrowserControl.LocationURL = vbNullString Then
                 CreateEmptyHtmlFile
                 Me.WebBrowserControl.Navigate "https://msaccess/" & getHTMLFileName(, True)
@@ -373,23 +370,15 @@ Public Sub CreateChart()
                     DoEvents
                 Loop
             End If
-''            With Me.WebBrowserControl.Object.Document
-''                .Open
-                strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
-                strHtml = Replace(strHtml, vbCrLf, "")
-''                .Write strHtml
-''                .Close
-''            End With
-            Dim js As String
-            js = js & "document.open();"
-            js = js & "document.write(""" & strHtml & """);"
-            js = js & "document.close();"
-            
-            Me.WebBrowserControl.ExecuteJavascript js
-            
+            strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
             If Me.SaveHtmlFileForDebugging = True Then
                 Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
             End If
+            strHtml = Replace(strHtml, vbCrLf, "")
+            js = js & "document.open();"
+            js = js & "document.write(""" & strHtml & """);"
+            js = js & "document.close();"
+            Me.WebBrowserControl.ExecuteJavascript js
         Case chDisplayIn.chWebBrowserActiveX
             CreateEmptyHtmlFile
             Me.WebBrowserActiveX.Navigate getHTMLFileName(, True)
