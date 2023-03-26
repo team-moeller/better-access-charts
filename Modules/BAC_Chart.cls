@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.02.02  published: 25.03.2023                                                  #
+'# Version 3.03.02  published: 26.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -133,7 +133,7 @@ Private m_Title       As BAC_Title
     
 '### Initializer
 
-Public Sub Init(Optional ByVal TheControl As Object, _
+Public Sub Init(Optional ByRef TheControl As Object, _
                 Optional ByVal ChartType As chChartType = chChartType.Bar, _
                 Optional ByVal DataSourceType As chDataSourceType, _
                 Optional ByVal DataSource As Variant, _
@@ -149,7 +149,7 @@ End Sub
     
 '### Properties
 
-Public Property Set Control(ByVal New_Control As Object)
+Public Property Set Control(ByRef New_Control As Object)
     If TypeName(New_Control) = "Edge" Then
         Set Me.WebBrowserControl = New_Control
     ElseIf TypeName(New_Control) = "Image" Then
@@ -161,15 +161,15 @@ Public Property Set Control(ByVal New_Control As Object)
     End If
 End Property
 
-Public Property Set WebBrowserControl(ByVal New_Control As Access.Edge)
+Public Property Set WebBrowserControl(ByRef New_Control As Access.Edge)
     Set m_WebBrowserControl = New_Control
     m_DisplayIn = chWebBrowserControl
 End Property
-Public Property Get WebBrowserControl() As Edge
+Public Property Get WebBrowserControl() As Access.Edge
     Set WebBrowserControl = m_WebBrowserControl
 End Property
 
-Public Property Set WebBrowserActiveX(ByVal New_Control As SHDocVw.WebBrowser)
+Public Property Set WebBrowserActiveX(ByRef New_Control As SHDocVw.WebBrowser)
     Set m_WebBrowserActiveX = New_Control
     m_DisplayIn = chWebBrowserActiveX
 End Property
@@ -177,7 +177,7 @@ Public Property Get WebBrowserActiveX() As SHDocVw.WebBrowser
     Set WebBrowserActiveX = m_WebBrowserActiveX
 End Property
 
-Public Property Set ImageControl(ByVal New_Control As Access.Image)
+Public Property Set ImageControl(ByRef New_Control As Access.Image)
     Set m_ImageControl = New_Control
     m_DisplayIn = chImageControl
 End Property

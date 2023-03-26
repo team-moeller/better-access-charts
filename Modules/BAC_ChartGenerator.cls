@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.02.02  published: 25.03.2023                                                  #
+'# Version 3.03.02  published: 26.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -69,12 +69,10 @@ Private Function getHeader() As String
     
     With strText
         .AddLine "<!DOCTYPE html>"
-        .AddLine "<!-- saved from url=(0014)about:internet -->"
         .AddLine "<html>"
         .AddLine "<head>"
         .AddLine "    <title>Chart</title>"
         .AddLine "    <meta charset='utf-8'>"
-        .AddLine "    <meta http-equiv='X-UA-Compatible' content='IE=Edge'>"
         .AddLine "    <script src=" & BAC.Scripts.ChartJS.getLocation & "></script>"
         .AddLine "    <script src=" & BAC.Scripts.Plugin_ColorSchemes.getLocation & "></script>"
         If Options.DataLabels.Show = True Then
