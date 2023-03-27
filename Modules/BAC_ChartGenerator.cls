@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.03.02  published: 26.03.2023                                                  #
+'# Version 3.04.16  published: 27.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -74,7 +74,6 @@ Private Function getHeader() As String
         .AddLine "    <title>Chart</title>"
         .AddLine "    <meta charset='utf-8'>"
         .AddLine "    <script src=" & BAC.Scripts.ChartJS.getLocation & "></script>"
-        .AddLine "    <script src=" & BAC.Scripts.Plugin_ColorSchemes.getLocation & "></script>"
         If Options.DataLabels.Show = True Then
             .AddLine "    <script src=" & BAC.Scripts.Plugin_DataLabels.getDataLabelLocation & "></script>"
         End If
@@ -101,7 +100,8 @@ Private Function getHeader() As String
         If Options.DisplayIn = chDisplayIn.chImageControl Then
             .AddLine "    Chart.defaults.global.animation = false;"
         End If
-        .Add Options.Animation.getAnimation
+'' temporarily commented out
+''        .Add Options.Animation.getAnimation
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"
         
