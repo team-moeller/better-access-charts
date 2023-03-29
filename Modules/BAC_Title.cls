@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.04.16  published: 27.03.2023                                                  #
+'# Version 3.06.07  published: 29.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -68,36 +68,40 @@ Friend Function getTitle() As String
 
     With New BAC_StringBuilder
         If Me.Show = False Then
-            .AddLine "            title: {"
-            .AddLine "                display: false,"
-            .AddLine "            },"
+            .AddLine "                title: {"
+            .AddLine "                    display: false,"
+            .AddLine "                },"
         Else
-            .AddLine "            title: {"
-            .AddLine "                display: true,"
-            .AddLine "                position: " & BAC.Helper.getPositionString(Me.Position) & ","
-            .AddLine "                text: '" & Me.Text & "',"
-            If Me.Font.Family <> vbNullString Then
-                .AddLine "                    fontFamily: '" & Me.Font.Family & "',"
-            End If
-            If Me.Font.Size > 0 Then
-                .AddLine "                    fontSize: " & Me.Font.Size & ","
-            End If
-            If Me.Font.Color <> vbNullString Then
-                .AddLine "                    fontColor: '" & Me.Font.Color & "',"
-            End If
-            If Me.Font.IsBold = True And Me.Font.IsItalic = True Then
-                .AddLine "                    fontStyle: 'bold italic'"
-            ElseIf Me.Font.IsBold = True Then
-                .AddLine "                    fontStyle: 'bold'"
-            ElseIf Me.Font.IsItalic = True Then
-                .AddLine "                    fontStyle: 'italic'"
-            Else
-                'Do nothing
+            .AddLine "                title: {"
+            .AddLine "                    display: true,"
+            .AddLine "                    position: " & BAC.Helper.getPositionString(Me.Position) & ","
+            .AddLine "                    text: '" & Me.Text & "',"
+            If Me.Font.SectionIsNeeded("Title") = True Then
+                .AddLine "                    font: {"
+                If Me.Font.Color <> vbNullString Then
+                    .AddLine "                        color: '" & Me.Font.Color & "',"
+                End If
+                If Me.Font.Family <> vbNullString Then
+                    .AddLine "                        family: '" & Me.Font.Family & "',"
+                End If
+                If Me.Font.Size > 0 Then
+                    .AddLine "                        size: " & Me.Font.Size & ","
+                End If
+                If Me.Font.IsBold = True And Me.Font.IsItalic = True Then
+                    .AddLine "                        style: 'bold italic'"
+                ElseIf Me.Font.IsBold = True Then
+                    .AddLine "                        style: 'bold'"
+                ElseIf Me.Font.IsItalic = True Then
+                    .AddLine "                        style: 'italic'"
+                Else
+                    'Do nothing
+                End If
+                .CutTrailingComma
+                .AddLine "                    }"
             End If
             .CutTrailingComma
-            .AddLine "            },"
+            .AddLine "                },"
         End If
-        
         getTitle = .ToString
     End With
     
