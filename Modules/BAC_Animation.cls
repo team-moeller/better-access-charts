@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.06.07  published: 29.03.2023                                                  #
+'# Version 3.07.05  published: 30.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -45,8 +45,8 @@ End Property
 Friend Function getAnimation() As String
 
     With New BAC_StringBuilder
-        .AddLine "    Chart.defaults.global.animation.duration = " & Me.Duration & ";"
-        .AddLine "    Chart.defaults.global.animation.easing = '" & getEasingString(Me.Easing) & "';"
+        .AddLine "    Chart.defaults.animation.duration = " & Me.Duration & ";"
+        .AddLine "    Chart.defaults.animation.easing = '" & getEasingString(Me.Easing) & "';"
         getAnimation = .ToString
     End With
     

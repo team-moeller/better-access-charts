@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.06.07  published: 29.03.2023                                                  #
+'# Version 3.07.05  published: 30.03.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -98,10 +98,9 @@ Private Function getHeader() As String
         .AddLine "<script>"
         .Add getDefaultFont
         If Options.DisplayIn = chDisplayIn.chImageControl Then
-            .AddLine "    Chart.defaults.global.animation = false;"
+            .AddLine "    Chart.defaults.animation = false;"
         End If
-'' temporarily commented out
-''        .Add Options.Animation.getAnimation
+        .Add Options.Animation.getAnimation
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"
         
