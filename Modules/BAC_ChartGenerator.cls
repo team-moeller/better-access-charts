@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.08.03  published: 31.03.2023                                                  #
+'# Version 3.09.05  published: 01.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -96,6 +96,11 @@ Private Function getHeader() As String
         End If
         
         .AddLine "<script>"
+        
+        If Options.DataLabels.Show = True Then
+            .AddLine "    Chart.register(ChartDataLabels);"
+        End If
+        
         .Add getDefaultFont
         If Options.DisplayIn = chDisplayIn.chImageControl Then
             .AddLine "    Chart.defaults.animation = false;"
