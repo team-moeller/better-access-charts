@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.09.05  published: 01.04.2023                                                  #
+'# Version 3.10.05  published: 02.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -96,7 +96,7 @@ End Sub
 Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
 
     With New BAC_StringBuilder
-        .AddLine "                #Axes: [{"
+        .AddLine "                #: {"
         .AddLine "                    id: 'first-#-Axis',"
     
         If StackedChart = True Then
@@ -108,14 +108,14 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
         Else
             .AddLine "                    display: true,"
             If Len(Me.LabelText) > 0 Then
-                .AddLine "                    scaleLabel: {"
+                .AddLine "                    title: {"
                 .AddLine "                       display: true,"
-                .AddLine "                       labelString: '" & Me.LabelText & "'"
+                .AddLine "                       text: '" & Me.LabelText & "'"
                 .AddLine "                    },"
             End If
-            If m_TicksNeeded = True Then
-                .AddLine "                    ticks: {"
-            End If
+''            If m_TicksNeeded = True Then
+''                .AddLine "                    ticks: {"
+''            End If
             If Me.beginAtZero = True Then
                 .AddLine "                       beginAtZero: true,"
             End If
@@ -134,12 +134,12 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
                 End If
             End If
             .CutTrailingComma
-            If m_TicksNeeded = True Then
-                .AddLine "                    },"
-            End If
+''            If m_TicksNeeded = True Then
+''                .AddLine "                    },"
+''            End If
         End If
         .CutTrailingComma
-        .AddLine "                    }],"
+        .AddLine "                },"
     
         If m_Axis = apXAxis Then
             getCartesianAxis = Replace(.ToString, "#", "x")
@@ -158,9 +158,9 @@ Friend Function getRadialAxis() As String
             .AddLine "                display: false"
         Else
             .AddLine "                display: true,"
-            If m_TicksNeeded = True Then
-                .AddLine "                ticks: {"
-            End If
+''            If m_TicksNeeded = True Then
+''                .AddLine "                ticks: {"
+''            End If
             If Me.beginAtZero = True Then
                 .AddLine "                    beginAtZero: true,"
             End If
@@ -175,9 +175,9 @@ Friend Function getRadialAxis() As String
                 End If
             End If
             .CutTrailingComma
-            If m_TicksNeeded = True Then
-                .AddLine "                }"
-            End If
+''            If m_TicksNeeded = True Then
+''                .AddLine "                }"
+''            End If
         End If
         getRadialAxis = .ToString
     End With
