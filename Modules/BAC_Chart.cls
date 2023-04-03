@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.10.05  published: 02.04.2023                                                  #
+'# Version 3.11.14  published: 03.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -121,7 +121,6 @@ Private m_AspectRatio As Double
 Private m_DisplayIn As chDisplayIn
     
 Private m_Animation   As BAC_Animation
-Private m_ColorSchema As BAC_ColorSchema
 Private m_DataSource  As BAC_DataSource
 Private m_DataLabels  As BAC_DataLabels
 Private m_Defaults    As BAC_Defaults
@@ -267,10 +266,6 @@ Public Property Get Animation() As BAC_Animation
     Set Animation = m_Animation
 End Property
 
-Public Property Get ColorSchema() As BAC_ColorSchema
-    Set ColorSchema = m_ColorSchema
-End Property
-
 Public Property Get DataSource() As BAC_DataSource
     Set DataSource = m_DataSource
 End Property
@@ -314,7 +309,6 @@ Private Sub Class_Initialize()
     
     'Create Sub Classes
     Set m_Animation = New BAC_Animation
-    Set m_ColorSchema = New BAC_ColorSchema
     Set m_DataSource = New BAC_DataSource
     Set m_DataLabels = New BAC_DataLabels
     Set m_Defaults = New BAC_Defaults
@@ -341,9 +335,6 @@ Private Sub Class_Initialize()
     'Axis
     YAxis.Show = True
     XAxis.Show = True
-        
-    'ColorSchema
-    ColorSchema.Name = "brewer.Paired12"
 
 End Sub
 

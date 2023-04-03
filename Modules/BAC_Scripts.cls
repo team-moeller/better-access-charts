@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.10.05  published: 02.04.2023                                                  #
+'# Version 3.11.14  published: 03.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -20,7 +20,7 @@ Option Explicit
 '### Members
 
 Private m_ChartJS       As BAC_ChartJS
-Private m_ColorSchemes  As BAC_ChartJS_Plugin_ColorSchemes
+''Private m_ColorSchemes  As BAC_ChartJS_Plugin_ColorSchemes
 Private m_DataLabels    As BAC_ChartJS_Plugin_Datalabels
 
 
@@ -30,9 +30,9 @@ Public Property Get ChartJS() As BAC_ChartJS
     Set ChartJS = m_ChartJS
 End Property
 
-Public Property Get Plugin_ColorSchemes() As BAC_ChartJS_Plugin_ColorSchemes
-    Set Plugin_ColorSchemes = m_ColorSchemes
-End Property
+''Public Property Get Plugin_ColorSchemes() As BAC_ChartJS_Plugin_ColorSchemes
+''    Set Plugin_ColorSchemes = m_ColorSchemes
+''End Property
 
 Public Property Get Plugin_DataLabels() As BAC_ChartJS_Plugin_Datalabels
     Set Plugin_DataLabels = m_DataLabels
@@ -44,7 +44,7 @@ End Property
 Private Sub Class_Initialize()
 
     Set m_ChartJS = New BAC_ChartJS
-    Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
+''    Set m_ColorSchemes = New BAC_ChartJS_Plugin_ColorSchemes
     Set m_DataLabels = New BAC_ChartJS_Plugin_Datalabels
     
 End Sub
