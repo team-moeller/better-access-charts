@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "BAC_ChartJS_Plugin_Datalabels"
+Attribute VB_Name = "BAC_ChartJS_Plugin_AutoColors"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -53,8 +53,8 @@ End Property
 Private Sub Class_Initialize()
 
     Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
-    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
+    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"
+    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-autocolors.js"
     
 End Sub
 
@@ -63,7 +63,7 @@ End Sub
 
 Public Function SavePluginToDisk() As Boolean
 
-    SavePluginToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-datalabels.min.js", CurrentProject.Path)
+    SavePluginToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-autocolors.js", CurrentProject.Path)
     
 End Function
 
@@ -87,3 +87,4 @@ Friend Function getDataLabelLocation() As String
     getDataLabelLocation = strText
 
 End Function
+

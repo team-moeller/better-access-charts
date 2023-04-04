@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.11.14  published: 03.04.2023                                                  #
+'# Version 3.12.12  published: 04.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -74,6 +74,7 @@ Private Function getHeader() As String
         .AddLine "    <title>Chart</title>"
         .AddLine "    <meta charset='utf-8'>"
         .AddLine "    <script src=" & BAC.Scripts.ChartJS.getLocation & "></script>"
+        .AddLine "    <script src=" & BAC.Scripts.Plugin_AutoColors.getDataLabelLocation & "></script>"
         If Options.DataLabels.Show = True Then
             .AddLine "    <script src=" & BAC.Scripts.Plugin_DataLabels.getDataLabelLocation & "></script>"
         End If
@@ -96,6 +97,9 @@ Private Function getHeader() As String
         End If
         
         .AddLine "<script>"
+        
+        .AddLine "    const autocolors = window['chartjs-plugin-autocolors'];"
+        .AddLine "    Chart.register(autocolors);"
         
         If Options.DataLabels.Show = True Then
             .AddLine "    Chart.register(ChartDataLabels);"
