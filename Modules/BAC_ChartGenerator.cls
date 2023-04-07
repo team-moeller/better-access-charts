@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.13.01  published: 06.04.2023                                                  #
+'# Version 3.14.02  published: 07.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -221,8 +221,8 @@ Private Function getChartData() As String
             
             Select Case Options.ChartType
                 Case chChartType.Line, chChartType.Radar
-                    If Options.AreaFilled = False Then
-                        .AddLine "                fill: false ,"
+                    If Options.AreaFilled = True Then
+                        .AddLine "                fill: true ,"
                     End If
                 Case Else
                     'Do Nothing
