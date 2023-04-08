@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.14.02  published: 07.04.2023                                                  #
+'# Version 3.15.03  published: 08.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -144,20 +144,20 @@ Private Function getDefaultFont() As String
     With strText
         Set Font = Options.Default.Font
         If Len(Font.Color) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontColor = '" & Font.Color & "';"
+            .AddLine "    Chart.defaults.FontColor = '" & Font.Color & "';"
         End If
         If Len(Font.Family) > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontFamily = '" & Font.Family & "';"
+            .AddLine "    Chart.defaults.font.family = '" & Font.Family & "';"
         End If
         If Font.Size > 0 Then
-            .AddLine "    Chart.defaults.global.defaultFontSize = " & Font.Size & ";"
+            .AddLine "    Chart.defaults.font.size = " & Font.Size & ";"
         End If
         If Font.IsBold = True And Font.IsItalic = True Then
-            .AddLine "    Chart.defaults.global.defaultFontStyle = 'bold italic'" & ";"
+            .AddLine "    Chart.defaults.font.style = 'bold italic'" & ";"
         ElseIf Font.IsBold = True Then
-            .AddLine "    Chart.defaults.global.defaultFontStyle = 'bold'" & ";"
+            .AddLine "    Chart.defaults.font.style = 'bold'" & ";"
         ElseIf Font.IsItalic = True Then
-            .AddLine "    Chart.defaults.global.defaultFontStyle = 'italic'" & ";"
+            .AddLine "    Chart.defaults.font.style = 'italic'" & ";"
         Else
             'Do nothing
         End If
