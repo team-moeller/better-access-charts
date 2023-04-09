@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.15.03  published: 08.04.2023                                                  #
+'# Version 3.16.03  published: 09.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -93,7 +93,7 @@ Private Function getHeader() As String
         .AddLine "</div>"
         
         If Options.ShowDownloadLink = True Then
-            .AddLine "<a href='#' id='download' onclick='download()'>Download</a>"
+            .AddLine "<a href='#' id='download' onclick='daunload()'>Download</a>"
         End If
         
         .AddLine "<script>"
@@ -276,10 +276,10 @@ Private Function getFooter() As String
         .AddLine "    });"  ' closing: var myChart = new Chart(ctx, {"
         
         If Options.ShowDownloadLink = True Then
-            .AddLine "    function download() {"
+            .AddLine "    function daunload() {"
             .AddLine "        var myChart = document.getElementById('myChart');"
-            .AddLine "        var blob = myChart.msToBlob()"
-            .AddLine "        window.navigator.msSaveBlob(blob, 'Better-Access-Charts.png');"
+            .AddLine "        var image = myChart.toDataURL('image/png').replace('image/png', 'image/octet-stream');"
+            .AddLine "        window.location.href=image;"
             .AddLine "    }"
         End If
         .AddLine "</script>"
