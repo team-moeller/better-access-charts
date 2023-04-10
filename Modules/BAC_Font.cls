@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.16.03  published: 09.04.2023                                                  #
+'# Version 3.17.07  published: 10.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -72,9 +72,9 @@ Friend Property Get SectionIsNeeded(Optional Parent As String) As Boolean
         Case "DataLabel"
             SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
         Case "Legend"
-            SectionIsNeeded = (Color <> vbNullString) Or (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
         Case "Title"
-            SectionIsNeeded = (Color <> vbNullString) Or (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
         Case Else
             'Do nothing
     End Select

@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.16.03  published: 09.04.2023                                                  #
+'# Version 3.17.07  published: 10.04.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -78,10 +78,10 @@ Friend Function getLegend() As String
             End If
             If Me.Font.SectionIsNeeded("Legend") = True Then
                 .AddLine "                    labels: {"
-                .AddLine "                        font: {"
                 If Me.Font.Color <> vbNullString Then
-                    .AddLine "                            color: '" & Me.Font.Color & "',"
+                    .AddLine "                        color: '" & Me.Font.Color & "',"
                 End If
+                .AddLine "                        font: {"
                 If Me.Font.Family <> vbNullString Then
                     .AddLine "                            family: '" & Me.Font.Family & "',"
                 End If
@@ -99,6 +99,7 @@ Friend Function getLegend() As String
                 End If
                 .CutTrailingComma
                 .AddLine "                        }"
+                .CutTrailingComma
                 .AddLine "                    }"
             End If
             .CutTrailingComma
