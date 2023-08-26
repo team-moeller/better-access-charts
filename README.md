@@ -6,7 +6,7 @@ Better charts for Access with charts.js
 Microsoft Access badly needs modern charts. The original charts in MS Access date from the 90s of the previous century. Microsoft has given the charts in Access a lift. They called it "Modern Charts".
 
 There are countless JavaScript libraries on the world wide web that you can use to create cool charts. This project makes use of this.
-We create charts using the Chart.js library and display them in the web browser control. The whole logic is hidden in some class modules.
+We create charts using the Chart.js library and display them in the edge browser control. The whole logic is hidden in some class modules.
 
 Take a look at the demo and let yourself be inspired by the possibilities.
 
@@ -38,7 +38,7 @@ myChart.CreateChart
 ```
 
 * In line 1 a variable of the type BAC_Chart is declared.
-* In line 2 a new instance of this class is created and the web browser control is assigned to the class module.
+* In line 2 a new instance of this class is created and the edge browser control is assigned to the class module.
 * The chart is created in line 3. 
 
 When you run this code, you will see a chart with some data. At the moment no data source is assigned. In such a case, Better-Access Charts simply shows a standard data source with 6 entries. This is particularly practical for our example. We have now done a quick test and fundamentally implemented the chart.
