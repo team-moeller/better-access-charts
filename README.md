@@ -23,11 +23,9 @@ Take a look at the demo and let yourself be inspired by the possibilities.
 
 First, all modules with the name "BAC_*" must be imported from the demo database into your Access database.
 
-**2. Insert web browser control on form**
+**2. Insert edge browser control on form**
 
-The second step is to add a web browser control to display the chart on a form. It is best to give the control a meaningful name. This is required later in the VBA code. I like to use the name "ctlWebbrowser" for this.
-
-The following text is entered in the "ControlSource" property: = "about: blank". This ensures that the web browser control remains empty at the beginning.
+The second step is to add an edge browser control to display the chart on a form. It is best to give the control a meaningful name. This is required later in the VBA code. I like to use the name "ctlEdgeBrowser" for this.
 
 **3. First lines of code for the basic functionality**
 
@@ -35,14 +33,13 @@ The best thing to do is to add another button. In the click event, paste the fol
 
 ```vba
 Dim myChart As BAC_Chart  
-Set myChart = BAC.Chart(Me.ctlWebbrowser)  
+Set myChart = BAC.Chart(Me.ctlEdgeBrowser)  
 myChart.CreateChart  
 ```
 
 * In line 1 a variable of the type BAC_Chart is declared.
 * In line 2 a new instance of this class is created and the web browser control is assigned to the class module.
 * The chart is created in line 3. 
-
 
 When you run this code, you will see a chart with some data. At the moment no data source is assigned. In such a case, Better-Access Charts simply shows a standard data source with 6 entries. This is particularly practical for our example. We have now done a quick test and fundamentally implemented the chart.
 
