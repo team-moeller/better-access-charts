@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.20.01  published: 21.07.2023                                                  #
+'# Version 3.21.07  published: 04.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -33,6 +33,7 @@ Private m_LabelText As String
 Private m_BeginAtZero As Boolean
 Private m_TicksMin As String
 Private m_TicksMax As String
+Private m_StepSize As String
 
 Private m_TicksNeeded As Boolean
 
@@ -55,9 +56,6 @@ End Property
 
 Public Property Let beginAtZero(ByVal This_BeginAtZero As Boolean)
     m_BeginAtZero = This_BeginAtZero
-    If This_BeginAtZero = True Then
-        m_TicksNeeded = True
-    End If
 End Property
 Public Property Get beginAtZero() As Boolean
     beginAtZero = m_BeginAtZero
@@ -65,9 +63,6 @@ End Property
 
 Public Property Let TicksMin(ByVal This_TicksMin As String)
     m_TicksMin = This_TicksMin
-    If Len(Nz(This_TicksMin, vbNullString)) > 0 Then
-        m_TicksNeeded = True
-    End If
 End Property
 Public Property Get TicksMin() As String
     TicksMin = m_TicksMin
@@ -75,12 +70,19 @@ End Property
 
 Public Property Let TicksMax(ByVal This_TicksMax As String)
     m_TicksMax = This_TicksMax
-    If Len(Nz(This_TicksMax, vbNullString)) > 0 Then
-        m_TicksNeeded = True
-    End If
 End Property
 Public Property Get TicksMax() As String
     TicksMax = m_TicksMax
+End Property
+
+Public Property Let StepSize(ByVal This_StepSize As String)
+    m_StepSize = This_StepSize
+    If Len(Nz(This_StepSize, vbNullString)) > 0 Then
+        m_TicksNeeded = True
+    End If
+End Property
+Public Property Get StepSize() As String
+    StepSize = m_StepSize
 End Property
 
 
@@ -113,30 +115,32 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
                 .AddLine "                       text: '" & Me.LabelText & "'"
                 .AddLine "                    },"
             End If
-''            If m_TicksNeeded = True Then
-''                .AddLine "                    ticks: {"
-''            End If
             If Me.beginAtZero = True Then
-                .AddLine "                       beginAtZero: true,"
+                .AddLine "                    beginAtZero: true,"
             End If
             If Len(Me.TicksMin) > 0 Then
                 If IsNumeric(Me.TicksMin) = True Then
-                    .AddLine "                       min: " & Str$(Me.TicksMin) & " ,"
+                    .AddLine "                    min: " & Str$(Me.TicksMin) & " ,"
                 Else
-                    .AddLine "                       min: '" & Me.TicksMin & "' ,"
+                    .AddLine "                    min: '" & Me.TicksMin & "' ,"
                 End If
             End If
             If Len(Me.TicksMax) > 0 Then
                 If IsNumeric(Me.TicksMax) = True Then
-                    .AddLine "                       max: " & Str$(Me.TicksMax) & " ,"
+                    .AddLine "                    max: " & Str$(Me.TicksMax) & " ,"
                 Else
-                    .AddLine "                       max: '" & Me.TicksMax & "' ,"
+                    .AddLine "                    max: '" & Me.TicksMax & "' ,"
                 End If
             End If
-            .CutTrailingComma
-''            If m_TicksNeeded = True Then
-''                .AddLine "                    },"
-''            End If
+            If m_TicksNeeded = True Then
+                .AddLine "                    ticks: {"
+            End If
+            If Len(Me.StepSize) > 0 Then
+                .AddLine "                        stepSize: " & Str$(Me.StepSize) & " ,"
+            End If
+            If m_TicksNeeded = True Then
+                .AddLine "                    },"
+            End If
         End If
         .CutTrailingComma
         .AddLine "                },"
@@ -158,26 +162,29 @@ Friend Function getRadialAxis() As String
             .AddLine "                display: false"
         Else
             .AddLine "                display: true,"
-''            If m_TicksNeeded = True Then
-''                .AddLine "                ticks: {"
-''            End If
             If Me.beginAtZero = True Then
-                .AddLine "                    beginAtZero: true,"
+                .AddLine "                beginAtZero: true,"
             End If
             If Len(Me.TicksMin) > 0 Then
                 If IsNumeric(Me.TicksMin) = True Then
-                    .AddLine "                    min: " & Str$(Me.TicksMin) & " ,"
+                    .AddLine "                min: " & Str$(Me.TicksMin) & " ,"
                 End If
             End If
             If Len(Me.TicksMax) > 0 Then
                 If IsNumeric(Me.TicksMax) = True Then
-                    .AddLine "                    max: " & Str$(Me.TicksMax) & " ,"
+                    .AddLine "                max: " & Str$(Me.TicksMax) & " ,"
                 End If
             End If
+            If m_TicksNeeded = True Then
+                .AddLine "                ticks: {"
+            End If
+            If Len(Me.StepSize) > 0 Then
+                .AddLine "                    stepSize:" & Str$(Me.StepSize) & ","
+            End If
+            If m_TicksNeeded = True Then
+                .AddLine "                }"
+            End If
             .CutTrailingComma
-''            If m_TicksNeeded = True Then
-''                .AddLine "                }"
-''            End If
         End If
         getRadialAxis = .ToString
     End With
