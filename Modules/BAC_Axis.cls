@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.21.07  published: 04.09.2023                                                  #
+'# Version 3.22.07  published: 07.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -24,6 +24,15 @@ Public Enum chCartesianAxis
     apYAxis = 2
 End Enum
 
+Public Enum chAxisType
+    atNotDefined = 0
+    atLinear = 1
+    atLogarithmic = 2
+    atCategory = 3
+    atTime = 4
+    atTimeSeries = 5
+End Enum
+
 
 '### Members
 
@@ -34,6 +43,7 @@ Private m_BeginAtZero As Boolean
 Private m_TicksMin As String
 Private m_TicksMax As String
 Private m_StepSize As String
+Private m_AxisType As chAxisType
 
 Private m_TicksNeeded As Boolean
 
@@ -85,8 +95,19 @@ Public Property Get StepSize() As String
     StepSize = m_StepSize
 End Property
 
+Public Property Let AxisType(ByVal This_AxisType As chAxisType)
+    m_AxisType = This_AxisType
+End Property
+Public Property Get AxisType() As chAxisType
+    AxisType = m_AxisType
+End Property
+
 
 ' ### Initializer
+
+Private Sub Class_Initialize()
+    m_AxisType = chAxisType.atNotDefined
+End Sub
 
 Friend Sub Init(ByVal Axis As chCartesianAxis)
     m_Axis = Axis
@@ -109,6 +130,9 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
             .AddLine "                    display: false"
         Else
             .AddLine "                    display: true,"
+            If Me.AxisType <> atNotDefined Then
+                .AddLine "                    type: '" & getAxisTypeAsText & "',"
+            End If
             If Len(Me.LabelText) > 0 Then
                 .AddLine "                    title: {"
                 .AddLine "                       display: true,"
@@ -162,6 +186,9 @@ Friend Function getRadialAxis() As String
             .AddLine "                display: false"
         Else
             .AddLine "                display: true,"
+            If Me.AxisType <> atNotDefined Then
+                .AddLine "                    type: '" & getAxisTypeAsText & "',"
+            End If
             If Me.beginAtZero = True Then
                 .AddLine "                beginAtZero: true,"
             End If
@@ -188,5 +215,31 @@ Friend Function getRadialAxis() As String
         End If
         getRadialAxis = .ToString
     End With
+
+End Function
+
+Private Function getAxisTypeAsText() As String
+
+    'Declarations
+    Dim strType As String
+
+    Select Case Me.AxisType
+        Case chAxisType.atNotDefined
+            strType = "Not defined"
+        Case chAxisType.atLinear
+            strType = "linear"
+        Case chAxisType.atLogarithmic
+            strType = "logarithmic"
+        Case chAxisType.atCategory
+            strType = "category"
+        Case chAxisType.atTime
+            strType = "time"
+        Case chAxisType.atTimeSeries
+            strType = "timeseries"
+        Case Else
+            strType = "Not defined"
+    End Select
+
+    getAxisTypeAsText = strType
 
 End Function
