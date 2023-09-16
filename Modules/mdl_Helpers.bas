@@ -2,7 +2,7 @@ Attribute VB_Name = "mdl_Helpers"
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.22.07  published: 07.09.2023                                                  #
+'# Version 3.23.04  published: 16.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,7 +53,7 @@ Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As Str
 
     Open PathFilename For Binary Access Read Lock Read Write As FileID
 
-    FileSize = FileLen(PathFilename)
+    FileSize = FileLen(PathFilename) - 1      '-1 to exclude NUL at the end
     ReDim Buffer(FileSize)
     rst(TargetFieldName) = Null
     Get FileID, , Buffer
