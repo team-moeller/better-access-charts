@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.23.04  published: 16.09.2023                                                  #
+'# Version 3.24.04  published: 17.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -79,7 +79,7 @@ Friend Function getDataLabelLocation() As String
         Case chScriptSource.CDN
             strText = "'" & Me.CDN & "'"
         Case chScriptSource.LocalFile
-            strText = "'" & Me.PathFilename & "'"
+            strText = "'" & "https://msaccess/" & Replace(Me.PathFilename, "\", "/") & "'"
         Case Else
             'Do nothing
     End Select

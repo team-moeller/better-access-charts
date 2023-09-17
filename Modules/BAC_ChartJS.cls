@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.23.04  published: 16.09.2023                                                  #
+'# Version 3.24.04  published: 17.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,7 +53,7 @@ End Property
 Private Sub Class_Initialize()
 
     Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+    Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.2/Chart.min.js"
     Me.PathFilename = CurrentProject.Path & "\Chart.min.js"
   
 End Sub
@@ -79,7 +79,7 @@ Friend Function getLocation() As String
         Case chScriptSource.CDN
             strText = "'" & Me.CDN & "'"
         Case chScriptSource.LocalFile
-            strText = "'" & Me.PathFilename & "'"
+            strText = "'" & "https://msaccess/" & Replace(Me.PathFilename, "\", "/") & "'"
         Case Else
             'Do nothing
     End Select
