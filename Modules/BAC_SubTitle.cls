@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "BAC_Legend"
+Attribute VB_Name = "BAC_SubTitle"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -22,7 +22,7 @@ Option Explicit
 Private m_Font As BAC_Font
 Private m_Show As Boolean
 Private m_Position As chPosition
-Private m_Align As chAlign
+Private m_Text As String
 
 
 ' ### Properties
@@ -31,97 +31,80 @@ Public Property Get Font() As BAC_Font
     Set Font = m_Font
 End Property
 
-Public Property Let Show(ByVal newValue As Boolean)
-    m_Show = newValue
+Public Property Let Show(ByVal This_Show As Boolean)
+    m_Show = This_Show
 End Property
 Public Property Get Show() As Boolean
     Show = m_Show
 End Property
 
-Public Property Let Position(ByVal newValue As chPosition)
-    m_Position = newValue
+Public Property Let Position(ByVal This_Position As chPosition)
+    m_Position = This_Position
 End Property
 Public Property Get Position() As chPosition
     Position = m_Position
 End Property
 
-Public Property Let Align(ByVal newValue As chAlign)
-    m_Align = newValue
+Public Property Let Text(ByVal This_Text As String)
+    m_Text = This_Text
 End Property
-Public Property Get Align() As chAlign
-    Align = m_Align
+Public Property Get Text() As String
+    Text = m_Text
 End Property
 
 
 '### Instancing
 
 Private Sub Class_Initialize()
+
     Set m_Font = New BAC_Font
+    
 End Sub
 
 
 ' ### Generator Function
 
-Friend Function getLegend() As String
+Friend Function getTitle() As String
 
     With New BAC_StringBuilder
         If Me.Show = False Then
-            .AddLine "                legend: {"
-            .AddLine "                    display: false"
+            .AddLine "                subtitle: {"
+            .AddLine "                    display: false,"
             .AddLine "                },"
         Else
-            .AddLine "                legend: {"
+            .AddLine "                subtitle: {"
             .AddLine "                    display: true,"
             .AddLine "                    position: " & BAC.Helper.getPositionString(Me.Position) & ","
-            If Me.Align > 0 Then
-                .AddLine "                        align: '" & getAlignString(Me.Align) & "',"
+            .AddLine "                    text: '" & Me.Text & "',"
+            If Me.Font.Color <> vbNullString Then
+                .AddLine "                    color: '" & Me.Font.Color & "',"
             End If
-            If Me.Font.SectionIsNeeded("Legend") = True Then
-                .AddLine "                    labels: {"
-                If Me.Font.Color <> vbNullString Then
-                    .AddLine "                        color: '" & Me.Font.Color & "',"
-                End If
-                .AddLine "                        font: {"
+            If Me.Font.SectionIsNeeded("Title") = True Then
+                .AddLine "                    font: {"
                 If Me.Font.Family <> vbNullString Then
-                    .AddLine "                            family: '" & Me.Font.Family & "',"
+                    .AddLine "                        family: '" & Me.Font.Family & "',"
                 End If
                 If Me.Font.Size > 0 Then
-                    .AddLine "                            size: " & Me.Font.Size & ","
+                    .AddLine "                        size: " & Me.Font.Size & ","
                 End If
                 If Me.Font.IsBold = True And Me.Font.IsItalic = True Then
-                    .AddLine "                            style: 'bold italic'"
+                    .AddLine "                        style: 'bold italic'"
                 ElseIf Me.Font.IsBold = True Then
-                    .AddLine "                            style: 'bold'"
+                    .AddLine "                        style: 'bold'"
                 ElseIf Me.Font.IsItalic = True Then
-                    .AddLine "                            style: 'italic'"
+                    .AddLine "                        style: 'italic'"
                 Else
                     'Do nothing
                 End If
-                .CutTrailingComma
-                .AddLine "                        }"
                 .CutTrailingComma
                 .AddLine "                    }"
             End If
             .CutTrailingComma
             .AddLine "                },"
         End If
-        getLegend = .ToString
+        getTitle = .ToString
     End With
     
 End Function
 
-Private Function getAlignString(ByVal ThisAlign As chAlign) As String
-
-    Select Case ThisAlign
-        Case chAlign.alStart
-            getAlignString = "start"
-        Case chAlign.alCenter
-            getAlignString = "center"
-        Case chAlign.alEnd
-            getAlignString = "end"
-        Case Else
-            getAlignString = "center"
-    End Select
-    
-End Function
 

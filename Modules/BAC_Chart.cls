@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.25.03  published: 18.09.2023                                                  #
+'# Version 3.26.07  published: 19.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -129,6 +129,8 @@ Private m_YAxis       As BAC_Axis
 Private m_RadialAxis  As BAC_Axis
 Private m_Legend      As BAC_Legend
 Private m_Title       As BAC_Title
+Private m_SubTitle    As BAC_SubTitle
+
     
 '### Initializer
 
@@ -282,6 +284,10 @@ Public Property Get Title() As BAC_Title
     Set Title = m_Title
 End Property
 
+Public Property Get SubTitle() As BAC_SubTitle
+    Set SubTitle = m_SubTitle
+End Property
+
 Public Property Get XAxis() As BAC_Axis
     Set XAxis = m_XAxis
 End Property
@@ -314,6 +320,7 @@ Private Sub Class_Initialize()
     Set m_Defaults = New BAC_Defaults
     Set m_Legend = New BAC_Legend
     Set m_Title = New BAC_Title
+    Set m_SubTitle = New BAC_SubTitle
     Set m_XAxis = New BAC_Axis
     m_XAxis.Init apXAxis
     Set m_YAxis = New BAC_Axis
@@ -329,6 +336,8 @@ Private Sub Class_Initialize()
     Title.Show = False
     Title.Position = posTop
     Title.Text = "My first Better Access Chart"
+    'SubTitle
+    SubTitle.Show = False
     'Legend
     Legend.Show = False
     Legend.Position = posRight
