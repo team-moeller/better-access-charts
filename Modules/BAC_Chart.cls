@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.26.07  published: 19.09.2023                                                  #
+'# Version 3.27.02  published: 21.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -363,13 +363,13 @@ Public Sub CreateChart()
     
     Select Case Me.DisplayIn
         Case chDisplayIn.chWebBrowserControl
-''            If Me.WebBrowserControl.LocationURL = vbNullString Then
+            If Me.WebBrowserControl.LocationURL = vbNullString Then
                 CreateEmptyHtmlFile
                 Me.WebBrowserControl.Navigate "https://msaccess/" & getHTMLFileName(, True)
                 Do While Me.WebBrowserControl.ReadyState <> 4
                     DoEvents
                 Loop
-''            End If
+            End If
             strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
             If Me.SaveHtmlFileForDebugging = True Then
                 Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
