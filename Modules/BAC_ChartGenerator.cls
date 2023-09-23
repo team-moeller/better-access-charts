@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.27.02  published: 21.09.2023                                                  #
+'# Version 3.28.04  published: 23.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -151,14 +151,11 @@ Private Function getDefaultFont() As String
         If Font.Size > 0 Then
             .AddLine "    Chart.defaults.font.size = " & Font.Size & ";"
         End If
-        If Font.IsBold = True And Font.IsItalic = True Then
-            .AddLine "    Chart.defaults.font.style = 'bold italic'" & ";"
-        ElseIf Font.IsBold = True Then
-            .AddLine "    Chart.defaults.font.style = 'bold'" & ";"
-        ElseIf Font.IsItalic = True Then
+        If Font.IsBold = True Then
+            .AddLine "    Chart.defaults.font.weight = 'bold'" & ";"
+        End If
+        If Font.IsItalic = True Then
             .AddLine "    Chart.defaults.font.style = 'italic'" & ";"
-        Else
-            'Do nothing
         End If
         getDefaultFont = .ToString
     End With
