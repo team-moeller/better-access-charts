@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.29.02  published: 24.09.2023                                                  #
+'# Version 3.30.19  published: 26.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -87,10 +87,10 @@ Friend Function getTitle() As String
                 If Me.Font.Size > 0 Then
                     .AddLine "                        size: " & Me.Font.Size & ","
                 End If
-                If Me.Font.IsBold = True Then
+                If Me.Font.Weight = chFontWeight.fwUndefined Then
                     .AddLine "                        weight: 'bold'" & ","
                 Else
-                    .AddLine "                        weight: 'normal'" & ","
+                    .AddLine "                        weight: " & Me.Font.Weight & ","
                 End If
                 If Me.Font.IsItalic = True Then
                     .AddLine "                        style: 'italic'"

@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.29.02  published: 24.09.2023                                                  #
+'# Version 3.30.19  published: 26.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -105,6 +105,20 @@ Public Enum chEasing
     easeOutBounce = 29
     easeInOutBounce = 30
 End Enum
+
+Public Enum chFontWeight
+    fwUndefined = 0
+    fwThin = 100
+    fwExtraLight = 200
+    fwLight = 300
+    fwNormal = 400
+    fwMedium = 500
+    fwSemiBold = 600
+    fwBold = 700
+    fwExtraBold = 800
+    fwBlack = 900
+End Enum
+
 
 '### Members
 

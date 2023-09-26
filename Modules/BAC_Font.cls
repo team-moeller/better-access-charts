@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.29.02  published: 24.09.2023                                                  #
+'# Version 3.30.19  published: 26.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -23,7 +23,7 @@ Private m_Color As String
 Private m_Family As String
 Private m_Size As Integer
 Private m_IsItalic As Boolean
-Private m_IsBold As Boolean
+Private m_Weight As chFontWeight
 
 
 ' ### Properties
@@ -56,11 +56,11 @@ Public Property Get IsItalic() As Boolean
     IsItalic = m_IsItalic
 End Property
 
-Public Property Let IsBold(ByVal This_IsBold As Boolean)
-    m_IsBold = This_IsBold
+Public Property Let Weight(ByVal This_Weight As chFontWeight)
+    m_Weight = This_Weight
 End Property
-Public Property Get IsBold() As Boolean
-    IsBold = m_IsBold
+Public Property Get Weight() As chFontWeight
+    Weight = m_Weight
 End Property
 
 
@@ -70,11 +70,11 @@ Friend Property Get SectionIsNeeded(Optional Parent As String) As Boolean
 
     Select Case Parent
         Case "DataLabel"
-            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (IsItalic = True)
         Case "Legend"
-            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (IsItalic = True)
         Case "Title"
-            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (IsBold = True) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (IsItalic = True)
         Case Else
             'Do nothing
     End Select
