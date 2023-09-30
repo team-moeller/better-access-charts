@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.30.19  published: 26.09.2023                                                  #
+'# Version 3.31.20  published: 30.09.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -22,8 +22,8 @@ Option Explicit
 Private m_Color As String
 Private m_Family As String
 Private m_Size As Integer
-Private m_IsItalic As Boolean
 Private m_Weight As chFontWeight
+Private m_Style As chFontStyle
 
 
 ' ### Properties
@@ -49,18 +49,18 @@ Public Property Get Size() As Integer
     Size = m_Size
 End Property
 
-Public Property Let IsItalic(ByVal This_IsItalic As Boolean)
-    m_IsItalic = This_IsItalic
-End Property
-Public Property Get IsItalic() As Boolean
-    IsItalic = m_IsItalic
-End Property
-
 Public Property Let Weight(ByVal This_Weight As chFontWeight)
     m_Weight = This_Weight
 End Property
 Public Property Get Weight() As chFontWeight
     Weight = m_Weight
+End Property
+
+Public Property Let Style(ByVal This_Style As chFontStyle)
+    m_Style = This_Style
+End Property
+Public Property Get Style() As chFontStyle
+    Style = m_Style
 End Property
 
 
@@ -70,13 +70,30 @@ Friend Property Get SectionIsNeeded(Optional Parent As String) As Boolean
 
     Select Case Parent
         Case "DataLabel"
-            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
         Case "Legend"
-            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
         Case "Title"
-            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (IsItalic = True)
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
         Case Else
             'Do nothing
     End Select
     
+End Property
+
+Friend Property Get StyleText() As String
+
+    Select Case Me.Style
+        Case fsUndefined
+            StyleText = vbNullString
+        Case fsNormal
+            StyleText = "'normal'"
+        Case fsItalic
+            StyleText = "'italic'"
+        Case fsOblique
+            StyleText = "'oblique'"
+        Case Else
+            'Do nothing
+    End Select
+
 End Property
