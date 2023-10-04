@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 3.32.04  published: 01.10.2023                                                  #
+'# Version 3.33.02  published: 04.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -329,6 +329,7 @@ Private Function getPlugins() As String
         .Add Options.SubTitle.getTitle
         .Add Options.Legend.getLegend
         .Add Options.DataLabels.getDataLabel
+        .Add getAutoColors
         .CutTrailingComma
         .AddLine "                },"
         
@@ -362,5 +363,21 @@ Private Function IsBubbleOrScatterChart() As Boolean
         IsBubbleOrScatterChart = False
     End If
     
+End Function
+
+'#################
+Private Function getAutoColors() As String
+
+    If Options.ChartType = Pie Or Options.ChartType = Doughnut Or Options.ChartType = PolarArea Then
+        With New BAC_StringBuilder
+            .AddLine "                autocolors: {"
+            .AddLine "                    mode: 'data'"
+            .AddLine "                }"
+            getAutoColors = .ToString
+        End With
+    Else
+        'Return nothing
+    End If
+
 End Function
 
