@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.01.01  published: 10.10.2023                                                  #
+'# Version 4.02.01  published: 12.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -68,7 +68,7 @@ Public Property Get Label(ByVal Index As Integer) As String
     Label = m_Labels(Index)
 End Property
 Public Property Let Label(ByVal Index As Integer, ByVal newValue As String)
-    m_Labels(Index) = newValue
+    m_Labels(Index) = Replace(newValue, "'", "´")
 End Property
 
 Public Property Get Labels(Optional ByVal Quoted As Boolean = True) As String
