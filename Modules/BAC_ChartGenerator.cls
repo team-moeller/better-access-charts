@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.03.04  published: 14.10.2023                                                  #
+'# Version 4.04.12  published: 15.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -172,8 +172,6 @@ Private Function getChartType() As String
             strType = "line"
         Case chChartType.Bar
             strType = "bar"
-        Case chChartType.HorizontalBar
-            strType = "horizontalBar"
         Case chChartType.Radar
             strType = "radar"
         Case chChartType.Doughnut
@@ -252,6 +250,11 @@ Private Function getChartOptions() As String
     
     With strText
         .AddLine "        options: {"
+        If Options.Horizontal = True Then
+            If Options.ChartType = chChartType.Bar Or Options.ChartType = chChartType.Line Then
+            .AddLine "            indexAxis: 'y',"
+            End If
+        End If
         If Options.AspectRatio <> 2# Then
             .AddLine "            aspectRatio: " & Str(Options.AspectRatio) & ","
         End If
@@ -295,7 +298,7 @@ Private Function getScales() As String
     Dim strText As New BAC_StringBuilder
     
     Select Case Options.ChartType
-        Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
+        Case chChartType.Bar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
             With strText
                 .AddLine "            scales: {"
                 .Add Options.YAxis.getCartesianAxis(Options.StackedChart)
@@ -343,7 +346,7 @@ End Function
 Private Function IsSingleBarChart()
 
     Select Case Options.ChartType
-        Case chChartType.Bar, chChartType.HorizontalBar
+        Case chChartType.Bar
             If Data.IsSingleDataset = True Then
                 IsSingleBarChart = True
             Else

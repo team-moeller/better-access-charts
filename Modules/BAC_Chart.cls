@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.03.04  published: 14.10.2023                                                  #
+'# Version 4.04.12  published: 15.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -22,13 +22,12 @@ Option Explicit
 Public Enum chChartType
     Line = 1
     Bar = 2
-    HorizontalBar = 3
-    Radar = 4
-    Doughnut = 5
-    Pie = 6
-    PolarArea = 7
-    Bubble = 8
-    Scatter = 9
+    Radar = 3
+    Doughnut = 4
+    Pie = 5
+    PolarArea = 6
+    Bubble = 7
+    Scatter = 8
 End Enum
 
 Public Enum chDataSourceType
@@ -133,6 +132,7 @@ Private m_WebBrowserControl As Access.Edge
 Private m_WebBrowserActiveX As SHDocVw.WebBrowser
 Private m_ImageControl As Access.Image
 Private m_ChartType As chChartType
+Private m_Horizontal As Boolean
 Private m_StackedChart As Boolean
 Private m_AreaFilled As Boolean
 Private m_BackgroundColor As String
@@ -210,7 +210,7 @@ End Property
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
     m_ChartType = This_ChartType
     Select Case This_ChartType
-        Case chChartType.Bar, chChartType.HorizontalBar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
+        Case chChartType.Bar, chChartType.Line, chChartType.Bubble, chChartType.Scatter
             YAxis.Show = True
             XAxis.Show = True
             RadialAxis.Show = False
@@ -226,12 +226,19 @@ Public Property Get ChartType() As chChartType
     ChartType = m_ChartType
 End Property
 
+Public Property Let Horizontal(ByVal This_Horizontal As Boolean)
+    m_Horizontal = This_Horizontal
+End Property
+Public Property Get Horizontal() As Boolean
+    Horizontal = m_Horizontal
+End Property
+
 Public Property Let StackedChart(ByVal This_StackedChart As Boolean)
     m_StackedChart = This_StackedChart
 End Property
 Public Property Get StackedChart() As Boolean
     Select Case ChartType
-        Case chChartType.Line, chChartType.Bar, chChartType.HorizontalBar
+        Case chChartType.Line, chChartType.Bar
             StackedChart = m_StackedChart
         Case Else
             StackedChart = False
