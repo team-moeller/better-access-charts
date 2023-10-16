@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.04.12  published: 15.10.2023                                                  #
+'# Version 4.05.08  published: 16.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -66,7 +66,6 @@ End Enum
 
 Public Enum chDisplayIn
     chWebBrowserControl = 1
-    chWebBrowserActiveX = 2
     chImageControl = 3
     chSystemBrowser = 4
 End Enum
@@ -129,7 +128,6 @@ End Enum
 '### Members
 
 Private m_WebBrowserControl As Access.Edge
-Private m_WebBrowserActiveX As SHDocVw.WebBrowser
 Private m_ImageControl As Access.Image
 Private m_ChartType As chChartType
 Private m_Horizontal As Boolean
@@ -176,8 +174,6 @@ Public Property Set Control(ByRef New_Control As Object)
         Set Me.WebBrowserControl = New_Control
     ElseIf TypeName(New_Control) = "Image" Then
         Set Me.ImageControl = New_Control
-    ElseIf TypeName(New_Control.Object) = "WebBrowser" Then
-        Set Me.WebBrowserActiveX = New_Control.Object
     Else
         Err.Raise vbObjectError, , "Type of control not supported!"
     End If
@@ -189,14 +185,6 @@ Public Property Set WebBrowserControl(ByRef New_Control As Access.Edge)
 End Property
 Public Property Get WebBrowserControl() As Access.Edge
     Set WebBrowserControl = m_WebBrowserControl
-End Property
-
-Public Property Set WebBrowserActiveX(ByRef New_Control As SHDocVw.WebBrowser)
-    Set m_WebBrowserActiveX = New_Control
-    m_DisplayIn = chWebBrowserActiveX
-End Property
-Public Property Get WebBrowserActiveX() As SHDocVw.WebBrowser
-    Set WebBrowserActiveX = m_WebBrowserActiveX
 End Property
 
 Public Property Set ImageControl(ByRef New_Control As Access.Image)
@@ -407,21 +395,6 @@ Public Sub CreateChart()
             js = js & "document.write(""" & strHtml & """);"
             js = js & "document.close();"
             Me.WebBrowserControl.ExecuteJavascript js
-        Case chDisplayIn.chWebBrowserActiveX
-            CreateEmptyHtmlFile
-            Me.WebBrowserActiveX.Navigate getHTMLFileName(, True)
-            Do While Me.WebBrowserActiveX.Busy Or Me.WebBrowserActiveX.ReadyState <> 4
-                DoEvents
-            Loop
-            With Me.WebBrowserActiveX.Document
-                .Open
-                strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
-                .Write strHtml
-                .Close
-            End With
-            If Me.SaveHtmlFileForDebugging = True Then
-                Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
-            End If
         Case chDisplayIn.chImageControl
             Call SaveChartAsImage(ImageFileName)
             Me.ImageControl.Picture = ImageFileName
