@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.05.08  published: 16.10.2023                                                  #
+'# Version 4.06.14  published: 17.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -80,7 +80,7 @@ Private Function getHeader() As String
         End If
         .AddLine "    <style>"
         .AddLine "        body { margin: 0; padding: 0; }"
-        .AddLine "        #container { " & getContainerStyle & " }"
+        .AddLine "        #container { width: 100%; }"
         If Len(Options.BackgroundColor) > 0 Then
             .AddLine "        #myChart { background-color: " & Options.BackgroundColor & " }"
         End If
@@ -105,9 +105,6 @@ Private Function getHeader() As String
         End If
         
         .Add getDefaultFont
-        If Options.DisplayIn = chDisplayIn.chImageControl Then
-            .AddLine "    Chart.defaults.animation = false;"
-        End If
         .Add Options.Animation.getAnimation
         .AddLine "    var ctx = document.getElementById('myChart').getContext('2d');"
         .AddLine "    var myChart = new Chart(ctx, {"
@@ -116,23 +113,6 @@ Private Function getHeader() As String
     End With
     
 End Function
-
-Private Function getContainerStyle() As String
-
-    'Declarations
-    Dim Width As Long
-    Dim Height As Long
-
-    If Options.DisplayIn = chDisplayIn.chImageControl Then
-        Width = Options.ImageControl.Width / BAC.Helper.TwipsPerPixel("X")
-        Height = Options.ImageControl.Height / BAC.Helper.TwipsPerPixel("Y")
-        getContainerStyle = "width: " & Width & "px; height: " & Height & "px"
-    Else
-        getContainerStyle = "width: 100%;"
-    End If
-
-End Function
-
 
 Private Function getDefaultFont() As String
 
@@ -370,7 +350,6 @@ Private Function IsBubbleOrScatterChart() As Boolean
     
 End Function
 
-'#################
 Private Function getAutoColors() As String
 
     If Options.ChartType = Pie Or Options.ChartType = Doughnut Or Options.ChartType = PolarArea Then
