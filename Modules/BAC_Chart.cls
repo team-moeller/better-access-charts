@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.07.05  published: 20.10.2023                                                  #
+'# Version 4.08.11  published: 21.10.2023                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -65,7 +65,7 @@ Public Enum chDataLabelAnchor
 End Enum
 
 Public Enum chDisplayIn
-    chWebBrowserControl = 1
+    chEdgeBrowserControl = 1
     chSystemBrowser = 4
 End Enum
 
@@ -126,7 +126,7 @@ End Enum
 
 '### Members
 
-Private m_WebBrowserControl As Access.Edge
+Private m_EdgeBrowserControl As Access.Edge
 Private m_ChartType As chChartType
 Private m_Horizontal As Boolean
 Private m_StackedChart As Boolean
@@ -158,7 +158,7 @@ Public Sub Init(Optional ByRef TheControl As Object, _
                 Optional ByVal DataFieldNames As Variant, _
                 Optional ByVal LabelFieldName As String)
   
-    Set Me.Control = TheControl
+    Set Me.EdgeBrowserControl = TheControl
     Me.ChartType = ChartType
     Me.DataSource.Init DataSourceType, DataSource, DataFieldNames, LabelFieldName
     
@@ -167,20 +167,12 @@ End Sub
     
 '### Properties
 
-Public Property Set Control(ByRef New_Control As Object)
-    If TypeName(New_Control) = "Edge" Then
-        Set Me.WebBrowserControl = New_Control
-    Else
-        Err.Raise vbObjectError, , "Type of control not supported!"
-    End If
+Public Property Set EdgeBrowserControl(ByRef New_Control As Access.Edge)
+    Set m_EdgeBrowserControl = New_Control
+    m_DisplayIn = chEdgeBrowserControl
 End Property
-
-Public Property Set WebBrowserControl(ByRef New_Control As Access.Edge)
-    Set m_WebBrowserControl = New_Control
-    m_DisplayIn = chWebBrowserControl
-End Property
-Public Property Get WebBrowserControl() As Access.Edge
-    Set WebBrowserControl = m_WebBrowserControl
+Public Property Get EdgeBrowserControl() As Access.Edge
+    Set EdgeBrowserControl = m_EdgeBrowserControl
 End Property
 
 Public Property Let ChartType(ByVal This_ChartType As chChartType)
@@ -335,7 +327,7 @@ Private Sub Class_Initialize()
     ChartType = chChartType.Bar
     StackedChart = False
     AspectRatio = 2
-    DisplayIn = chWebBrowserControl
+    DisplayIn = chEdgeBrowserControl
     'Title
     Title.Show = False
     Title.Position = posTop
@@ -365,11 +357,11 @@ Public Sub CreateChart()
     Dim js As String
     
     Select Case Me.DisplayIn
-        Case chDisplayIn.chWebBrowserControl
-            If Me.WebBrowserControl.LocationURL = vbNullString Then
+        Case chDisplayIn.chEdgeBrowserControl
+            If Me.EdgeBrowserControl.LocationURL = vbNullString Then
                 CreateEmptyHtmlFile
-                Me.WebBrowserControl.Navigate "https://msaccess/" & getHTMLFileName(, True)
-                Do While Me.WebBrowserControl.ReadyState <> 4
+                Me.EdgeBrowserControl.Navigate "https://msaccess/" & getHTMLFileName(, True)
+                Do While Me.EdgeBrowserControl.ReadyState <> 4
                     DoEvents
                 Loop
             End If
@@ -381,7 +373,7 @@ Public Sub CreateChart()
             js = js & "document.open();"
             js = js & "document.write(""" & strHtml & """);"
             js = js & "document.close();"
-            Me.WebBrowserControl.ExecuteJavascript js
+            Me.EdgeBrowserControl.ExecuteJavascript js
         Case chDisplayIn.chSystemBrowser
             CreateChartFile
             BAC.Helper.ShellExecute getHTMLFileName
