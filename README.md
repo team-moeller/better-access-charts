@@ -69,6 +69,6 @@ myChart.ChartType = chChartType.Line
 
 The next step is to adapt the chart to your own needs. For example, you can define a [title](https://github.com/team-moeller/better-access-charts/wiki/title), label the [axes](https://github.com/team-moeller/better-access-charts/wiki/axis#labeltext) or adjust the [default font size](https://github.com/team-moeller/better-access-charts/wiki/font#size).
 
-The project currently has 15 subclasses with lots of properties. You can see all of them in the [documentation](https://github.com/team-moeller/better-access-charts/wiki/documentation) on the Wiki. I have also presented the individual progress in the [blog](https://blog.team-moeller.de/search/label/Better%20Access%20Charts).
+The project currently has 19 subclasses with lots of properties. You can see all of them in the [documentation](https://github.com/team-moeller/better-access-charts/wiki/documentation) on the Wiki. I have also presented the individual progress in the [blog](https://blog.team-moeller.de/search/label/Better%20Access%20Charts).
 
 As you can see, there are a multitude of sources. Take a look around and make use of the options provided.
