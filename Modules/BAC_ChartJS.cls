@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
+'# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.08.11  published: 21.10.2023                                                  #
+'# Version 4.09.04  published: 03.02.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,7 +53,7 @@ End Property
 Private Sub Class_Initialize()
 
     Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
+    Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"
     Me.PathFilename = CurrentProject.Path & "\chart.umd.min.js"
   
 End Sub

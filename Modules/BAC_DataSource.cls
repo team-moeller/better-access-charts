@@ -8,9 +8,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 '###########################################################################################
-'# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
+'# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.08.11  published: 21.10.2023                                                  #
+'# Version 4.09.04  published: 03.02.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
