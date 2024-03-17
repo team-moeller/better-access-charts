@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.09.04  published: 03.02.2024                                                  #
+'# Version 4.12.02  published: 17.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,7 +53,7 @@ End Property
 Private Sub Class_Initialize()
 
     Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"
+    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"
     Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-datalabels.min.js"
     
 End Sub

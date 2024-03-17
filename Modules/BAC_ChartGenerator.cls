@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.09.04  published: 03.02.2024                                                  #
+'# Version 4.12.02  published: 17.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -313,10 +313,10 @@ Private Function getPlugins() As String
         .Add Options.Title.getTitle
         .Add Options.SubTitle.getTitle
         .Add Options.Legend.getLegend
-        .Add Options.DataLabels.getDataLabel
+        .Add Options.DataLabels.getDataLabel(Options)
         .Add getAutoColors
         .CutTrailingComma
-        .AddLine "                },"
+        .AddLine "            },"
         
         getPlugins = .ToString
     End With
