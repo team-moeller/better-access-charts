@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.13.01  published: 18.03.2024                                                  #
+'# Version 4.14.02  published: 23.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -367,7 +367,7 @@ Public Sub CreateChart()
             End If
             strHtml = BAC.Generator(Me, Me.DataSource.getData(Me.ChartType)).GenerateHTML
             If Me.SaveHtmlFileForDebugging = True Then
-                Call saveHtmlFile(CurrentProject.Path & "\", Replace(strHtml, "https://msaccess/", vbNullString))
+                Call saveHtmlFile(CurrentProject.Path & "\", strHtml)
             End If
             strHtml = Replace(strHtml, vbCrLf, "")
             js = js & "document.open();"
@@ -429,13 +429,15 @@ Private Sub saveHtmlFile(ByVal Folder As String, ByVal strHtml As String, Option
     'Declarations
     Dim objFS As Object
     Dim FileName As String
+    Dim strHtmlWithoutPrefix
        
     FileName = getHTMLFileName(Folder, fEmpty)
+    strHtmlWithoutPrefix = Replace(strHtml, "https://msaccess/", vbNullString)
     
     Set objFS = CreateObject("ADODB.Stream")
     objFS.Charset = "utf-8"
     objFS.Open
-    objFS.WriteText strHtml
+    objFS.WriteText strHtmlWithoutPrefix
     objFS.SaveToFile FileName, 2   '2: Create Or Update
     objFS.Close
     
