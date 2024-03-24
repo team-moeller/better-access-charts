@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.14.02  published: 23.03.2024                                                  #
+'# Version 4.15.02  published: 24.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -183,35 +183,40 @@ Friend Function getRadialAxis() As String
 
     With New BAC_StringBuilder
         If Me.Show = False Then
-            .AddLine "                display: false"
+            '################################
+            .AddLine "                r: {"
+            .AddLine "                    display: false"
+            .AddLine "                }"
         Else
-            .AddLine "                display: true,"
+            .AddLine "                r: {"
+            .AddLine "                    display: true,"
             If Me.AxisType <> atNotDefined Then
                 .AddLine "                    type: '" & getAxisTypeAsText & "',"
             End If
             If Me.beginAtZero = True Then
-                .AddLine "                beginAtZero: true,"
+                .AddLine "                    beginAtZero: true,"
             End If
             If Len(Me.TicksMin) > 0 Then
                 If IsNumeric(Me.TicksMin) = True Then
-                    .AddLine "                min: " & Str$(Me.TicksMin) & " ,"
+                    .AddLine "                    min: " & Str$(Me.TicksMin) & " ,"
                 End If
             End If
             If Len(Me.TicksMax) > 0 Then
                 If IsNumeric(Me.TicksMax) = True Then
-                    .AddLine "                max: " & Str$(Me.TicksMax) & " ,"
+                    .AddLine "                    max: " & Str$(Me.TicksMax) & " ,"
                 End If
             End If
             If m_TicksNeeded = True Then
-                .AddLine "                ticks: {"
+                .AddLine "                    ticks: {"
             End If
             If Len(Me.StepSize) > 0 Then
-                .AddLine "                    stepSize:" & Str$(Me.StepSize) & ","
+                .AddLine "                        stepSize:" & Str$(Me.StepSize) & ","
             End If
             If m_TicksNeeded = True Then
-                .AddLine "                }"
+                .AddLine "                    }"
             End If
             .CutTrailingComma
+            .AddLine "                }"
         End If
         getRadialAxis = .ToString
     End With
