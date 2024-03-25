@@ -2,7 +2,7 @@ Attribute VB_Name = "BAC__Namespace"
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.15.02  published: 24.03.2024                                                  #
+'# Version 4.16.03  published: 25.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
