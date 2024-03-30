@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.16.03  published: 25.03.2024                                                  #
+'# Version 4.17.08  published: 30.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -44,6 +44,7 @@ Private m_TicksMin As String
 Private m_TicksMax As String
 Private m_StepSize As String
 Private m_AxisType As chAxisType
+Private m_Grid As BAC_Grid
 
 Private m_TicksNeeded As Boolean
 
@@ -102,15 +103,24 @@ Public Property Get AxisType() As chAxisType
     AxisType = m_AxisType
 End Property
 
+Public Property Get Grid() As BAC_Grid
+    Set Grid = m_Grid
+End Property
+
 
 ' ### Initializer
 
 Private Sub Class_Initialize()
+
+    Set m_Grid = New BAC_Grid
     m_AxisType = chAxisType.atNotDefined
+    
 End Sub
 
 Friend Sub Init(ByVal Axis As chCartesianAxis)
+
     m_Axis = Axis
+    
 End Sub
 
 
@@ -190,6 +200,7 @@ Friend Function getRadialAxis() As String
         Else
             .AddLine "                r: {"
             .AddLine "                    display: true,"
+            .Add m_Grid.getGrid
             If Me.beginAtZero = True Then
                 .AddLine "                    beginAtZero: true,"
             End If
