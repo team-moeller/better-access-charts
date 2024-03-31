@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.17.08  published: 30.03.2024                                                  #
+'# Version 4.18.08  published: 31.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -74,7 +74,7 @@ Friend Function getGrid() As String
         If m_Show = False Then
             .AddLine "                    grid: {"
             .AddLine "                        display: false"
-            .AddLine "                    }"
+            .AddLine "                    },"
         Else
             .AddLine "                    grid: {"
             .AddLine "                        display: true,"

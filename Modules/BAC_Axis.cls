@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.17.08  published: 30.03.2024                                                  #
+'# Version 4.18.08  published: 31.03.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -49,7 +49,7 @@ Private m_Grid As BAC_Grid
 Private m_TicksNeeded As Boolean
 
 
-' ### Properties
+'### Properties
 
 Public Property Let Show(ByVal This_ShowAxis As Boolean)
     m_Show = This_ShowAxis
@@ -108,7 +108,7 @@ Public Property Get Grid() As BAC_Grid
 End Property
 
 
-' ### Initializer
+'### Initializer
 
 Private Sub Class_Initialize()
 
@@ -124,7 +124,7 @@ Friend Sub Init(ByVal Axis As chCartesianAxis)
 End Sub
 
 
-' ### Generator Functions
+'### Generator Functions
 
 Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
 
@@ -140,6 +140,7 @@ Friend Function getCartesianAxis(ByVal StackedChart As Boolean) As String
             .AddLine "                    display: false"
         Else
             .AddLine "                    display: true,"
+            .Add Me.Grid.getGrid
             If Me.AxisType <> atNotDefined Then
                 .AddLine "                    type: '" & getAxisTypeAsText & "',"
             End If
@@ -193,14 +194,13 @@ Friend Function getRadialAxis() As String
 
     With New BAC_StringBuilder
         If Me.Show = False Then
-            '################################
             .AddLine "                r: {"
             .AddLine "                    display: false"
             .AddLine "                }"
         Else
             .AddLine "                r: {"
             .AddLine "                    display: true,"
-            .Add m_Grid.getGrid
+            .Add Me.Grid.getGrid
             If Me.beginAtZero = True Then
                 .AddLine "                    beginAtZero: true,"
             End If
