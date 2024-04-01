@@ -10,21 +10,21 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.18.08  published: 31.03.2024                                                  #
+'# Version 4.19.04  published: 01.04.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
 Option Explicit
 
 
-' ### Members
+'### Members
 
 Private m_Show As Boolean
 Private m_Color As String
 Private m_LineWidth As Integer
 Private m_Circular As Boolean
 
-' ### Properties
+'### Properties
 
 Public Property Let Show(ByVal newValue As Boolean)
     m_Show = newValue
@@ -66,7 +66,7 @@ Private Sub Class_Initialize()
 End Sub
 
 
-' ### Generator Function
+'### Generator Function
 
 Friend Function getGrid() As String
     
