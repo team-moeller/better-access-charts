@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.19.04  published: 01.04.2024                                                  #
+'# Version 4.20.01  published: 02.04.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -70,23 +70,28 @@ Friend Function getDataLabel(Options As BAC_Chart) As String
         If Me.Anchor > 0 Then
             .AddLine "                    anchor: '" & getAnchorString(Me.Anchor) & "',"
         End If
-        .AddLine "                    color: (context) => {"
-        If Options.Horizontal = True Then
-            .AddLine "                        const y = context.chart.scales.y;"
-            .AddLine "                        if (context.dataIndex >= y.min && context.dataIndex <= y.max) {"
-        Else
-            .AddLine "                        const x = context.chart.scales.x;"
-            .AddLine "                        if (context.dataIndex >= x.min && context.dataIndex <= x.max) {"
-        End If
-        If Me.Font.Color <> vbNullString Then
-            .AddLine "                            return '" & Me.Font.Color & "';"
-        Else
-            .AddLine "                            return ;"
-        End If
-        .AddLine "                        } else {"
-        .AddLine "                            return 'transparent';"
-        .AddLine "                        }"
-        .AddLine "                    },"
+        Select Case Options.ChartType
+            Case chChartType.Bar, chChartType.Bubble, chChartType.Line, chChartType.Scatter
+                .AddLine "                    color: (context) => {"
+                If Options.Horizontal = True Then
+                    .AddLine "                        const y = context.chart.scales.y;"
+                    .AddLine "                        if (context.dataIndex >= y.min && context.dataIndex <= y.max) {"
+                Else
+                    .AddLine "                        const x = context.chart.scales.x;"
+                    .AddLine "                        if (context.dataIndex >= x.min && context.dataIndex <= x.max) {"
+                End If
+                If Me.Font.Color <> vbNullString Then
+                    .AddLine "                            return '" & Me.Font.Color & "';"
+                Else
+                    .AddLine "                            return ;"
+                End If
+                .AddLine "                        } else {"
+                .AddLine "                            return 'transparent';"
+                .AddLine "                        }"
+                .AddLine "                    },"
+            Case Else
+                'Do Nothing
+        End Select
         If Me.Font.SectionIsNeeded("DataLabel") Then
             .AddLine "                    font: {"
             If Me.Font.Family <> vbNullString Then
