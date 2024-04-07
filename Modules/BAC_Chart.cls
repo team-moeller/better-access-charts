@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.20.01  published: 02.04.2024                                                  #
+'# Version 4.21.09  published: 07.04.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -147,6 +147,7 @@ Private m_RadialAxis  As BAC_Axis
 Private m_Legend      As BAC_Legend
 Private m_Title       As BAC_Title
 Private m_SubTitle    As BAC_SubTitle
+Private m_Tooltip     As BAC_Tooltip
 
     
 '### Initializer
@@ -304,6 +305,10 @@ Public Property Get Data() As BAC_Data
     Set Data = m_DataSource.Data
 End Property
 
+Public Property Get Tooltip() As BAC_Tooltip
+    Set Tooltip = m_Tooltip
+End Property
+
 
 '### Instancing
 
@@ -322,6 +327,7 @@ Private Sub Class_Initialize()
     Set m_YAxis = New BAC_Axis
     m_YAxis.Init apYAxis
     Set m_RadialAxis = New BAC_Axis
+    Set m_Tooltip = New BAC_Tooltip
     
     'Set default values
     ChartType = chChartType.Bar
