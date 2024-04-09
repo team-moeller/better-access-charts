@@ -2,7 +2,7 @@ Attribute VB_Name = "mdl_Helpers"
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.21.09  published: 07.04.2024                                                  #
+'# Version 4.22.22  published: 09.04.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
