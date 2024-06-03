@@ -2,7 +2,7 @@ Attribute VB_Name = "mdl_Helpers"
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.22.22  published: 09.04.2024                                                  #
+'# Version 4.23.07  published: 02.06.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -23,13 +23,15 @@ Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As Str
 
     On Error GoTo Handle_Error
 
-    Dim cnn As ADODB.Connection
+    Dim cnn As Object
+    Dim rst As Object
     Dim strSQL As String
-    Dim rst As ADODB.Recordset
     Dim FileID As Long
     Dim PathFilename As String
     Dim Buffer() As Byte
     Dim FileSize As Long
+    Const adOpenDynamic As Long = 2
+    Const adLockOptimistic = 3
 
     If InCurrentProjectPath = True Then
         PathFilename = CurrentProject.Path & "\" & FileName
@@ -47,7 +49,7 @@ Public Function File2OLE(ByVal Table As String, ByVal PrimaryKeyFieldName As Str
              "WHERE " & PrimaryKeyFieldName & " = " & PrimaryKeyValue
     
     Set cnn = CurrentProject.Connection
-    Set rst = New ADODB.Recordset
+    Set rst = CreateObject("ADODB.RecordSet")
     rst.Open strSQL, cnn, adOpenDynamic, adLockOptimistic
     FileID = FreeFile
 

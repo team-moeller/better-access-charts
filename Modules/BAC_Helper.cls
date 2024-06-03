@@ -10,7 +10,7 @@ Attribute VB_Exposed = False
 '###########################################################################################
 '# Copyright (c) 2020 - 2023 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.22.22  published: 09.04.2024                                                  #
+'# Version 4.23.07  published: 02.06.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -118,15 +118,17 @@ Friend Function SaveFileToDisk(ByVal FileName As String, ByVal Path As String) A
 On Error GoTo Handle_Error
 
     'Declarations
-    Dim cnn As ADODB.Connection
-    Dim rst As ADODB.Recordset
+    Dim cnn As Object
+    Dim rst As Object
     Dim FileID As Long
     Dim Buffer() As Byte
     Dim FileLen As Long
     Dim Success As Boolean
+    Const adOpenDynamic As Long = 2
+    Const adLockOptimistic = 3
 
     Set cnn = CurrentProject.Connection
-    Set rst = New ADODB.Recordset
+    Set rst = CreateObject("ADODB.RecordSet")
     rst.Open "Select FileData FROM USys_FileData Where FileName='" & FileName & "'", _
         cnn, adOpenDynamic, adLockOptimistic
 
@@ -182,30 +184,3 @@ Friend Sub ShellExecute(FileName As String)
     Call ShellExecuteA(Application.hWndAccessApp, "open", FileName, "", CurDir$, SW_SHOW)
 
 End Sub
-    
-Friend Function TwipsPerPixel(ByVal Dimension As String) As Long
-   
-   'Declarations
-   #If VBA7 And Win64 Then
-      Dim hDC As LongPtr
-   #Else
-      Dim hDC As Long
-   #End If
-   
-   Const LOGPIXELSX As Long = 88 'pixels/inch in X
-   Const LOGPIXELSY As Long = 90 'pixels/inch in Y
-      
-   'Get handle
-   hDC = GetDC(0)
-   
-   If Dimension = "Y" Then
-      TwipsPerPixel = 1440 / GetDeviceCaps(hDC, LOGPIXELSY)
-   ElseIf Dimension = "X" Then
-      TwipsPerPixel = 1440 / GetDeviceCaps(hDC, LOGPIXELSX)
-   End If
-      
-   'Release handle
-   hDC = ReleaseDC(0, hDC)
-    
-End Function
-
