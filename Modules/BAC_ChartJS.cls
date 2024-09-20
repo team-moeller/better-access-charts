@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.23.07  published: 02.06.2024                                                  #
+'# Version 4.24.04  published: 20.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,7 +53,7 @@ End Property
 Private Sub Class_Initialize()
 
     Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"
+    Me.CDN = "https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"
     Me.PathFilename = CurrentProject.Path & "\chart.umd.min.js"
   
 End Sub
