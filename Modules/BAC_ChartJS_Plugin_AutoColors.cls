@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.24.04  published: 20.09.2024                                                  #
+'# Version 4.25.06  published: 22.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -53,8 +53,8 @@ End Property
 Private Sub Class_Initialize()
 
     Me.Source = chScriptSource.CDN
-    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors@0.2.2/dist/chartjs-plugin-autocolors.min.js"
-    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-autocolors.js"
+    Me.CDN = "https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors@0.3.1/dist/chartjs-plugin-autocolors.min.js"
+    Me.PathFilename = CurrentProject.Path & "\chartjs-plugin-autocolors.min.js"
     
 End Sub
 
@@ -63,7 +63,7 @@ End Sub
 
 Public Function SavePluginToDisk() As Boolean
 
-    SavePluginToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-autocolors.js", CurrentProject.Path)
+    SavePluginToDisk = BAC.Helper.SaveFileToDisk("chartjs-plugin-autocolors.min.js", CurrentProject.Path)
     
 End Function
 
