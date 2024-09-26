@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.25.06  published: 22.09.2024                                                  #
+'# Version 4.26.05  published: 26.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -20,6 +20,7 @@ Option Explicit
 '### Members
 
 Private m_Font As BAC_Font
+Private m_Title As BAC_Legend_Title
 Private m_Show As Boolean
 Private m_Position As chPosition
 Private m_Align As chAlign
@@ -29,6 +30,10 @@ Private m_Align As chAlign
 
 Public Property Get Font() As BAC_Font
     Set Font = m_Font
+End Property
+
+Public Property Get Title() As BAC_Legend_Title
+    Set Title = m_Title
 End Property
 
 Public Property Let Show(ByVal newValue As Boolean)
@@ -57,6 +62,7 @@ End Property
 
 Private Sub Class_Initialize()
     Set m_Font = New BAC_Font
+    Set m_Title = New BAC_Legend_Title
 End Sub
 
 
@@ -98,6 +104,9 @@ Friend Function getLegend() As String
                 .AddLine "                        }"
                 .CutTrailingComma
                 .AddLine "                    }"
+            End If
+            If Me.Title.Show = True Then
+                .Add Me.Title.getTitle
             End If
             .CutTrailingComma
             .AddLine "                },"
