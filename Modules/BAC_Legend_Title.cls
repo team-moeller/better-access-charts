@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.26.05  published: 26.09.2024                                                  #
+'# Version 4.27.05  published: 27.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -21,6 +21,7 @@ Option Explicit
 
 Private m_Show As Boolean
 Private m_Text As String
+Private m_Align As chAlign
 
 
 ' ### Properties
@@ -37,6 +38,13 @@ Public Property Let Text(ByVal This_Text As String)
 End Property
 Public Property Get Text() As String
     Text = m_Text
+End Property
+
+Public Property Let Align(ByVal newValue As chAlign)
+    m_Align = newValue
+End Property
+Public Property Get Align() As chAlign
+    Align = m_Align
 End Property
 
 
@@ -60,11 +68,29 @@ Friend Function getTitle() As String
             .AddLine "                    title: {"
             .AddLine "                        display: true,"
             .AddLine "                        text: '" & Me.Text & "',"
+            If Me.Align > 0 Then
+                .AddLine "                        position: '" & getAlignString(Me.Align) & "',"
+            End If
             .CutTrailingComma
             .AddLine "                    },"
         End If
         getTitle = .ToString
     End With
+    
+End Function
+
+Private Function getAlignString(ByVal ThisAlign As chAlign) As String
+
+    Select Case ThisAlign
+        Case chAlign.alStart
+            getAlignString = "start"
+        Case chAlign.alCenter
+            getAlignString = "center"
+        Case chAlign.alEnd
+            getAlignString = "end"
+        Case Else
+            getAlignString = "center"
+    End Select
     
 End Function
 
