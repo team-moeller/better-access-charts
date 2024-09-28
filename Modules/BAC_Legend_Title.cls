@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.27.05  published: 27.09.2024                                                  #
+'# Version 4.28.05  published: 28.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -19,12 +19,17 @@ Option Explicit
 
 '### Members
 
+Private m_Font As BAC_Font
 Private m_Show As Boolean
 Private m_Text As String
 Private m_Align As chAlign
 
 
 ' ### Properties
+
+Public Property Get Font() As BAC_Font
+    Set Font = m_Font
+End Property
 
 Public Property Let Show(ByVal newValue As Boolean)
     m_Show = newValue
@@ -52,7 +57,7 @@ End Property
 
 Private Sub Class_Initialize()
 
-    'Nothing so far
+    Set m_Font = New BAC_Font
     
 End Sub
 
@@ -70,6 +75,26 @@ Friend Function getTitle() As String
             .AddLine "                        text: '" & Me.Text & "',"
             If Me.Align > 0 Then
                 .AddLine "                        position: '" & getAlignString(Me.Align) & "',"
+            End If
+            If Me.Font.Color <> vbNullString Then
+                .AddLine "                        color: '" & Me.Font.Color & "',"
+            End If
+            If Me.Font.SectionIsNeeded("LegendTitle") = True Then
+                .AddLine "                        font: {"
+                If Me.Font.Family <> vbNullString Then
+                    .AddLine "                            family: '" & Me.Font.Family & "',"
+                End If
+                If Me.Font.Size > 0 Then
+                    .AddLine "                            size: " & Me.Font.Size & ","
+                End If
+                If Me.Font.Weight <> chFontWeight.fwUndefined Then
+                    .AddLine "                            weight: " & Me.Font.Weight & ","
+                End If
+                If Me.Font.Style <> chFontStyle.fsUndefined Then
+                    .AddLine "                            style: " & Me.Font.StyleText
+                End If
+                .CutTrailingComma
+                .AddLine "                        },"
             End If
             .CutTrailingComma
             .AddLine "                    },"

@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.27.05  published: 27.09.2024                                                  #
+'# Version 4.28.05  published: 28.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -101,9 +101,9 @@ Friend Function getLegend() As String
                     .AddLine "                            style: " & Me.Font.StyleText
                 End If
                 .CutTrailingComma
-                .AddLine "                        }"
+                .AddLine "                        },"
                 .CutTrailingComma
-                .AddLine "                    }"
+                .AddLine "                    },"
             End If
             If Me.Title.Show = True Then
                 .Add Me.Title.getTitle

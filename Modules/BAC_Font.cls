@@ -10,7 +10,7 @@ Attribute VB_Exposed = True
 '###########################################################################################
 '# Copyright (c) 2020 - 2024 Thomas Moeller, supported by K.D.Gundermann                   #
 '# MIT License  => https://github.com/team-moeller/better-access-charts/blob/main/LICENSE  #
-'# Version 4.27.05  published: 27.09.2024                                                  #
+'# Version 4.28.05  published: 28.09.2024                                                  #
 '###########################################################################################
 
 Option Compare Database
@@ -72,6 +72,8 @@ Friend Property Get SectionIsNeeded(Optional Parent As String) As Boolean
         Case "DataLabel"
             SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
         Case "Legend"
+            SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
+        Case "LegendTitle"
             SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
         Case "Title"
             SectionIsNeeded = (Family <> vbNullString) Or (Size > 0) Or (Weight <> fwUndefined) Or (Style <> fsUndefined)
