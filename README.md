@@ -6,7 +6,7 @@ Better charts for Access with charts.js
 Microsoft Access badly needs modern charts. The original charts in MS Access date from the 90s of the previous century. Microsoft has given the charts in Access a lift. They called it "Modern Charts".
 
 There are countless JavaScript libraries on the world wide web that you can use to create cool charts. This project makes use of this.
-We create charts using the Chart.js library and display them in the edge browser control. The whole logic is hidden in some class modules.
+We create charts using the [Chart.js](https://www.chartjs.org/docs/latest/) library and display them in the edge browser control. The whole logic is hidden in some class modules.
 
 Take a look at the demo and let yourself be inspired by the possibilities.
 
